@@ -1,13 +1,17 @@
 import bodyParser from "body-parser";
 import express from "express";
+import {MongoClient, Db} from "mongodb";
 
 import {ApiRouter} from "./router";
+
 
 class Application {
     public app: express.Application;
     public port: number;
+    public db: Db;
 
     constructor() {
+        this.setupMongo();
         this.app = express();
         this.port = +process.env.serverPort || 3000;
         this.app.use(bodyParser.urlencoded({ extended: false }));
@@ -18,6 +22,16 @@ class Application {
     public start(): void {
         this.buildRoutes();
         this.app.listen(this.port, () => console.log("Server listening on port " + this.port + "!"));
+    }
+
+    public setupMongo(): void {
+        var self = this;
+        MongoClient.connect("mongodb://127.0.0.1:27017",  { useUnifiedTopology: true, useNewUrlParser: true }, function(err, client) {
+            if (err) {
+                return console.log(err);
+            }
+            self.db = client.db('project-db');
+        });
     }
 
     // sets up to allow cross-origin support from any host.  You can change the options to limit who can access the api.
@@ -38,4 +52,6 @@ class Application {
         this.app.use("/api", new ApiRouter().getRouter());
     }
 }
-new Application().start();
+var app = new Application();
+app.start();
+
