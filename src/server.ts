@@ -25,12 +25,15 @@ class Application {
 
     public setupMongo(): void {
         const self = this;
-        MongoClient.connect("mongodb://127.0.0.1:27017",
+        const databaseName: string = "project-db";
+        const databaseUrl: string = "127.0.0.1:27017";
+        MongoClient.connect("mongodb://" + databaseUrl,
             { useUnifiedTopology: true, useNewUrlParser: true }, function(err, client) {
             if (err) {
                 return console.log(err);
             }
-            self.db = client.db("project-db");
+            self.db = client.db(databaseName);
+            console.log("Connected to MongoDb database " + databaseName + " at " + databaseUrl);
         });
     }
 
