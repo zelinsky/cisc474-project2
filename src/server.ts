@@ -1,13 +1,12 @@
 import bodyParser from "body-parser";
 import express from "express";
-import {Db, MongoClient} from "mongodb";
+import {MongoClient} from "mongodb";
 
 import {ApiRouter} from "./router";
 
 class Application {
     public app: express.Application;
     public port: number;
-    public db: Db;
 
     constructor() {
         this.setupMongo();
@@ -32,7 +31,7 @@ class Application {
             if (err) {
                 return console.log(err);
             }
-            self.db = client.db(databaseName);
+            self.app.locals.db = client.db(databaseName);
             console.log("Connected to MongoDb database " + databaseName + " at " + databaseUrl);
         });
     }

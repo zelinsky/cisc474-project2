@@ -1,9 +1,16 @@
 import express from "express";
+import { Db } from "mongodb";
 
 export class Controller {
     // GET
-    public getUsers(req: express.Request, res: express.Response): void {
-        res.send("GET USERS");
+    public async getUsers(req: express.Request, res: express.Response): Promise<void> {
+        req.app.locals.db.collection("users").find().toArray(function(err: any, results: any) {
+            if (err) {
+                console.log("GET USERS ERROR");
+            } else {
+                res.send(results);
+            }
+        });
     }
 
     public getUser(req: express.Request, res: express.Response): void {
@@ -52,7 +59,13 @@ export class Controller {
 
     // POST
     public postUser(req: express.Request, res: express.Response): void {
-        res.send("POST USER");
+        req.app.locals.db.collection("users").insertOne(req.body, function(err: any, response: any) {
+            if (err) { // Handle errors here
+                console.log("POST USER ERROR");
+            } else {  // Success
+                res.send(response.ops[0]); // Respond with created object
+            }
+        });
     }
 
     public postSong(req: express.Request, res: express.Response): void {
