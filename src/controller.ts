@@ -7,15 +7,15 @@ export class Controller {
     }
 
     public getUser(req: express.Request, res: express.Response): void {
-        res.send("GET USER "+req.params.userId);
+        res.send("GET USER " + req.params.userId);
     }
 
     public getUserPosts(req: express.Request, res: express.Response): void {
-        res.send("GET USER "+req.params.userId+"'s POSTS");
+        res.send("GET USER " + req.params.userId + "'s POSTS");
     }
 
     public getUserComments(req: express.Request, res: express.Response): void {
-        res.send("GET USER "+req.params.userId+"'s COMMENTS");
+        res.send("GET USER " + req.params.userId + "'s COMMENTS");
     }
 
     public getSongs(req: express.Request, res: express.Response): void {
@@ -23,11 +23,11 @@ export class Controller {
     }
 
     public getSong(req: express.Request, res: express.Response): void {
-        res.send("GET SONG "+req.params.songId);
+        res.send("GET SONG " + req.params.songId);
     }
 
     public getSongPosts(req: express.Request, res: express.Response): void {
-        res.send("GET SONG "+req.params.songId+"'s POSTS");
+        res.send("GET SONG " + req.params.songId + "'s POSTS");
     }
 
     public getPosts(req: express.Request, res: express.Response): void {
@@ -35,11 +35,11 @@ export class Controller {
     }
 
     public getPost(req: express.Request, res: express.Response): void {
-        res.send("GET POST "+req.params.postId);
+        res.send("GET POST " + req.params.postId);
     }
 
     public getPostComments(req: express.Request, res: express.Response): void {
-        res.send("GET POST "+req.params.postId+"'s COMMENTS");
+        res.send("GET POST " + req.params.postId + "'s COMMENTS");
     }
 
     public getComments(req: express.Request, res: express.Response): void {
@@ -47,7 +47,7 @@ export class Controller {
     }
 
     public getComment(req: express.Request, res: express.Response): void {
-        res.send("GET COMMENT "+req.params.commentId);
+        res.send("GET COMMENT " + req.params.commentId);
     }
 
     // POST
@@ -60,44 +60,44 @@ export class Controller {
     }
 
     public postPost(req: express.Request, res: express.Response): void {
-        res.send("POST POST UNDER SONG "+req.params.songId);
+        res.send("POST POST UNDER SONG " + req.params.songId);
     }
 
     public postComment(req: express.Request, res: express.Response): void {
-        res.send("POST COMMENT UNDER POST "+req.params.postID);
+        res.send("POST COMMENT UNDER POST " + req.params.postID);
     }
 
     // PUT
     public putUser(req: express.Request, res: express.Response): void {
-        res.send("PUT USER "+req.params.userId);
+        res.send("PUT USER " + req.params.userId);
     }
 
     public putSong(req: express.Request, res: express.Response): void {
-        res.send("PUT SONG "+req.params.songId);
+        res.send("PUT SONG " + req.params.songId);
     }
 
     public putPost(req: express.Request, res: express.Response): void {
-        res.send("PUT POST "+req.params.postId);
+        res.send("PUT POST " + req.params.postId);
     }
 
     public putComment(req: express.Request, res: express.Response): void {
-        res.send("PUT COMMENT "+req.params.commentId);
+        res.send("PUT COMMENT " + req.params.commentId);
     }
 
     // DELETE
     public deleteUser(req: express.Request, res: express.Response): void {
-        res.send("DELETE USER "+req.params.userId);
+        res.send("DELETE USER " + req.params.userId);
     }
 
     public deleteSong(req: express.Request, res: express.Response): void {
-        res.send("DELETE SONG "+req.params.songId);
+        res.send("DELETE SONG " + req.params.songId);
     }
 
     public deletePost(req: express.Request, res: express.Response): void {
-        res.send("DELETE POST "+req.params.postId);
+        res.send("DELETE POST " + req.params.postId);
     }
 
     public deleteComment(req: express.Request, res: express.Response): void {
-        res.send("DELETE COMMENT "+req.params.commentId);
+        res.send("DELETE COMMENT " + req.params.commentId);
     }
 }

@@ -1,9 +1,8 @@
 import bodyParser from "body-parser";
 import express from "express";
-import {MongoClient, Db} from "mongodb";
+import {Db, MongoClient} from "mongodb";
 
 import {ApiRouter} from "./router";
-
 
 class Application {
     public app: express.Application;
@@ -25,12 +24,13 @@ class Application {
     }
 
     public setupMongo(): void {
-        var self = this;
-        MongoClient.connect("mongodb://127.0.0.1:27017",  { useUnifiedTopology: true, useNewUrlParser: true }, function(err, client) {
+        const self = this;
+        MongoClient.connect("mongodb://127.0.0.1:27017",
+            { useUnifiedTopology: true, useNewUrlParser: true }, function(err, client) {
             if (err) {
                 return console.log(err);
             }
-            self.db = client.db('project-db');
+            self.db = client.db("project-db");
         });
     }
 
@@ -52,6 +52,5 @@ class Application {
         this.app.use("/api", new ApiRouter().getRouter());
     }
 }
-var app = new Application();
+const app = new Application();
 app.start();
-
