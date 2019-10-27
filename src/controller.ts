@@ -3,7 +3,7 @@ import { Db } from "mongodb";
 
 export class Controller {
     // GET
-    public async getUsers(req: express.Request, res: express.Response): Promise<void> {
+    public getUsers(req: express.Request, res: express.Response): void {
         req.app.locals.db.collection("users").find().toArray(function(err: any, results: any) {
             if (err) {
                 console.log("GET USERS ERROR");
