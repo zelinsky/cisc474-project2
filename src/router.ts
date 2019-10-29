@@ -1,5 +1,6 @@
 import express from "express";
 import {Controller} from "./controller";
+import {validate} from "./validator";
 
 export class ApiRouter {
     private router: express.Router = express.Router();
@@ -22,7 +23,7 @@ export class ApiRouter {
         this.router.get("/comments/:commentId", this.controller.getComment);
 
         // POST
-        this.router.post("/users", this.controller.postUser);
+        this.router.post("/users", validate("postUser"), this.controller.postUser);
         this.router.post("/songs", this.controller.postSong);
         this.router.post("/songs/:songId/posts", this.controller.postPost);
         this.router.post("/posts/:postsId/comments", this.controller.postComment);
