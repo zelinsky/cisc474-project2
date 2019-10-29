@@ -1,10 +1,11 @@
 import express from "express";
 import {Controller} from "./controller";
-import {validate} from "./validator";
+import {Validator} from "./validator";
 
 export class ApiRouter {
     private router: express.Router = express.Router();
     private controller: Controller = new Controller();
+    private validator: Validator = new Validator();
 
     // Creates the routes for this router and returns a populated router object
     public getRouter(): express.Router {
@@ -23,7 +24,7 @@ export class ApiRouter {
         this.router.get("/comments/:commentId", this.controller.getComment);
 
         // POST
-        this.router.post("/users", validate("postUser"), this.controller.postUser);
+        this.router.post("/users", this.validator.validateUser(), this.controller.postUser);
         this.router.post("/songs", this.controller.postSong);
         this.router.post("/songs/:songId/posts", this.controller.postPost);
         this.router.post("/posts/:postsId/comments", this.controller.postComment);

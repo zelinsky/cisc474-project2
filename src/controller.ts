@@ -4,7 +4,7 @@ import { validationResult } from "express-validator";
 export class Controller {
     // GET
     public getUsers(req: express.Request, res: express.Response): void {
-        req.app.locals.db.collection("users").find().toArray(function (err: any, results: any) {
+        req.app.locals.db.collection("users").find().toArray(function(err: any, results: any) {
             if (err) {
                 console.log("GET USERS ERROR");
             } else {
@@ -38,7 +38,7 @@ export class Controller {
     }
 
     public getPosts(req: express.Request, res: express.Response): void {
-        req.app.locals.db.collection("posts").find().toArray(function (err: any, results: any) {
+        req.app.locals.db.collection("posts").find().toArray(function(err: any, results: any) {
             if (err) {
                 console.log("GET USERS ERROR");
             } else {
@@ -90,7 +90,7 @@ export class Controller {
 
     public postPost(req: express.Request, res: express.Response): void {
         req.body.songId = req.params.songId;
-        req.app.locals.db.collection("posts").insertOne(req.body, function (err: any, response: any) {
+        req.app.locals.db.collection("posts").insertOne(req.body, function(err: any, response: any) {
             if (err) { // Handle errors here
                 console.log("POST USER ERROR");
             } else {  // Success
