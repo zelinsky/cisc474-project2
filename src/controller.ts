@@ -1,5 +1,6 @@
 import express from "express";
 import { validationResult } from "express-validator";
+import { ObjectID } from "mongodb";
 
 export class Controller {
     // GET
@@ -18,7 +19,19 @@ export class Controller {
     }
 
     public getUserPosts(req: express.Request, res: express.Response): void {
-        res.send("GET USER " + req.params.userId + "'s POSTS");
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            res.status(422).json({ errors: errors.array() });
+        } else {
+            req.app.locals.db.collection("posts").find({ userId: req.params.userId }).
+                toArray(function (err: any, results: any) {
+                    if (err) {
+                        res.sendStatus(500);
+                    } else {
+                        res.json(results);
+                    }
+                });
+        }
     }
 
     public getUserComments(req: express.Request, res: express.Response): void {
@@ -34,13 +47,25 @@ export class Controller {
     }
 
     public getSongPosts(req: express.Request, res: express.Response): void {
-        res.send("GET SONG " + req.params.songId + "'s POSTS");
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            res.status(422).json({ errors: errors.array() });
+        } else {
+            req.app.locals.db.collection("posts").find({ songId: req.params.songId }).
+                toArray(function (err: any, results: any) {
+                    if (err) {
+                        res.sendStatus(500);
+                    } else {
+                        res.json(results);
+                    }
+                });
+        }
     }
 
     public getPosts(req: express.Request, res: express.Response): void {
-        req.app.locals.db.collection("posts").find().toArray(function (err: any, results: any) {
+        req.app.locals.db.collection("posts").find().toArray(function(err: any, results: any) {
             if (err) {
-                console.log("GET USERS ERROR");
+                res.sendStatus(500);
             } else {
                 res.json(results);
             }
@@ -49,7 +74,21 @@ export class Controller {
     }
 
     public getPost(req: express.Request, res: express.Response): void {
-        res.send("GET POST " + req.params.postId);
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            res.status(422).json({ errors: errors.array() });
+        } else {
+            req.app.locals.db.collection("posts").findOne({ _id: req.params.postId },
+                function(err: any, result: any) {
+                    if (err) {
+                        res.sendStatus(500);
+                    } else if (result) {
+                        res.json(result);
+                    } else {
+                        res.sendStatus(404);
+                    }
+                });
+        }
     }
 
     public getPostComments(req: express.Request, res: express.Response): void {
@@ -93,16 +132,15 @@ export class Controller {
         if (!errors.isEmpty()) {
             res.status(422).json({ errors: errors.array() });
         } else {
-
-            const token = { userId: "1234" };
+            const token = { userId: new ObjectID("5db72ec8d6e7710abea573bd") };
             const { content } = req.body;
             const doc = { songId: req.params.songId, userId: token.userId, content };
 
-            req.app.locals.db.collection("posts").insertOne(doc, function (err: any, response: any) {
+            req.app.locals.db.collection("posts").insertOne(doc, function(err: any, response: any) {
                 if (err) { // Handle errors here
-                    console.log("POST USER ERROR");
+                    res.sendStatus(500);
                 } else {  // Success
-                    res.send(response.ops[0]); // Respond with created object
+                    res.json(response.ops[0]); // Respond with created object
                 }
             });
         }
@@ -122,7 +160,20 @@ export class Controller {
     }
 
     public putPost(req: express.Request, res: express.Response): void {
-        res.send("PUT POST " + req.params.postId);
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            res.status(422).json({ errors: errors.array() });
+        } else {
+            const newValues = { $set: { content: req.body.content } };
+            req.app.locals.db.collection("posts").updateOne({ _id: req.params.postId }, newValues,
+                function(err: any, response: any) {
+                    if (err) {
+                        res.sendStatus(500);
+                    } else {
+                        res.json(response.result);
+                    }
+                });
+        }
     }
 
     public putComment(req: express.Request, res: express.Response): void {
@@ -139,7 +190,19 @@ export class Controller {
     }
 
     public deletePost(req: express.Request, res: express.Response): void {
-        res.send("DELETE POST " + req.params.postId);
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            res.status(422).json({ errors: errors.array() });
+        } else {
+            req.app.locals.db.collection("posts").deleteOne({ _id: req.params.postId },
+                function(err: any, response: any) {
+                    if (err) {
+                        res.sendStatus(500);
+                    } else {
+                        res.json(response.result);
+                    }
+                });
+        }
     }
 
     public deleteComment(req: express.Request, res: express.Response): void {
