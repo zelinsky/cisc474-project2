@@ -1,7 +1,6 @@
 import bodyParser from "body-parser";
 import express from "express";
 import {MongoClient} from "mongodb";
-
 import {ApiRouter} from "./router";
 
 class Application {
@@ -9,8 +8,8 @@ class Application {
     public port: number;
 
     constructor() {
-        this.setupMongo();
         this.app = express();
+        this.setupMongo();
         this.port = +process.env.serverPort || 3000;
         this.app.use(bodyParser.urlencoded({ extended: false }));
         this.app.use(bodyParser.json());
