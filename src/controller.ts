@@ -187,7 +187,6 @@ export class Controller {
             res.status(422).json({ errors: errors.array() });
         } else {
             const content = this.makeContent(req);
-            console.log(content);
             const newValues = { $set: { content } };
             req.app.locals.db.collection("posts").updateOne({ _id: req.params.postId }, newValues,
                 function(err: any, response: any) {
