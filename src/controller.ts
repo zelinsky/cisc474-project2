@@ -1,9 +1,31 @@
 import express from "express";
 import { validationResult } from "express-validator";
+import fs from "fs";
 import { ObjectID } from "mongodb";
 
 export class Controller {
+
+    public makeContent(req: express.Request) {
+        if (req.file) {
+            // const img = fs.readFileSync(req.file.path);
+            // const encodeImg = img.toString("base64");
+            const finalImg = {
+                content: req.file.path, // Buffer.from(encodeImg, "base64")
+                contentType: req.file.mimetype
+            };
+            return finalImg;
+        } else {
+            const { content } = req.body;
+            const finalTxt = {
+                content,
+                contentType: "text"
+            };
+            return finalTxt;
+        }
+    }
+
     // GET
+
     public getUsers(req: express.Request, res: express.Response): void {
         req.app.locals.db.collection("users").find().toArray(function(err: any, results: any) {
             if (err) {
@@ -133,7 +155,7 @@ export class Controller {
             res.status(422).json({ errors: errors.array() });
         } else {
             const token = { userId: new ObjectID("5db72ec8d6e7710abea573bd") };
-            const { content } = req.body;
+            const content = this.makeContent(req);
             const doc = { songId: req.params.songId, userId: token.userId, content };
 
             req.app.locals.db.collection("posts").insertOne(doc, function(err: any, response: any) {
@@ -164,7 +186,9 @@ export class Controller {
         if (!errors.isEmpty()) {
             res.status(422).json({ errors: errors.array() });
         } else {
-            const newValues = { $set: { content: req.body.content } };
+            const content = this.makeContent(req);
+            console.log(content);
+            const newValues = { $set: { content } };
             req.app.locals.db.collection("posts").updateOne({ _id: req.params.postId }, newValues,
                 function(err: any, response: any) {
                     if (err) {

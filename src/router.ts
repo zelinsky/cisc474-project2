@@ -1,12 +1,31 @@
 import express from "express";
-import { body } from "express-validator";
-import {Controller} from "./controller";
-import {Validator} from "./validator";
+import multer from "multer";
+import { Controller } from "./controller";
+import { Validator } from "./validator";
 
 export class ApiRouter {
     private router: express.Router = express.Router();
     private controller: Controller = new Controller();
     private validator: Validator = new Validator();
+
+    private storage: multer.StorageEngine = multer.diskStorage({
+        destination(req, file, cb) {
+            cb(null, "uploads");
+        },
+        filename(req, file, cb) {
+            cb(null, Date.now() + "_" + file.originalname);
+        }
+    });
+
+    private fileFilter = function(req: any, file: any, cb: any) {
+        if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
+            cb(null, true);
+        } else {
+            cb(null, false);
+        }
+    };
+
+    private upload: multer.Instance = multer({ storage: this.storage, fileFilter: this.fileFilter });
 
     // Creates the routes for this router and returns a populated router object
     public getRouter(): express.Router {
@@ -27,13 +46,15 @@ export class ApiRouter {
         // POST
         this.router.post("/users", this.validator.validatePostUser(), this.controller.postUser);
         this.router.post("/songs", this.controller.postSong);
-        this.router.post("/songs/:songId/posts", this.validator.validatePostPost(), this.controller.postPost);
+        this.router.post("/songs/:songId/posts", this.upload.single("image"),
+        this.validator.validatePostPost(), this.controller.postPost.bind(this.controller));
         this.router.post("/posts/:postsId/comments", this.controller.postComment);
 
         // PUT
         this.router.put("/users/:userId", this.controller.putUser);
         this.router.put("/songs/:songId", this.controller.putSong);
-        this.router.put("/posts/:postId", this.validator.validatePutPost(), this.controller.putPost);
+        this.router.put("/posts/:postId", this.upload.single("image"),
+        this.validator.validatePutPost(), this.controller.putPost.bind(this.controller));
         this.router.put("/comments/:commentId", this.controller.putComment);
 
         // DELETE

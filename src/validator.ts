@@ -17,7 +17,7 @@ export class Validator {
 
   public validatePostPost() {
     return [
-      body("content", "Cannot be empty").not().isEmpty(),
+      // body("content", "Cannot be empty").not().isEmpty(),
       param("songId", "Invalid MongoId").isMongoId().bail().customSanitizer(this.toMongoId)
     ];
   }
@@ -43,7 +43,7 @@ export class Validator {
   public validatePutPost() {
     return [
       param("postId", "Invalid MongoId").isMongoId().bail().customSanitizer(this.toMongoId),
-      body("content").not().isEmpty()
+      // body("content").not().isEmpty()
     ];
   }
 
