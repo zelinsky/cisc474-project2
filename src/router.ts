@@ -1,4 +1,5 @@
 import express from "express";
+import { body } from "express-validator";
 import {Controller} from "./controller";
 import {Validator} from "./validator";
 
@@ -26,7 +27,7 @@ export class ApiRouter {
         // POST
         this.router.post("/users", this.validator.validateUser(), this.controller.postUser);
         this.router.post("/songs", this.controller.postSong);
-        this.router.post("/songs/:songId/posts", this.controller.postPost);
+        this.router.post("/songs/:songId/posts", this.validator.validatePost(), this.controller.postPost);
         this.router.post("/posts/:postsId/comments", this.controller.postComment);
 
         // PUT

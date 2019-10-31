@@ -4,7 +4,7 @@ import { validationResult } from "express-validator";
 export class Controller {
     // GET
     public getUsers(req: express.Request, res: express.Response): void {
-        req.app.locals.db.collection("users").find().toArray(function(err: any, results: any) {
+        req.app.locals.db.collection("users").find().toArray(function (err: any, results: any) {
             if (err) {
                 console.log("GET USERS ERROR");
             } else {
@@ -38,7 +38,7 @@ export class Controller {
     }
 
     public getPosts(req: express.Request, res: express.Response): void {
-        req.app.locals.db.collection("posts").find().toArray(function(err: any, results: any) {
+        req.app.locals.db.collection("posts").find().toArray(function (err: any, results: any) {
             if (err) {
                 console.log("GET USERS ERROR");
             } else {
@@ -71,10 +71,10 @@ export class Controller {
             res.status(422).json({ errors: errors.array() });
         } else {
 
-            const {username, firstName, lastName} = req.body;
-            const doc = {username, firstName, lastName};
+            const { username, firstName, lastName } = req.body;
+            const doc = { username, firstName, lastName };
 
-            req.app.locals.db.collection("users").insertOne(doc, function(err: any, response: any) {
+            req.app.locals.db.collection("users").insertOne(doc, function (err: any, response: any) {
                 if (err) { // Handle errors here
                     console.log("POST USER ERROR");
                 } else {  // Success
@@ -89,14 +89,23 @@ export class Controller {
     }
 
     public postPost(req: express.Request, res: express.Response): void {
-        req.body.songId = req.params.songId;
-        req.app.locals.db.collection("posts").insertOne(req.body, function(err: any, response: any) {
-            if (err) { // Handle errors here
-                console.log("POST USER ERROR");
-            } else {  // Success
-                res.send(response.ops[0]); // Respond with created object
-            }
-        });
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            res.status(422).json({ errors: errors.array() });
+        } else {
+
+            const token = { userId: "1234" };
+            const { content } = req.body;
+            const doc = { songId: req.params.songId, userId: token.userId, content };
+
+            req.app.locals.db.collection("posts").insertOne(doc, function (err: any, response: any) {
+                if (err) { // Handle errors here
+                    console.log("POST USER ERROR");
+                } else {  // Success
+                    res.send(response.ops[0]); // Respond with created object
+                }
+            });
+        }
     }
 
     public postComment(req: express.Request, res: express.Response): void {

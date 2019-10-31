@@ -8,4 +8,10 @@ export class Validator {
       body("lastName").optional()
      ];
   }
+
+  public validatePost() {
+      return [
+      body("content").not().isEmpty()
+    ];
+  }
 }
