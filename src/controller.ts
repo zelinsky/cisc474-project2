@@ -5,7 +5,7 @@ import { ObjectID } from "mongodb";
 export class Controller {
     // GET
     public getUsers(req: express.Request, res: express.Response): void {
-        req.app.locals.db.collection("users").find().toArray(function (err: any, results: any) {
+        req.app.locals.db.collection("users").find().toArray(function(err: any, results: any) {
             if (err) {
                 console.log("GET USERS ERROR");
             } else {
@@ -24,7 +24,7 @@ export class Controller {
             res.status(422).json({ errors: errors.array() });
         } else {
             req.app.locals.db.collection("posts").find({ userId: req.params.userId }).
-                toArray(function (err: any, results: any) {
+                toArray(function(err: any, results: any) {
                     if (err) {
                         res.sendStatus(500);
                     } else {
@@ -52,7 +52,7 @@ export class Controller {
             res.status(422).json({ errors: errors.array() });
         } else {
             req.app.locals.db.collection("posts").find({ songId: req.params.songId }).
-                toArray(function (err: any, results: any) {
+                toArray(function(err: any, results: any) {
                     if (err) {
                         res.sendStatus(500);
                     } else {
@@ -113,7 +113,7 @@ export class Controller {
             const { username, firstName, lastName } = req.body;
             const doc = { username, firstName, lastName };
 
-            req.app.locals.db.collection("users").insertOne(doc, function (err: any, response: any) {
+            req.app.locals.db.collection("users").insertOne(doc, function(err: any, response: any) {
                 if (err) { // Handle errors here
                     console.log("POST USER ERROR");
                 } else {  // Success
