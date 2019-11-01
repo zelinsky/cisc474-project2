@@ -29,7 +29,7 @@ export class Controller {
     public getUsers(req: express.Request, res: express.Response): void {
         req.app.locals.db.collection("users").find().toArray(function(err: any, results: any) {
             if (err) {
-                console.log("GET USERS ERROR");
+                res.sendStatus(500);
             } else {
                 res.json(results);
             }
@@ -137,7 +137,7 @@ export class Controller {
 
             req.app.locals.db.collection("users").insertOne(doc, function(err: any, response: any) {
                 if (err) { // Handle errors here
-                    console.log("POST USER ERROR");
+                    res.sendStatus(500);
                 } else {  // Success
                     res.json(response.ops[0]); // Respond with created object
                 }

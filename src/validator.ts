@@ -9,7 +9,7 @@ export class Validator {
 
   public validatePostUser() {
     return [
-      body("username").exists(),
+      body("username").not().isEmpty(),
       body("firstName").exists(),
       body("lastName").optional()
     ];
