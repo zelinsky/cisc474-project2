@@ -53,7 +53,19 @@ export class Validator {
     ];
   }
 
+  public validateComment() {
+    return [
+      param("commentId", "Invalid MongoId").isMongoId().bail().customSanitizer(this.toMongoId),
+    ];
+  }
+
   // SONGS
+  public validateSong() {
+    return [
+      param("songId", "Invalid MongoId").isMongoId().bail().customSanitizer(this.toMongoId),
+    ];
+  }
+
   public validatePostSong() {
     return [
       body("title").not().isEmpty(),
@@ -61,4 +73,14 @@ export class Validator {
       body("lyrics").not().isEmpty()
     ];
   }
+
+  public validatePutSong() {
+    return [
+      body("title").optional().not().isEmpty(),
+      body("artist").optional().not().isEmpty(),
+      body("lyrics").optional().not().isEmpty(),
+      param("songId", "Invalid MongoId").isMongoId().bail().customSanitizer(this.toMongoId),
+    ];
+  }
+
 }

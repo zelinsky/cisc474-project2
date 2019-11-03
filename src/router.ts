@@ -35,7 +35,7 @@ export class ApiRouter {
         this.router.get("/users/:userId/posts", this.validator.validateGetUserPosts(), this.controller.getUserPosts);
         this.router.get("/users/:userId/comments", this.controller.getUserComments);
         this.router.get("/songs", this.controller.getSongs);
-        this.router.get("/songs/:songId", this.controller.getSong);
+        this.router.get("/songs/:songId", this.validator.validateSong(), this.controller.getSong);
         this.router.get("/songs/:songId/posts", this.validator.validateGetSongPosts(), this.controller.getSongPosts);
         this.router.get("/posts", this.controller.getPosts);
         this.router.get("/posts/:postId", this.validator.validateGetPost(), this.controller.getPost);
@@ -52,16 +52,16 @@ export class ApiRouter {
 
         // PUT
         this.router.put("/users/:userId", this.controller.putUser);
-        this.router.put("/songs/:songId", this.controller.putSong);
+        this.router.put("/songs/:songId", this.validator.validatePutSong(), this.controller.putSong);
         this.router.put("/posts/:postId", this.upload.single("image"),
         this.validator.validatePutPost(), this.controller.putPost.bind(this.controller));
-        this.router.put("/comments/:commentId", this.controller.putComment);
+        this.router.put("/comments/:commentId", this.validator.validatePutSong(), this.controller.putComment);
 
         // DELETE
         this.router.delete("/users/:userId", this.controller.deleteUser);
-        this.router.delete("/songs/:songId", this.controller.deleteSong);
+        this.router.delete("/songs/:songId", this.validator.validateSong(), this.controller.deleteSong);
         this.router.delete("/posts/:postId", this.validator.validateDeletePost(), this.controller.deletePost);
-        this.router.delete("/comments/:commentId", this.controller.deleteComment);
+        this.router.delete("/comments/:commentId", this.validator.validateComment(), this.controller.deleteComment);
 
         return this.router;
     }

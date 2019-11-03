@@ -27,7 +27,7 @@ export class Controller {
     // GET
 
     public getUsers(req: express.Request, res: express.Response): void {
-        req.app.locals.db.collection("users").find().toArray(function(err: any, results: any) {
+        req.app.locals.db.collection("users").find().toArray(function (err: any, results: any) {
             if (err) {
                 res.sendStatus(500);
             } else {
@@ -46,7 +46,7 @@ export class Controller {
             res.status(422).json({ errors: errors.array() });
         } else {
             req.app.locals.db.collection("posts").find({ userId: req.params.userId }).
-                toArray(function(err: any, results: any) {
+                toArray(function (err: any, results: any) {
                     if (err) {
                         res.sendStatus(500);
                     } else {
@@ -61,7 +61,7 @@ export class Controller {
     }
 
     public getSongs(req: express.Request, res: express.Response): void {
-        req.app.locals.db.collection("songs").find().toArray(function(err: any, results: any) {
+        req.app.locals.db.collection("songs").find().toArray(function (err: any, results: any) {
             if (err) {
                 res.sendStatus(500);
             } else {
@@ -76,7 +76,7 @@ export class Controller {
             res.status(422).json({ errors: errors.array() });
         } else {
             req.app.locals.db.collection("songs").findOne({ _id: req.params.songId },
-                function(err: any, result: any) {
+                function (err: any, result: any) {
                     if (err) {
                         res.sendStatus(500);
                     } else if (result) {
@@ -94,7 +94,7 @@ export class Controller {
             res.status(422).json({ errors: errors.array() });
         } else {
             req.app.locals.db.collection("posts").find({ songId: req.params.songId }).
-                toArray(function(err: any, results: any) {
+                toArray(function (err: any, results: any) {
                     if (err) {
                         res.sendStatus(500);
                     } else {
@@ -105,7 +105,7 @@ export class Controller {
     }
 
     public getPosts(req: express.Request, res: express.Response): void {
-        req.app.locals.db.collection("posts").find().toArray(function(err: any, results: any) {
+        req.app.locals.db.collection("posts").find().toArray(function (err: any, results: any) {
             if (err) {
                 res.sendStatus(500);
             } else {
@@ -120,7 +120,7 @@ export class Controller {
             res.status(422).json({ errors: errors.array() });
         } else {
             req.app.locals.db.collection("posts").findOne({ _id: req.params.postId },
-                function(err: any, result: any) {
+                function (err: any, result: any) {
                     if (err) {
                         res.sendStatus(500);
                     } else if (result) {
@@ -154,7 +154,7 @@ export class Controller {
             const { username, firstName, lastName } = req.body;
             const doc = { username, firstName, lastName };
 
-            req.app.locals.db.collection("users").insertOne(doc, function(err: any, response: any) {
+            req.app.locals.db.collection("users").insertOne(doc, function (err: any, response: any) {
                 if (err) { // Handle errors here
                     res.sendStatus(500);
                 } else {  // Success
@@ -169,10 +169,10 @@ export class Controller {
         if (!errors.isEmpty()) {
             res.status(422).json({ errors: errors.array() });
         } else {
-            const {title, artist, lyrics} = req.body;
+            const { title, artist, lyrics } = req.body;
             const doc = { title, artist, lyrics };
 
-            req.app.locals.db.collection("songs").insertOne(doc, function(err: any, response: any) {
+            req.app.locals.db.collection("songs").insertOne(doc, function (err: any, response: any) {
                 if (err) { // Handle errors here
                     res.sendStatus(500);
                 } else {  // Success
@@ -191,7 +191,7 @@ export class Controller {
             const content = this.makeContent(req);
             const doc = { songId: req.params.songId, userId: token.userId, content };
 
-            req.app.locals.db.collection("posts").insertOne(doc, function(err: any, response: any) {
+            req.app.locals.db.collection("posts").insertOne(doc, function (err: any, response: any) {
                 if (err) { // Handle errors here
                     res.sendStatus(500);
                 } else {  // Success
@@ -214,9 +214,20 @@ export class Controller {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             res.status(422).json({ errors: errors.array() });
-        } else {
-            const content = this.makeContent(req);
-            const newValues = { $set: { content } };
+        } else if (Object.keys(req.body).length) {
+            const values = {
+                artist: req.body.artist,
+                lyrics: req.body.lyrics,
+                title: req.body.title
+            };
+
+            for (let v in values) {
+                if (!values[v]) {
+                    delete values[v];
+                }
+            }
+            
+            const newValues = { $set: values };
             req.app.locals.db.collection("songs").updateOne({ _id: req.params.songId }, newValues,
                 function(err: any, response: any) {
                     if (err) {
@@ -225,6 +236,8 @@ export class Controller {
                         res.json(response.result);
                     }
                 });
+        } else {
+            res.sendStatus(422);
         }
     }
 
@@ -236,7 +249,7 @@ export class Controller {
             const content = this.makeContent(req);
             const newValues = { $set: { content } };
             req.app.locals.db.collection("posts").updateOne({ _id: req.params.postId }, newValues,
-                function(err: any, response: any) {
+                function (err: any, response: any) {
                     if (err) {
                         res.sendStatus(500);
                     } else {
@@ -261,7 +274,7 @@ export class Controller {
             res.status(422).json({ errors: errors.array() });
         } else {
             req.app.locals.db.collection("songs").deleteOne({ _id: req.params.songId },
-                function(err: any, response: any) {
+                function (err: any, response: any) {
                     if (err) {
                         res.sendStatus(500);
                     } else {
@@ -277,7 +290,7 @@ export class Controller {
             res.status(422).json({ errors: errors.array() });
         } else {
             req.app.locals.db.collection("posts").deleteOne({ _id: req.params.postId },
-                function(err: any, response: any) {
+                function (err: any, response: any) {
                     if (err) {
                         res.sendStatus(500);
                     } else {
