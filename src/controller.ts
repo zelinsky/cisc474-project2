@@ -192,13 +192,11 @@ export class Controller {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             res.status(422).json({ errors: errors.array() });
-        } else {
-            //const content = this.makeContent(req);
-           
+        } else if (Object.keys(req.body).length) {
             const values = {
-                username: req.body.username, 
-                firstName: req.body.firstName, 
-                lastName: req.body.lastName
+                firstName: req.body.firstName,
+                lastName: req.body.lastName,
+                username: req.body.username
             };
             console.log(values);
             for (let v in values) {
@@ -215,9 +213,10 @@ export class Controller {
                         res.json(response.result);
                     }
                 });
+        } else {
+            res.sendStatus(422);
         }
     }
-
 
     public putSong(req: express.Request, res: express.Response): void {
         res.send("PUT SONG " + req.params.songId);
