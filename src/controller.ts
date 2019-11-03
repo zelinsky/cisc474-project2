@@ -29,7 +29,7 @@ export class Controller {
     public getUsers(req: express.Request, res: express.Response): void {
         req.app.locals.db.collection("users").find().toArray(function(err: any, results: any) {
             if (err) {
-                console.log("GET USERS ERROR");
+                res.sendStatus(500);
             } else {
                 res.json(results);
             }
@@ -37,7 +37,21 @@ export class Controller {
     }
 
     public getUser(req: express.Request, res: express.Response): void {
-        res.send("GET USER " + req.params.userId);
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            res.status(422).json({ errors: errors.array() });
+        } else {
+            req.app.locals.db.collection("users").findOne({ _id: req.params.userId },
+                function(err: any, result: any) {
+                    if (err) {
+                        res.sendStatus(500);
+                    } else if (result) {
+                        res.json(result);
+                    } else {
+                        res.sendStatus(404);
+                    }
+                });
+        }
     }
 
     public getUserPosts(req: express.Request, res: express.Response): void {
