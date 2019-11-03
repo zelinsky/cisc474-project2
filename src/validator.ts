@@ -18,8 +18,17 @@ export class Validator {
   public validatePostUser() {
     return [
       body("username").not().isEmpty(),
-      body("firstName").exists(),
+      body("firstName").not().isEmpty(),
       body("lastName").optional()
+    ];
+  }
+
+  public validatePutUser() {
+    return [
+      body("username").optional().not().isEmpty(),
+      body("firstName").optional().not().isEmpty(),
+      body("lastName").optional(),
+      param("userId", "Invalid MongoId").isMongoId().bail().customSanitizer(this.toMongoId)
     ];
   }
 

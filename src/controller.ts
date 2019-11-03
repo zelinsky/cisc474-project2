@@ -188,8 +188,36 @@ export class Controller {
 
     // PUT
     public putUser(req: express.Request, res: express.Response): void {
-        res.send("PUT USER " + req.params.userId);
+       // res.send("PUT USER " + req.params.userId);
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            res.status(422).json({ errors: errors.array() });
+        } else {
+            //const content = this.makeContent(req);
+           
+            const values = {
+                username: req.body.username, 
+                firstName: req.body.firstName, 
+                lastName: req.body.lastName
+            };
+            console.log(values);
+            for (let v in values) {
+                if (!values[v]) delete values[v];
+            }
+            console.log(values);
+            const newValues = { $set: values };
+
+            req.app.locals.db.collection("users").updateOne({ _id: req.params.userId }, newValues,
+                function(err: any, response: any) {
+                    if (err) {
+                        res.sendStatus(500);
+                    } else {
+                        res.json(response.result);
+                    }
+                });
+        }
     }
+
 
     public putSong(req: express.Request, res: express.Response): void {
         res.send("PUT SONG " + req.params.songId);
@@ -219,7 +247,19 @@ export class Controller {
 
     // DELETE
     public deleteUser(req: express.Request, res: express.Response): void {
-        res.send("DELETE USER " + req.params.userId);
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            res.status(422).json({ errors: errors.array() });
+        } else {
+            req.app.locals.db.collection("users").deleteOne({ _id: req.params.userId },
+                function(err: any, response: any) {
+                    if (err) {
+                        res.sendStatus(500);
+                    } else {
+                        res.json(response.result);
+                    }
+                });
+        }
     }
 
     public deleteSong(req: express.Request, res: express.Response): void {

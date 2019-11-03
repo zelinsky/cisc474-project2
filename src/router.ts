@@ -51,7 +51,7 @@ export class ApiRouter {
         this.router.post("/posts/:postsId/comments", this.controller.postComment);
 
         // PUT
-        this.router.put("/users/:userId", this.controller.putUser);
+        this.router.put("/users/:userId", this.validator.validatePutUser(), this.controller.putUser);
         this.router.put("/songs/:songId", this.controller.putSong);
         this.router.put("/posts/:postId", this.upload.single("image"),
         this.validator.validatePutPost(), this.controller.putPost.bind(this.controller));
