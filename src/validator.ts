@@ -39,12 +39,6 @@ export class Validator {
     ];
   }
 
-  public validateGetPost() {
-    return [
-      param("postId", "Invalid MongoId").isMongoId().bail().customSanitizer(this.toMongoId)
-    ];
-  }
-
   public validateGetUserPosts() {
     return [
       param("userId", "Invalid MongoId").isMongoId().bail().customSanitizer(this.toMongoId)
@@ -64,15 +58,38 @@ export class Validator {
     ];
   }
 
-  public validateDeletePost() {
+
+  public validatePost() {
     return [
       param("postId", "Invalid MongoId").isMongoId().bail().customSanitizer(this.toMongoId),
     ];
   }
+  
   public validateDeleteUser() {
     return [
       param("userId", "Invalid MongoId").isMongoId().bail().customSanitizer(this.toMongoId),
     ];
   }
 
+
+  // COMMENTS
+  public validateComment() {
+    return [
+      param("commentId", "Invalid MongoId").isMongoId().bail().customSanitizer(this.toMongoId)
+    ];
+  }
+
+  public validatePostComment() {
+    return [
+      body("content", "Cannot be empty").not().isEmpty(),
+      param("postId", "Invalid MongoId").isMongoId().bail().customSanitizer(this.toMongoId)
+    ];
+  }
+
+  public validatePutComment() {
+    return [
+      body("content", "Cannot be empty").not().isEmpty(),
+      param("commentId", "Invalid MongoId").isMongoId().bail().customSanitizer(this.toMongoId)
+    ];
+  }
 }
