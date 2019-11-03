@@ -38,30 +38,30 @@ export class ApiRouter {
         this.router.get("/songs/:songId", this.controller.getSong);
         this.router.get("/songs/:songId/posts", this.validator.validateGetSongPosts(), this.controller.getSongPosts);
         this.router.get("/posts", this.controller.getPosts);
-        this.router.get("/posts/:postId", this.validator.validateGetPost(), this.controller.getPost);
-        this.router.get("/posts/:postId/comments", this.controller.getPostComments);
+        this.router.get("/posts/:postId", this.validator.validatePost(), this.controller.getPost);
+        this.router.get("/posts/:postId/comments", this.validator.validatePost(), this.controller.getPostComments);
         this.router.get("/comments", this.controller.getComments);
-        this.router.get("/comments/:commentId", this.controller.getComment);
+        this.router.get("/comments/:commentId", this.validator.validateComment(), this.controller.getComment);
 
         // POST
         this.router.post("/users", this.validator.validatePostUser(), this.controller.postUser);
         this.router.post("/songs", this.controller.postSong);
         this.router.post("/songs/:songId/posts", this.upload.single("image"),
         this.validator.validatePostPost(), this.controller.postPost.bind(this.controller));
-        this.router.post("/posts/:postsId/comments", this.controller.postComment);
+        this.router.post("/posts/:postId/comments", this.validator.validatePostComment(), this.controller.postComment);
 
         // PUT
         this.router.put("/users/:userId", this.controller.putUser);
         this.router.put("/songs/:songId", this.controller.putSong);
         this.router.put("/posts/:postId", this.upload.single("image"),
         this.validator.validatePutPost(), this.controller.putPost.bind(this.controller));
-        this.router.put("/comments/:commentId", this.controller.putComment);
+        this.router.put("/comments/:commentId", this.validator.validatePutComment(), this.controller.putComment);
 
         // DELETE
         this.router.delete("/users/:userId", this.controller.deleteUser);
         this.router.delete("/songs/:songId", this.controller.deleteSong);
-        this.router.delete("/posts/:postId", this.validator.validateDeletePost(), this.controller.deletePost);
-        this.router.delete("/comments/:commentId", this.controller.deleteComment);
+        this.router.delete("/posts/:postId", this.validator.validatePost(), this.controller.deletePost);
+        this.router.delete("/comments/:commentId", this.validator.validateComment(), this.controller.deleteComment);
 
         return this.router;
     }
