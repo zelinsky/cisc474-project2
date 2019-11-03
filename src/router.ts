@@ -31,7 +31,7 @@ export class ApiRouter {
     public getRouter(): express.Router {
         // GET
         this.router.get("/users", this.controller.getUsers);
-        this.router.get("/users/:userId", this.controller.getUser);
+        this.router.get("/users/:userId", this.validator.validateUser(), this.controller.getUser);
         this.router.get("/users/:userId/posts", this.validator.validateGetUserPosts(), this.controller.getUserPosts);
         this.router.get("/users/:userId/comments", this.controller.getUserComments);
         this.router.get("/songs", this.controller.getSongs);
@@ -51,14 +51,14 @@ export class ApiRouter {
         this.router.post("/posts/:postId/comments", this.validator.validatePostComment(), this.controller.postComment);
 
         // PUT
-        this.router.put("/users/:userId", this.controller.putUser);
+        this.router.put("/users/:userId", this.validator.validatePutUser(), this.controller.putUser);
         this.router.put("/songs/:songId", this.controller.putSong);
         this.router.put("/posts/:postId", this.upload.single("image"),
         this.validator.validatePutPost(), this.controller.putPost.bind(this.controller));
         this.router.put("/comments/:commentId", this.validator.validatePutComment(), this.controller.putComment);
 
         // DELETE
-        this.router.delete("/users/:userId", this.controller.deleteUser);
+        this.router.delete("/users/:userId", this.validator.validateDeleteUser(), this.controller.deleteUser);
         this.router.delete("/songs/:songId", this.controller.deleteSong);
         this.router.delete("/posts/:postId", this.validator.validatePost(), this.controller.deletePost);
         this.router.delete("/comments/:commentId", this.validator.validateComment(), this.controller.deleteComment);
