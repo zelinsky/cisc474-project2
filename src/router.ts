@@ -58,7 +58,7 @@ export class ApiRouter {
         this.router.put("/comments/:commentId", this.controller.putComment);
 
         // DELETE
-        this.router.delete("/users/:userId", this.controller.deleteUser);
+        this.router.delete("/users/:userId", this.validator.validateDeleteUser(), this.controller.deleteUser);
         this.router.delete("/songs/:songId", this.controller.deleteSong);
         this.router.delete("/posts/:postId", this.validator.validateDeletePost(), this.controller.deletePost);
         this.router.delete("/comments/:commentId", this.controller.deleteComment);

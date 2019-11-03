@@ -69,4 +69,10 @@ export class Validator {
       param("postId", "Invalid MongoId").isMongoId().bail().customSanitizer(this.toMongoId),
     ];
   }
+  public validateDeleteUser() {
+    return [
+      param("userId", "Invalid MongoId").isMongoId().bail().customSanitizer(this.toMongoId),
+    ];
+  }
+
 }
