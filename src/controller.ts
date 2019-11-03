@@ -151,7 +151,7 @@ export class Controller {
 
             req.app.locals.db.collection("users").insertOne(doc, function(err: any, response: any) {
                 if (err) { // Handle errors here
-                    console.log("POST USER ERROR");
+                    res.sendStatus(500);
                 } else {  // Success
                     res.json(response.ops[0]); // Respond with created object
                 }
