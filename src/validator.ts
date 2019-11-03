@@ -7,11 +7,28 @@ export class Validator {
       return new ObjectID(value);
   }
 
+  // USERS
+
+  public validateUser() {
+    return [
+      param("userId", "Invalid MongoId").isMongoId().bail().customSanitizer(this.toMongoId)
+    ];
+  }
+
   public validatePostUser() {
     return [
       body("username").not().isEmpty(),
-      body("firstName").exists(),
+      body("firstName").not().isEmpty(),
       body("lastName").optional()
+    ];
+  }
+
+  public validatePutUser() {
+    return [
+      body("username").optional().not().isEmpty(),
+      body("firstName").optional().not().isEmpty(),
+      body("lastName").optional(),
+      param("userId", "Invalid MongoId").isMongoId().bail().customSanitizer(this.toMongoId)
     ];
   }
 
@@ -19,12 +36,6 @@ export class Validator {
     return [
       // body("content", "Cannot be empty").not().isEmpty(),
       param("songId", "Invalid MongoId").isMongoId().bail().customSanitizer(this.toMongoId)
-    ];
-  }
-
-  public validateGetPost() {
-    return [
-      param("postId", "Invalid MongoId").isMongoId().bail().customSanitizer(this.toMongoId)
     ];
   }
 
@@ -47,15 +58,10 @@ export class Validator {
     ];
   }
 
-  public validateDeletePost() {
+
+  public validatePost() {
     return [
       param("postId", "Invalid MongoId").isMongoId().bail().customSanitizer(this.toMongoId),
-    ];
-  }
-
-  public validateComment() {
-    return [
-      param("commentId", "Invalid MongoId").isMongoId().bail().customSanitizer(this.toMongoId),
     ];
   }
 
@@ -82,5 +88,32 @@ export class Validator {
       param("songId", "Invalid MongoId").isMongoId().bail().customSanitizer(this.toMongoId),
     ];
   }
+  
+  public validateDeleteUser() {
+    return [
+      param("userId", "Invalid MongoId").isMongoId().bail().customSanitizer(this.toMongoId),
+    ];
+  }
 
+
+  // COMMENTS
+  public validateComment() {
+    return [
+      param("commentId", "Invalid MongoId").isMongoId().bail().customSanitizer(this.toMongoId)
+    ];
+  }
+
+  public validatePostComment() {
+    return [
+      body("content", "Cannot be empty").not().isEmpty(),
+      param("postId", "Invalid MongoId").isMongoId().bail().customSanitizer(this.toMongoId)
+    ];
+  }
+
+  public validatePutComment() {
+    return [
+      body("content", "Cannot be empty").not().isEmpty(),
+      param("commentId", "Invalid MongoId").isMongoId().bail().customSanitizer(this.toMongoId)
+    ];
+  }
 }

@@ -31,34 +31,34 @@ export class ApiRouter {
     public getRouter(): express.Router {
         // GET
         this.router.get("/users", this.controller.getUsers);
-        this.router.get("/users/:userId", this.controller.getUser);
+        this.router.get("/users/:userId", this.validator.validateUser(), this.controller.getUser);
         this.router.get("/users/:userId/posts", this.validator.validateGetUserPosts(), this.controller.getUserPosts);
         this.router.get("/users/:userId/comments", this.controller.getUserComments);
         this.router.get("/songs", this.controller.getSongs);
         this.router.get("/songs/:songId", this.validator.validateSong(), this.controller.getSong);
         this.router.get("/songs/:songId/posts", this.validator.validateGetSongPosts(), this.controller.getSongPosts);
         this.router.get("/posts", this.controller.getPosts);
-        this.router.get("/posts/:postId", this.validator.validateGetPost(), this.controller.getPost);
-        this.router.get("/posts/:postId/comments", this.controller.getPostComments);
+        this.router.get("/posts/:postId", this.validator.validatePost(), this.controller.getPost);
+        this.router.get("/posts/:postId/comments", this.validator.validatePost(), this.controller.getPostComments);
         this.router.get("/comments", this.controller.getComments);
-        this.router.get("/comments/:commentId", this.controller.getComment);
+        this.router.get("/comments/:commentId", this.validator.validateComment(), this.controller.getComment);
 
         // POST
         this.router.post("/users", this.validator.validatePostUser(), this.controller.postUser);
         this.router.post("/songs", this.validator.validatePostSong(), this.controller.postSong);
         this.router.post("/songs/:songId/posts", this.upload.single("image"),
         this.validator.validatePostPost(), this.controller.postPost.bind(this.controller));
-        this.router.post("/posts/:postsId/comments", this.controller.postComment);
+        this.router.post("/posts/:postId/comments", this.validator.validatePostComment(), this.controller.postComment);
 
         // PUT
-        this.router.put("/users/:userId", this.controller.putUser);
+        this.router.put("/users/:userId", this.validator.validatePutUser(), this.controller.putUser);
         this.router.put("/songs/:songId", this.validator.validatePutSong(), this.controller.putSong);
         this.router.put("/posts/:postId", this.upload.single("image"),
         this.validator.validatePutPost(), this.controller.putPost.bind(this.controller));
-        this.router.put("/comments/:commentId", this.validator.validatePutSong(), this.controller.putComment);
+        this.router.put("/comments/:commentId", this.validator.validatePutComment(), this.controller.putComment);
 
         // DELETE
-        this.router.delete("/users/:userId", this.controller.deleteUser);
+        this.router.delete("/users/:userId", this.validator.validateDeleteUser(), this.controller.deleteUser);
         this.router.delete("/songs/:songId", this.validator.validateSong(), this.controller.deleteSong);
         this.router.delete("/posts/:postId", this.validator.validateDeletePost(), this.controller.deletePost);
         this.router.delete("/comments/:commentId", this.validator.validateComment(), this.controller.deleteComment);
