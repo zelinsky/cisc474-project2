@@ -58,7 +58,6 @@ export class Validator {
     ];
   }
 
-
   public validatePost() {
     return [
       param("postId", "Invalid MongoId").isMongoId().bail().customSanitizer(this.toMongoId),
@@ -88,13 +87,12 @@ export class Validator {
       param("songId", "Invalid MongoId").isMongoId().bail().customSanitizer(this.toMongoId),
     ];
   }
-  
+
   public validateDeleteUser() {
     return [
       param("userId", "Invalid MongoId").isMongoId().bail().customSanitizer(this.toMongoId),
     ];
   }
-
 
   // COMMENTS
   public validateComment() {
