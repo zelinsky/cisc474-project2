@@ -29,7 +29,7 @@ export class Controller {
     public getUsers(req: express.Request, res: express.Response): void {
         req.app.locals.db.collection("users").find().toArray(function(err: any, results: any) {
             if (err) {
-                console.log("GET USERS ERROR");
+                res.sendStatus(500);
             } else {
                 res.json(results);
             }
@@ -92,7 +92,6 @@ export class Controller {
                 res.json(results);
             }
         });
-
     }
 
     public getPost(req: express.Request, res: express.Response): void {
@@ -114,15 +113,47 @@ export class Controller {
     }
 
     public getPostComments(req: express.Request, res: express.Response): void {
-        res.send("GET POST " + req.params.postId + "'s COMMENTS");
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            res.status(422).json({ errors: errors.array() });
+        } else {
+            req.app.locals.db.collection("comments").find({ postId: req.params.postId }).
+                toArray(function(err: any, results: any) {
+                    if (err) {
+                        res.sendStatus(500);
+                    } else {
+                        res.json(results);
+                    }
+                });
+        }
     }
 
     public getComments(req: express.Request, res: express.Response): void {
-        res.send("GET COMMENTS");
+        req.app.locals.db.collection("comments").find().toArray(function(err: any, results: any) {
+            if (err) {
+                res.sendStatus(500);
+            } else {
+                res.json(results);
+            }
+        });
     }
 
     public getComment(req: express.Request, res: express.Response): void {
-        res.send("GET COMMENT " + req.params.commentId);
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            res.status(422).json({ errors: errors.array() });
+        } else {
+            req.app.locals.db.collection("comments").findOne({ _id: req.params.commentId },
+                function(err: any, result: any) {
+                    if (err) {
+                        res.sendStatus(500);
+                    } else if (result) {
+                        res.json(result);
+                    } else {
+                        res.sendStatus(404);
+                    }
+                });
+        }
     }
 
     // POST
@@ -137,7 +168,7 @@ export class Controller {
 
             req.app.locals.db.collection("users").insertOne(doc, function(err: any, response: any) {
                 if (err) { // Handle errors here
-                    console.log("POST USER ERROR");
+                    res.sendStatus(500);
                 } else {  // Success
                     res.json(response.ops[0]); // Respond with created object
                 }
@@ -169,7 +200,22 @@ export class Controller {
     }
 
     public postComment(req: express.Request, res: express.Response): void {
-        res.send("POST COMMENT UNDER POST " + req.params.postID);
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            res.status(422).json({ errors: errors.array() });
+        } else {
+            const token = { userId: new ObjectID("5db72ec8d6e7710abea573bd") };
+            const {content} = req.body;
+            const doc = { postId: req.params.postId, userId: token.userId, content };
+
+            req.app.locals.db.collection("comments").insertOne(doc, function(err: any, response: any) {
+                if (err) { // Handle errors here
+                    res.sendStatus(500);
+                } else {  // Success
+                    res.json(response.ops[0]); // Respond with created object
+                }
+            });
+        }
     }
 
     // PUT
@@ -200,7 +246,21 @@ export class Controller {
     }
 
     public putComment(req: express.Request, res: express.Response): void {
-        res.send("PUT COMMENT " + req.params.commentId);
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            res.status(422).json({ errors: errors.array() });
+        } else {
+            const {content} = req.body;
+            const newValues = { $set: { content } };
+            req.app.locals.db.collection("comments").updateOne({ _id: req.params.commentId }, newValues,
+                function(err: any, response: any) {
+                    if (err) {
+                        res.sendStatus(500);
+                    } else {
+                        res.json(response.result);
+                    }
+                });
+        }
     }
 
     // DELETE
@@ -229,6 +289,18 @@ export class Controller {
     }
 
     public deleteComment(req: express.Request, res: express.Response): void {
-        res.send("DELETE COMMENT " + req.params.commentId);
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            res.status(422).json({ errors: errors.array() });
+        } else {
+            req.app.locals.db.collection("comments").deleteOne({ _id: req.params.commentId },
+                function(err: any, response: any) {
+                    if (err) {
+                        res.sendStatus(500);
+                    } else {
+                        res.json(response.result);
+                    }
+                });
+        }
     }
 }
