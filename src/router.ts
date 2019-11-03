@@ -31,7 +31,7 @@ export class ApiRouter {
     public getRouter(): express.Router {
         // GET
         this.router.get("/users", this.controller.getUsers);
-        this.router.get("/users/:userId", this.validator.validateUser(),this.controller.getUser);
+        this.router.get("/users/:userId", this.validator.validateUser(), this.controller.getUser);
         this.router.get("/users/:userId/posts", this.validator.validateGetUserPosts(), this.controller.getUserPosts);
         this.router.get("/users/:userId/comments", this.controller.getUserComments);
         this.router.get("/songs", this.controller.getSongs);

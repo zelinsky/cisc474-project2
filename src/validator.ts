@@ -7,6 +7,14 @@ export class Validator {
       return new ObjectID(value);
   }
 
+  // USERS
+
+  public validateUser() {
+    return [
+      param("userId", "Invalid MongoId").isMongoId().bail().customSanitizer(this.toMongoId)
+    ];
+  }
+
   public validatePostUser() {
     return [
       body("username").not().isEmpty(),
@@ -44,12 +52,6 @@ export class Validator {
     return [
       param("postId", "Invalid MongoId").isMongoId().bail().customSanitizer(this.toMongoId),
       // body("content").not().isEmpty()
-    ];
-  }
-
-  public validateUser() {
-    return [
-      param("userId", "Invalid MongoId").isMongoId().bail().customSanitizer(this.toMongoId)
     ];
   }
 
