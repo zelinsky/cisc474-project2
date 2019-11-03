@@ -61,11 +61,31 @@ export class Controller {
     }
 
     public getSongs(req: express.Request, res: express.Response): void {
-        res.send("GET SONGS");
+        req.app.locals.db.collection("songs").find().toArray(function(err: any, results: any) {
+            if (err) {
+                res.sendStatus(500);
+            } else {
+                res.json(results);
+            }
+        });
     }
 
     public getSong(req: express.Request, res: express.Response): void {
-        res.send("GET SONG " + req.params.songId);
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            res.status(422).json({ errors: errors.array() });
+        } else {
+            req.app.locals.db.collection("songs").findOne({ _id: req.params.songId },
+                function(err: any, result: any) {
+                    if (err) {
+                        res.sendStatus(500);
+                    } else if (result) {
+                        res.json(result);
+                    } else {
+                        res.sendStatus(404);
+                    }
+                });
+        }
     }
 
     public getSongPosts(req: express.Request, res: express.Response): void {
@@ -92,7 +112,6 @@ export class Controller {
                 res.json(results);
             }
         });
-
     }
 
     public getPost(req: express.Request, res: express.Response): void {
@@ -192,7 +211,21 @@ export class Controller {
     }
 
     public putSong(req: express.Request, res: express.Response): void {
-        res.send("PUT SONG " + req.params.songId);
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            res.status(422).json({ errors: errors.array() });
+        } else {
+            const content = this.makeContent(req);
+            const newValues = { $set: { content } };
+            req.app.locals.db.collection("songs").updateOne({ _id: req.params.songId }, newValues,
+                function(err: any, response: any) {
+                    if (err) {
+                        res.sendStatus(500);
+                    } else {
+                        res.json(response.result);
+                    }
+                });
+        }
     }
 
     public putPost(req: express.Request, res: express.Response): void {
@@ -223,7 +256,19 @@ export class Controller {
     }
 
     public deleteSong(req: express.Request, res: express.Response): void {
-        res.send("DELETE SONG " + req.params.songId);
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            res.status(422).json({ errors: errors.array() });
+        } else {
+            req.app.locals.db.collection("songs").deleteOne({ _id: req.params.songId },
+                function(err: any, response: any) {
+                    if (err) {
+                        res.sendStatus(500);
+                    } else {
+                        res.json(response.result);
+                    }
+                });
+        }
     }
 
     public deletePost(req: express.Request, res: express.Response): void {
