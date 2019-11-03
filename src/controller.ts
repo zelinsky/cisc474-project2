@@ -146,7 +146,21 @@ export class Controller {
     }
 
     public postSong(req: express.Request, res: express.Response): void {
-        res.send("POST SONG");
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            res.status(422).json({ errors: errors.array() });
+        } else {
+            const {title, artist, lyrics} = req.body;
+            const doc = { title, artist, lyrics };
+
+            req.app.locals.db.collection("songs").insertOne(doc, function(err: any, response: any) {
+                if (err) { // Handle errors here
+                    res.sendStatus(500);
+                } else {  // Success
+                    res.json(response.ops[0]); // Respond with created object
+                }
+            });
+        }
     }
 
     public postPost(req: express.Request, res: express.Response): void {

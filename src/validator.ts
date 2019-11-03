@@ -52,4 +52,13 @@ export class Validator {
       param("postId", "Invalid MongoId").isMongoId().bail().customSanitizer(this.toMongoId),
     ];
   }
+
+  // SONGS
+  public validatePostSong() {
+    return [
+      body("title").not().isEmpty(),
+      body("artist").not().isEmpty(),
+      body("lyrics").not().isEmpty()
+    ];
+  }
 }
