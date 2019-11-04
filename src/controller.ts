@@ -71,7 +71,19 @@ export class Controller {
     }
 
     public getUserComments(req: express.Request, res: express.Response): void {
-        res.send("GET USER " + req.params.userId + "'s COMMENTS");
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            res.status(422).json({ errors: errors.array() });
+        } else {
+            req.app.locals.db.collection("comments").find({ userId: req.params.userId }).
+                toArray(function(err: any, results: any) {
+                    if (err) {
+                        res.sendStatus(500);
+                    } else {
+                        res.json(results);
+                    }
+                });
+        }
     }
 
     public getSongs(req: express.Request, res: express.Response): void {

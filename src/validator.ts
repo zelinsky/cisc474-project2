@@ -39,12 +39,6 @@ export class Validator {
     ];
   }
 
-  public validateGetUserPosts() {
-    return [
-      param("userId", "Invalid MongoId").isMongoId().bail().customSanitizer(this.toMongoId)
-    ];
-  }
-
   public validateGetSongPosts() {
     return [
       param("songId", "Invalid MongoId").isMongoId().bail().customSanitizer(this.toMongoId)

@@ -32,8 +32,8 @@ export class ApiRouter {
         // GET
         this.router.get("/users", this.controller.getUsers);
         this.router.get("/users/:userId", this.validator.validateUser(), this.controller.getUser);
-        this.router.get("/users/:userId/posts", this.validator.validateGetUserPosts(), this.controller.getUserPosts);
-        this.router.get("/users/:userId/comments", this.controller.getUserComments);
+        this.router.get("/users/:userId/posts", this.validator.validateUser(), this.controller.getUserPosts);
+        this.router.get("/users/:userId/comments", this.validator.validateUser(), this.controller.getUserComments);
         this.router.get("/songs", this.controller.getSongs);
         this.router.get("/songs/:songId", this.validator.validateSong(), this.controller.getSong);
         this.router.get("/songs/:songId/posts", this.validator.validateGetSongPosts(), this.controller.getSongPosts);
