@@ -285,13 +285,13 @@ export class Controller {
         if (!errors.isEmpty()) {
             res.status(422).json({ errors: errors.array() });
         } else if (Object.keys(req.body).length) {
-            const values = {
+            const values: {[key: string]: any[]} = {
                 firstName: req.body.firstName,
                 lastName: req.body.lastName,
                 username: req.body.username
             };
             console.log(values);
-            for (let v in values) {
+            for (const v in values) {
                 if (!values[v]) {
                     delete values[v];
                 }
@@ -317,13 +317,13 @@ export class Controller {
         if (!errors.isEmpty()) {
             res.status(422).json({ errors: errors.array() });
         } else if (Object.keys(req.body).length) {
-            const values = {
+            const values: {[key: string]: any[]} = {
                 artist: req.body.artist,
                 lyrics: req.body.lyrics,
                 title: req.body.title
             };
 
-            for (let v in values) {
+            for (const v in values) {
                 if (!values[v]) {
                     delete values[v];
                 }
