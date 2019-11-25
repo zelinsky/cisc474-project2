@@ -7,6 +7,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PostComponent implements OnInit {
 
+  makeComment() {
+    window.alert('You have made a comment!');
+  }
+
   constructor() { }
 
   ngOnInit() {
