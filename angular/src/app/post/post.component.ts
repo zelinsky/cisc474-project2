@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ApiService } from '../api.service';
 
 @Component({
   selector: 'app-post',
@@ -7,9 +8,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PostComponent implements OnInit {
 
-  constructor() { }
+  posts;
+
+  makeComment() {
+    window.alert('You have made a comment!');
+  }
+
+  constructor(private apiService: ApiService) { }
 
   ngOnInit() {
+    this.apiService.getPosts().subscribe((data) => {
+      console.log(data);
+      this.posts = data;
+    });
   }
 
 }
