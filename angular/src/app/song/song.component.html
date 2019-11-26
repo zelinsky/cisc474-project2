@@ -1,5 +1,11 @@
-<p>song works!</p>
-<div *ngFor="let song of songs">
-    <h1>{{song.title}}</h1>
-    <h4>{{song.artist}}</h4>
+<div class="row">
+    <div class="col-sm-6" *ngFor="let song of songs">
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">{{song.title}}</h5>
+                <p class="card-text">{{song.artist}}</p>
+                <a href="#" class="btn btn-outline-success my-2 my-sm-0">Checkout Song</a>
+            </div>
+        </div>
+    </div>
 </div>

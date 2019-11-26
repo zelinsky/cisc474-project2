@@ -3,11 +3,28 @@
   <img class="splash" src="assets/images/headphone_ideas.svg">
 </div>
 <h1>Most Recent Posts</h1>
-<div *ngFor="let post of posts">
-    <h4>{{post.content.content}}</h4>
+
+<div class="row">
+    <div class="col-sm-6" *ngFor="let post of posts">
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <h4>{{post.content.content}}</h4>
+                <a href="#" class="btn btn-outline-success my-2 my-sm-0">Checkout Song</a>
+            </div>
+        </div>
+    </div>
 </div>
+
 <h1>Most Recently Added Songs</h1>
-<div *ngFor="let song of songs">
-    <h3>{{song.title}}</h3>
-    <h5>{{song.artist}}</h5>
+
+<div class="row">
+    <div class="col-sm-6" *ngFor="let song of songs">
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">{{song.title}}</h5>
+                <p class="card-text">{{song.artist}}</p>
+                <a href="#" class="btn btn-outline-success my-2 my-sm-0">Checkout Song</a>
+            </div>
+        </div>
+    </div>
 </div>
