@@ -1,7 +1,9 @@
 import express from "express";
 import { validationResult } from "express-validator";
+import { AuthController} from "./auth-controller"; 
 
 export class Controller {
+    public auth: AuthController = new AuthController(); 
     // GET
     public getUsers(req: express.Request, res: express.Response): void {
         req.app.locals.db.collection("users").find().toArray(function(err: any, results: any) {
@@ -103,6 +105,14 @@ export class Controller {
         res.send("POST COMMENT UNDER POST " + req.params.postID);
     }
 
+    public login(req: express.Request, res: express.Response): void{ 
+        this.auth.register(req, res); 
+    }
+
+    public register(req: express.Request, res: express.Response): void{ 
+        console.log('callllled'); 
+        this.auth.register(req, res); 
+    }
     // PUT
     public putUser(req: express.Request, res: express.Response): void {
         res.send("PUT USER " + req.params.userId);
