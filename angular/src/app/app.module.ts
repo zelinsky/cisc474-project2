@@ -1,5 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -9,6 +12,8 @@ import { ProfileComponent } from './profile/profile.component';
 import { SongComponent } from './song/song.component';
 import { PostComponent } from './post/post.component';
 import { HttpClientModule } from '@angular/common/http';
+import { NewSongComponent } from './new-song/new-song.component';
+
 
 
 @NgModule({
@@ -18,12 +23,15 @@ import { HttpClientModule } from '@angular/common/http';
     MenuComponent,
     ProfileComponent,
     SongComponent,
-    PostComponent
+    PostComponent,
+    NewSongComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    CommonModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
