@@ -4,7 +4,7 @@
             <div class="card-body">
                 <h5 class="card-title">{{song.title}}</h5>
                 <p class="card-text">{{song.artist}}</p>
-                <a href="#" class="btn btn-outline-success my-2 my-sm-0">Checkout Song</a>
+                <a [routerLink]="['/song', song._id]" class="btn btn-outline-success my-2 my-sm-0">Checkout Song</a>
             </div>
         </div>
     </div>
