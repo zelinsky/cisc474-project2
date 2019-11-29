@@ -11,6 +11,7 @@ import { ActivatedRoute } from '@angular/router';
 export class SongComponent implements OnInit {
 
   song;
+  posts;
 
   constructor(
     private route: ActivatedRoute,
@@ -19,6 +20,7 @@ export class SongComponent implements OnInit {
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       this.getSongByID(params.get('songID'))
+      this.getPostsBySongID(params.get('songID'))
     });
   }
 
@@ -26,6 +28,12 @@ export class SongComponent implements OnInit {
     this.api.getSongByID(songID).subscribe((data) => {
       console.log(data);
       this.song = data;
+    });
+  }
+  getPostsBySongID(songID: string) {
+    this.api.getPostsBySongID(songID).subscribe((data) => {
+      console.log(data);
+      this.posts = data;
     });
   }
 }

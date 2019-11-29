@@ -9,7 +9,7 @@
         <div class="card" style="width: 18rem;">
             <div class="card-body">
                 <h4>{{post.content.content}}</h4>
-                <a href="#" class="btn btn-outline-success my-2 my-sm-0">Checkout Song</a>
+                <a [routerLink]="['/song', post.songId]" class="btn btn-outline-success my-2 my-sm-0">Checkout Song</a>
             </div>
         </div>
     </div>

@@ -1,5 +1,18 @@
-<div *ngIf="song">
-    <h1>{{song.title}}</h1>
-    <h3>{{song.artist}}</h3>
-    <p>{{song.lyrics}}</p>
+<div class="row">
+    <div class="col-xl-1" *ngIf="song">
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <h1>{{song.title}}</h1>
+                <h3>{{song.artist}}</h3>
+                <h6>{{song.lyrics}}</h6>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6" *ngFor="let post of posts">
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <p>{{post.content.content}}</p>
+            </div>
+        </div>
+    </div>
 </div>

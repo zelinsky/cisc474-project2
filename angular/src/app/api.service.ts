@@ -13,6 +13,9 @@ export class ApiService {
   public getPosts() {
     return this.httpClient.get(`${this.API_URL}/api/posts`);
   }
+  public getPostsBySongID(songID: string) {
+    return this.httpClient.get(`${this.API_URL}/api/songs/${songID}/posts`);
+  }
   public getSongs() {
     return this.httpClient.get(`${this.API_URL}/api/songs`);
   }
