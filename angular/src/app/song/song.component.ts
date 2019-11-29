@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../api.service';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -9,15 +10,30 @@ import { ApiService } from '../api.service';
 })
 export class SongComponent implements OnInit {
 
-  songs;
+  song;
+  posts;
 
-  constructor(private apiService: ApiService) { }
+  constructor(
+    private route: ActivatedRoute,
+    private api: ApiService) { }
 
   ngOnInit() {
-    this.apiService.getSongs().subscribe((data) => {
-      console.log(data);
-      this.songs = data;
+    this.route.paramMap.subscribe(params => {
+      this.getSongByID(params.get('songID'))
+      this.getPostsBySongID(params.get('songID'))
     });
   }
 
+  getSongByID(songID: string) {
+    this.api.getSongByID(songID).subscribe((data) => {
+      console.log(data);
+      this.song = data;
+    });
+  }
+  getPostsBySongID(songID: string) {
+    this.api.getPostsBySongID(songID).subscribe((data) => {
+      console.log(data);
+      this.posts = data;
+    });
+  }
 }
