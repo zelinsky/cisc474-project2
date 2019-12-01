@@ -93,6 +93,7 @@ export class AuthController{
     }
     public test = (req: express.Request, res: express.Response) => { 
         let resp: string = req.body.test; 
+        console.log(req); 
         return res.status(200).json({jimmy: resp}); 
     }
 }
