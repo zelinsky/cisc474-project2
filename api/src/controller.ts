@@ -229,7 +229,7 @@ export class Controller {
         } else {
             const { title, artist, lyrics } = req.body;
             const doc = { title, artist, lyrics };
-
+            
             req.app.locals.db.collection("songs").insertOne(doc, function(err: any, response: any) {
                 if (err) { // Handle errors here
                     res.sendStatus(500);
@@ -245,10 +245,11 @@ export class Controller {
         if (!errors.isEmpty()) {
             res.status(422).json({ errors: errors.array() });
         } else {
-            const token = { userId: new ObjectID("5db72ec8d6e7710abea573bd") };
+            //const token = { userId: new ObjectID("5db72ec8d6e7710abea573bd") };
             const content = this.makeContent(req);
-            const doc = { songId: req.params.songId, userId: token.userId, content };
-
+            
+            const doc = { songId: req.params.songId, userId: req.user._id, content };
+            //console.log(doc); 
             req.app.locals.db.collection("posts").insertOne(doc, function(err: any, response: any) {
                 if (err) { // Handle errors here
                     res.sendStatus(500);
@@ -264,9 +265,9 @@ export class Controller {
         if (!errors.isEmpty()) {
             res.status(422).json({ errors: errors.array() });
         } else {
-            const token = { userId: new ObjectID("5db72ec8d6e7710abea573bd") };
+            //const token = { userId: new ObjectID("5db72ec8d6e7710abea573bd") };
             const {content} = req.body;
-            const doc = { postId: req.params.postId, userId: token.userId, content };
+            const doc = { postId: req.params.postId, userId: req.user._id, content };
 
             req.app.locals.db.collection("comments").insertOne(doc, function(err: any, response: any) {
                 if (err) { // Handle errors here

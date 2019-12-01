@@ -2,11 +2,14 @@ import express from "express";
 import multer from "multer";
 import { Controller } from "./controller";
 import { Validator } from "./validator";
-
+import { AuthController } from "./auth-controller";
+import { PassportService} from "./passport-Service"; 
 export class ApiRouter {
     private router: express.Router = express.Router();
     private controller: Controller = new Controller();
     private validator: Validator = new Validator();
+    private auth: AuthController = new AuthController(); 
+    private passportService: PassportService = new PassportService();
 
     private storage: multer.StorageEngine = multer.diskStorage({
         destination(req, file, cb) {
@@ -46,10 +49,15 @@ export class ApiRouter {
         // POST
         this.router.post("/users", this.validator.validatePostUser(), this.controller.postUser);
         this.router.post("/songs", this.validator.validatePostSong(), this.controller.postSong);
-        this.router.post("/songs/:songId/posts", this.upload.single("image"),
+        this.router.post("/songs/:songId/posts", this.passportService.requireAuth, this.upload.single("image"),
         this.validator.validatePostPost(), this.controller.postPost.bind(this.controller));
-        this.router.post("/posts/:postId/comments", this.validator.validatePostComment(), this.controller.postComment);
-
+        this.router.post("/posts/:postId/comments", this.passportService.requireAuth, this.validator.validatePostComment(), this.controller.postComment);
+        this.router.post("/login", (req: express.Request, res: express.Response) => { 
+            this.auth.login(req, res); 
+        });
+        this.router.post("/register", (req: express.Request, res: express.Response) => { 
+            this.auth.register(req, res); 
+        }); 
         // PUT
         this.router.put("/users/:userId", this.validator.validatePutUser(), this.controller.putUser);
         this.router.put("/songs/:songId", this.validator.validatePutSong(), this.controller.putSong);
