@@ -9,7 +9,8 @@ const JwtOptions = {
     secretOrKey: "SuperSecretKeyzz" 
 };
 const JwtLogin = new JwtStrategy(JwtOptions, function(payload: Object, callback: any){
-    
+    console.log(payload);
+    console.log(callback); 
     callback(null, payload); 
     
 });
