@@ -1,3 +1,16 @@
+<div class="container">
+    <h1>Make a Post</h1>
+    <form #myform="ngForm" (ngSubmit)="newPost(myform)"  class="was-validated">
+          <div class="form-group">
+            <label for="postText">Post:</label>
+            <textarea class="form-control" rows="10" id="postText" placeholder="Enter your post" name="content" ngModel required></textarea>
+            <div class="valid-feedback"></div>
+            <div class="invalid-feedback">Please fill out this field</div>
+          </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+</div>
+
 <div class="row">
     <div class="col-xl-1" *ngIf="song">
         <div class="card" style="width: 18rem;">

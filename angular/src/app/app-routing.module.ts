@@ -9,6 +9,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { NewSongComponent } from './new-song/new-song.component';
 
 
+
 const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
   {path: 'home', component: HomeComponent},
