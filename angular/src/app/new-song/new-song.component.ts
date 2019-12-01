@@ -10,6 +10,8 @@ import { Router} from '@angular/router';
 })
 export class NewSongComponent implements OnInit {
 
+  song;
+
   constructor(private apiService: ApiService, private router: Router) { }
 
   ngOnInit() {
@@ -19,7 +21,8 @@ export class NewSongComponent implements OnInit {
     // this.apiService.postSong(form.value);
     if (form.form.status === 'VALID') {
       this.apiService.postSong(form.value).subscribe(data => {
-        this.router.navigate(['song', data._id]);
+        this.song = data;
+        this.router.navigate(['song', this.song._id]);
       });
     }
 

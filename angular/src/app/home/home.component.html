@@ -8,7 +8,10 @@
     <div class="col-sm-6" *ngFor="let post of posts">
         <div class="card" style="width: 18rem;">
             <div class="card-body">
-                <h4>{{post.content.content}}</h4>
+                <h3>{{post.content.content}}</h3>
+                <h5>{{post.songId}}</h5>
+                <h6>'yeet skeet parakeet'</h6>
+                <h6>getUsernameByID({{post.userId}})</h6>
                 <a [routerLink]="['/song', post.songId]" class="btn btn-outline-success my-2 my-sm-0">Checkout Song</a>
             </div>
         </div>
