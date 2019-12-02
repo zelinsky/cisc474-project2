@@ -23,7 +23,6 @@ export class SongComponent implements OnInit {
       this.getPostsBySongID(params.get('songID'))
     });
   }
-
   getSongByID(songID: string) {
     this.api.getSongByID(songID).subscribe((data) => {
       console.log(data);

@@ -12,7 +12,7 @@ export class HomeComponent implements OnInit {
   songs;
   users;
 
-  constructor(private apiService: ApiService) { }
+  constructor(private api: ApiService) { }
 
   ngOnInit() {
     this.getPosts();
@@ -20,28 +20,31 @@ export class HomeComponent implements OnInit {
     this.getUsers();
   }
 
-  getUsernameByID(userID: string) {
-    this.apiService.getUserByID(userID).subscribe((data) => {
+  getSongByID(songID: string) {
+    this.api.getSongByID(songID).subscribe((data) => {
+      return data;
+    });
+  }
+  getUserByID(userID: string) {
+    this.api.getUserByID(userID).subscribe((data) => {
       console.log(data);
-      let user : any;
-      user = data;
-      return user.username;
+      return data;
     });
   }
   getUsers() {
-    this.apiService.getUsers().subscribe((data) => {
+    this.api.getUsers().subscribe((data) => {
       console.log(data);
       this.users = data;
     });
   }
   getPosts() {
-    this.apiService.getPosts().subscribe((data) => {
+    this.api.getPosts().subscribe((data) => {
       console.log(data);
       this.posts = data;
     });
   }
   getSongs() {
-    this.apiService.getSongs().subscribe((data) => {
+    this.api.getSongs().subscribe((data) => {
       console.log(data);
       this.songs = data;
     });
