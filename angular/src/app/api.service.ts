@@ -26,6 +26,9 @@ export class ApiService {
     return this.httpClient.post(`${this.API_URL}/api/songs`, song);
   }
   public postPost(songId: string, post: object) {
-    return this.httpClient.post(`${this.API_URL}/api/songs/${songId}/posts`, post);
+    return this.httpClient.post(`${this.API_URL}/api/songs/${songId}/posts`, post, {
+      reportProgress: true,
+      observe: 'events'
+    });
   }
 }
