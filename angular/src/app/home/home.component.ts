@@ -10,8 +10,8 @@ import { stringify } from 'querystring';
 export class HomeComponent implements OnInit {
 
   posts : Array<any>;
-  postsArray : Array<[string,any]>;
-  songs;
+  // postsArray : Array<[string,any]>;
+  songs : Array<any>;
   users : Array<any>;
 
   constructor(private api: ApiService) { }
@@ -20,7 +20,7 @@ export class HomeComponent implements OnInit {
     // this.getPostsArray();
     this.getPosts();
     this.getSongs();
-    this.getUsers();
+    // this.getUsers();
     // console.log(this.getUsernameByID("5dd83005eb8d8530605a33c5"));
     // console.log("shits and gigs");
     // console.log(this.posts);
@@ -31,19 +31,18 @@ export class HomeComponent implements OnInit {
       return data;
     });
   }
-  // getUsernameByID(userID: string) {
-  //   this.api.getUserByID(userID).subscribe((data) => {
-  //     console.log(data);
-  //     let curUsername = data.username as string;
-  //     return curUsername;
-  //   });
-  // }
-  getUsers() {
-    this.api.getUsers().subscribe((data) => {
+  getUserByID(userID: string) {
+    this.api.getUserByID(userID).subscribe((data) => {
       console.log(data);
-      this.users = data as Array<any>;
+      this.users.push(data);
     });
   }
+  // getUsers() {
+  //   this.api.getUsers().subscribe((data) => {
+  //     console.log(data);
+  //     this.users = data as Array<any>;
+  //   });
+  // }
   // getPostsArray() {
   //   this.api.getPosts().subscribe((data) => {
   //     console.log(data);
@@ -59,6 +58,9 @@ export class HomeComponent implements OnInit {
     this.api.getPosts().subscribe((data) => {
       console.log(data);
       this.posts = data as Array<any>;
+      for (let i = 0; i < this.posts.length; i++) {
+        this.getUserByID(this.posts[i].userId);
+      }
     });
   }
   getSongs() {
