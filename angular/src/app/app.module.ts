@@ -14,6 +14,7 @@ import { PostsViewComponent } from './posts-view/posts-view.component';
 import { PostComponent } from './post/post.component';
 import { HttpClientModule } from '@angular/common/http';
 import { NewSongComponent } from './new-song/new-song.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { NewSongComponent } from './new-song/new-song.component';
     HttpClientModule,
     CommonModule,
     FormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
