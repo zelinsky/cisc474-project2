@@ -1,15 +1,36 @@
-<div class="container">
-    <h1>Make a Post</h1>
-    <form #myform="ngForm" (ngSubmit)="newPost(myform)"  class="was-validated">
-          <div class="form-group">
+<div *ngIf="status === 'ok'" class="alert alert-success"> Post Submitted Succesfuly!</div>
+<div *ngIf="status === 'fail'" class="alert alert-danger"> Post Submission Failed!</div>
+
+<button (click)=toggleForm() class="btn btn-outline-success my-2 my-sm-0">{{formButtonText}}</button>
+
+<div *ngIf="showForm" class="container">
+    Post type: <button (click)=toggleFormType() class="btn btn-outline-success my-2 my-sm-0">{{formType}}</button>
+</div>
+
+<div *ngIf="showForm && textFormDisplay" class="container">
+    TEXT
+    <form #textForm="ngForm" (ngSubmit)="newTextPost(textForm)" class="was-validated">
+        <div class="form-group">
             <label for="postText">Post:</label>
-            <textarea class="form-control" rows="10" id="postText" placeholder="Enter your post" name="content" ngModel required></textarea>
+            <textarea class="form-control" rows="10" id="postText" placeholder="Enter your post" name="content" ngModel
+                required></textarea>
             <div class="valid-feedback"></div>
             <div class="invalid-feedback">Please fill out this field</div>
-          </div>
+        </div>
         <button type="submit" class="btn btn-primary">Submit</button>
-      </form>
+    </form>
 </div>
+
+<div *ngIf="showForm && !textFormDisplay" class="container">
+    IMAGE
+    <label class="image-upload-container btn btn-bwm">
+        <span>Select Image</span>
+        <input #imageInput type="file" accept="image/*">
+    </label>
+    <button (click)="processFile(imageInput)" type="submit" class="btn btn-primary">Submit</button>
+</div>
+
+
 
 <div class="row">
     <div class="col-xl-1" *ngIf="song">
