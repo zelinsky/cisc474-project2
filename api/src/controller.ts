@@ -2,7 +2,7 @@ import express from "express";
 import { validationResult } from "express-validator";
 import fs from "fs";
 import { ObjectID } from "mongodb";
-
+import {IGetUserAuthInfoRequest, User} from "./helpers"; 
 export class Controller {
 
     public makeContent(req: express.Request) {
@@ -229,7 +229,7 @@ export class Controller {
         } else {
             const { title, artist, lyrics } = req.body;
             const doc = { title, artist, lyrics };
-            
+
             req.app.locals.db.collection("songs").insertOne(doc, function(err: any, response: any) {
                 if (err) { // Handle errors here
                     res.sendStatus(500);
@@ -240,16 +240,17 @@ export class Controller {
         }
     }
 
-    public postPost(req: express.Request, res: express.Response): void {
+    public postPost(reqs: express.Request, res: express.Response): void {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             res.status(422).json({ errors: errors.array() });
         } else {
-            //const token = { userId: new ObjectID("5db72ec8d6e7710abea573bd") };
-            const content = this.makeContent(req);
-            
-            const doc = { songId: req.params.songId, userId: req.user._id, content };
-            //console.log(doc); 
+            // const token = { userId: new ObjectID("5db72ec8d6e7710abea573bd") };
+            const content = this.makeContent(reqs);
+            var req: IGetUserAuthInfoRequest = reqs as IGetUserAuthInfoRequest; 
+            let user: User = req.user as User; 
+            const doc = { songId: req.params.songId, userId: user._id, content };
+            // console.log(doc);
             req.app.locals.db.collection("posts").insertOne(doc, function(err: any, response: any) {
                 if (err) { // Handle errors here
                     res.sendStatus(500);
@@ -260,14 +261,16 @@ export class Controller {
         }
     }
 
-    public postComment(req: express.Request, res: express.Response): void {
-        const errors = validationResult(req);
+    public postComment(reqs: express.Request, res: express.Response): void {
+        const errors = validationResult(reqs);
         if (!errors.isEmpty()) {
             res.status(422).json({ errors: errors.array() });
         } else {
-            //const token = { userId: new ObjectID("5db72ec8d6e7710abea573bd") };
+            // const token = { userId: new ObjectID("5db72ec8d6e7710abea573bd") };
+            var req: IGetUserAuthInfoRequest = reqs as IGetUserAuthInfoRequest; 
             const {content} = req.body;
-            const doc = { postId: req.params.postId, userId: req.user._id, content };
+            let user: User = req.user as User; 
+            const doc = { postId: req.params.postId, userId: user._id, content };
 
             req.app.locals.db.collection("comments").insertOne(doc, function(err: any, response: any) {
                 if (err) { // Handle errors here

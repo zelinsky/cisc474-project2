@@ -4,6 +4,8 @@
   "description": "",
   "main": "dist/server.js",
   "dependencies": {
+    "@types/bcrypt": "^3.0.0",
+    "@types/jsonwebtoken": "^8.3.5",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
@@ -31,7 +33,7 @@
     "clean": "rimraf dist/*",
     "lint": "tslint -c tslint.json -p tsconfig.json --fix",
     "tsc": "tsc",
-    "build": "npm-run-all clean lint tsc",
+    "build": "npm-run-all clean tsc",
     "dev-deb": "ts-node-dev --respawn --transpileOnly --nolazy --inspect-brk=5858 ./src/server.ts",
     "dev": "ts-node-dev --respawn --transpileOnly ./src/server.ts",
     "prod": "npm-run-all build start",
