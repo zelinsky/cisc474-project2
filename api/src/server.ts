@@ -1,7 +1,7 @@
 import bodyParser from "body-parser";
 import express from "express";
-import {MongoClient} from "mongodb";
-import {ApiRouter} from "./router";
+import { MongoClient } from "mongodb";
+import { ApiRouter } from "./router";
 
 class Application {
     public app: express.Application;
@@ -26,13 +26,13 @@ class Application {
         const databaseName: string = "project-db";
         const databaseUrl: string = "127.0.0.1:27017";
         MongoClient.connect("mongodb://" + databaseUrl,
-            { useUnifiedTopology: true, useNewUrlParser: true }, function(err, client) {
-            if (err) {
-                return console.log(err);
-            }
-            self.app.locals.db = client.db(databaseName);
-            console.log("Connected to MongoDb database " + databaseName + " at " + databaseUrl);
-        });
+            { useUnifiedTopology: true, useNewUrlParser: true }, function (err, client) {
+                if (err) {
+                    return console.log(err);
+                }
+                self.app.locals.db = client.db(databaseName);
+                console.log("Connected to MongoDb database " + databaseName + " at " + databaseUrl);
+            });
     }
 
     // sets up to allow cross-origin support from any host.  You can change the options to limit who can access the api.
@@ -40,7 +40,7 @@ class Application {
     // but should be setup correctly anyway.  Without this, angular would not be able to access the api it it is on
     // another server.
     public initCors(): void {
-        this.app.use(function(req: express.Request, res: express.Response, next: any) {
+        this.app.use(function (req: express.Request, res: express.Response, next: any) {
             res.header("Access-Control-Allow-Origin", "*");
             res.header("Access-Control-Allow-Methods", "PUT, GET, POST, DELETE, OPTIONS");
             res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization, Access-Control-Allow-Credentials");
@@ -51,6 +51,7 @@ class Application {
     // setup routes for the express server
     public buildRoutes(): void {
         this.app.use("/api", new ApiRouter().getRouter());
+        this.app.use(express.static(__dirname + "/public"));
     }
 }
 const app = new Application();
