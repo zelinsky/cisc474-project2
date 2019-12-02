@@ -14,7 +14,7 @@ export class ApiRouter {
 
     private storage: multer.StorageEngine = multer.diskStorage({
         destination(req, file, cb) {
-            cb(null, "uploads");
+            cb(null, "public/uploads");
         },
         filename(req, file, cb) {
             cb(null, Date.now() + "_" + file.originalname);
