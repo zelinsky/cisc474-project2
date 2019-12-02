@@ -3,6 +3,13 @@ import { ApiService } from '../api.service';
 import { ActivatedRoute } from '@angular/router';
 
 
+class ImageSnippet {
+
+  pending = false;
+
+  constructor(public src: string, public file: File) {}
+}
+
 @Component({
   selector: 'app-song',
   templateUrl: './song.component.html',
@@ -16,7 +23,9 @@ export class SongComponent implements OnInit {
   formButtonText = 'Make a Post';
   textFormDisplay = true;
   formType = 'Text';
-  selectedFile: File;
+  status = 'init';
+
+  selectedFile: ImageSnippet;
 
   constructor(
     private route: ActivatedRoute,
@@ -29,16 +38,41 @@ export class SongComponent implements OnInit {
     });
   }
 
-  onFileChanged(event) {
-    this.selectedFile = event.target.files[0];
+  private onSuccess() {
+    this.status = 'ok';
+    this.toggleForm();
+    this.ngOnInit();
   }
 
-  onUpload() {
-    const uploadData = new FormData();
-    uploadData.append('image', this.selectedFile, this.selectedFile.name);
-    this.api.postPost(this.song._id, uploadData).subscribe(data => {
-      console.log(data);
+  private onError() {
+    this.status = 'fail';
+  }
+
+  processFile(imageInput: any) {
+    const file: File = imageInput.files[0];
+    const reader = new FileReader();
+
+    reader.addEventListener('load', (event: any) => {
+
+      this.selectedFile = new ImageSnippet(event.target.result, file);
+      const formData = new FormData();
+      formData.append('image', this.selectedFile.file, this.selectedFile.file.name);
+
+      this.api.postPost(this.song._id, formData).subscribe(
+        (res) => {
+          this.selectedFile.pending = false;
+          this.selectedFile.src = '';
+          this.onSuccess();
+        },
+        (err) => {
+          this.selectedFile.pending = false;
+          this.selectedFile.src = '';
+          this.onError();
+        });
     });
+    if (file) {
+    reader.readAsDataURL(file);
+    }
   }
 
   toggleForm() {
@@ -76,6 +110,7 @@ export class SongComponent implements OnInit {
     // this.apiService.postSong(form.value);
     if (form.form.status === 'VALID') {
       this.api.postPost(this.song._id, form.value).subscribe(data => {
+        this.onSuccess();
         console.log(data);
       });
     }
