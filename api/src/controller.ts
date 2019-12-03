@@ -241,9 +241,9 @@ export class Controller {
     }
 
     public postPost(reqs: express.Request, res: express.Response): void {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            res.status(422).json({ errors: errors.array() });
+        //const errors = validationResult(req);
+        if (false){//)!errors.isEmpty()) {
+            //res.status(422).json({ errors: errors.array() });
         } else {
 
             // const token = { userId: new ObjectID("5db72ec8d6e7710abea573bd") };
