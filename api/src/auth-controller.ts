@@ -44,7 +44,7 @@ export class AuthController {
                 bcrypt.genSalt(SALT_FACTOR, (err: Error, salt: string) => {
                     if (err) { return err; }
 
-                    bcrypt.hash(newUser.password, salt, (err: Error, hash: string) => {
+                    bcrypt.hash(newUser.password, salt, null, (err: Error, hash: string) => {
                         if (err) { return err; }
                         newUser.password = hash;
                         req.app.locals.db.collection("users").insertOne(newUser);
