@@ -25,4 +25,10 @@ export class ApiService {
   public postSong(song: object) {
     return this.httpClient.post(`${this.API_URL}/api/songs`, song);
   }
+  public getPostsByUserID(UserId: string) {
+    return this.httpClient.get(`${this.API_URL}/api/user/${UserId}/posts`);
+  }
+  public getPostsByComments(UserId: string) {
+    return this.httpClient.get(`${this.API_URL}/api/user/${UserId}/comments`);
+  }
 }
