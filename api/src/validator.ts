@@ -35,7 +35,8 @@ export class Validator {
   public validatePostPost() {
     return [
       // body("content", "Cannot be empty").not().isEmpty(),
-      param("songId", "Invalid MongoId").isMongoId().bail().customSanitizer(this.toMongoId)
+      param("songId", "Invalid MongoId").isMongoId().bail().customSanitizer(this.toMongoId),
+      param("title").not().isEmpty()
     ];
   }
 
