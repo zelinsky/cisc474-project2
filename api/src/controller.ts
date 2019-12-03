@@ -2,7 +2,7 @@ import express from "express";
 import { validationResult } from "express-validator";
 import fs from "fs";
 import { ObjectID } from "mongodb";
-import {IGetUserAuthInfoRequest, User} from "./helpers"; 
+import { IGetUserAuthInfoRequest, User } from "./helpers";
 export class Controller {
 
     public makeContent(req: express.Request) {
@@ -27,7 +27,7 @@ export class Controller {
     // GET
 
     public getUsers(req: express.Request, res: express.Response): void {
-        req.app.locals.db.collection("users").find().toArray(function(err: any, results: any) {
+        req.app.locals.db.collection("users").find().toArray(function (err: any, results: any) {
             if (err) {
                 res.sendStatus(500);
             } else {
@@ -42,7 +42,7 @@ export class Controller {
             res.status(422).json({ errors: errors.array() });
         } else {
             req.app.locals.db.collection("users").findOne({ _id: req.params.userId },
-                function(err: any, result: any) {
+                function (err: any, result: any) {
                     if (err) {
                         res.sendStatus(500);
                     } else if (result) {
@@ -60,7 +60,7 @@ export class Controller {
             res.status(422).json({ errors: errors.array() });
         } else {
             req.app.locals.db.collection("posts").find({ userId: req.params.userId }).
-                toArray(function(err: any, results: any) {
+                toArray(function (err: any, results: any) {
                     if (err) {
                         res.sendStatus(500);
                     } else {
@@ -76,7 +76,7 @@ export class Controller {
             res.status(422).json({ errors: errors.array() });
         } else {
             req.app.locals.db.collection("comments").find({ userId: req.params.userId }).
-                toArray(function(err: any, results: any) {
+                toArray(function (err: any, results: any) {
                     if (err) {
                         res.sendStatus(500);
                     } else {
@@ -87,7 +87,7 @@ export class Controller {
     }
 
     public getSongs(req: express.Request, res: express.Response): void {
-        req.app.locals.db.collection("songs").find().toArray(function(err: any, results: any) {
+        req.app.locals.db.collection("songs").find().toArray(function (err: any, results: any) {
             if (err) {
                 res.sendStatus(500);
             } else {
@@ -102,7 +102,7 @@ export class Controller {
             res.status(422).json({ errors: errors.array() });
         } else {
             req.app.locals.db.collection("songs").findOne({ _id: req.params.songId },
-                function(err: any, result: any) {
+                function (err: any, result: any) {
                     if (err) {
                         res.sendStatus(500);
                     } else if (result) {
@@ -120,10 +120,17 @@ export class Controller {
             res.status(422).json({ errors: errors.array() });
         } else {
             req.app.locals.db.collection("posts").find({ songId: req.params.songId }).
-                toArray(function(err: any, results: any) {
+                toArray(async function(err: any, results: any) {
                     if (err) {
                         res.sendStatus(500);
                     } else {
+                        const promises = results.map(async (result: any) => {
+                            const songResult = await req.app.locals.db.collection("songs").findOne({ _id: result.songId });
+                            const userResult = await req.app.locals.db.collection("users").findOne({ _id: result.userId });
+                            result.song = songResult;
+                            result.user = userResult;
+                        });
+                        await Promise.all(promises);
                         res.json(results);
                     }
                 });
@@ -131,12 +138,20 @@ export class Controller {
     }
 
     public getPosts(req: express.Request, res: express.Response): void {
-        req.app.locals.db.collection("posts").find().toArray(function(err: any, results: any) {
+        req.app.locals.db.collection("posts").find().toArray(async function(err: any, results: any) {
             if (err) {
                 res.sendStatus(500);
             } else {
+                const promises = results.map(async (result: any) => {
+                    const songResult = await req.app.locals.db.collection("songs").findOne({ _id: result.songId });
+                    const userResult = await req.app.locals.db.collection("users").findOne({ _id: result.userId });
+                    result.song = songResult;
+                    result.user = userResult;
+                });
+                await Promise.all(promises);
                 res.json(results);
             }
+
         });
     }
 
@@ -146,10 +161,14 @@ export class Controller {
             res.status(422).json({ errors: errors.array() });
         } else {
             req.app.locals.db.collection("posts").findOne({ _id: req.params.postId },
-                function(err: any, result: any) {
+                async function (err: any, result: any) {
                     if (err) {
                         res.sendStatus(500);
                     } else if (result) {
+                        const songResult = await req.app.locals.db.collection("songs").findOne({ _id: result.songId });
+                        const userResult = await req.app.locals.db.collection("users").findOne({ _id: result.userId });
+                        result.song = songResult;
+                        result.user = userResult;
                         res.json(result);
                     } else {
                         res.sendStatus(404);
@@ -164,10 +183,17 @@ export class Controller {
             res.status(422).json({ errors: errors.array() });
         } else {
             req.app.locals.db.collection("comments").find({ postId: req.params.postId }).
-                toArray(function(err: any, results: any) {
+                toArray(async function (err: any, results: any) {
                     if (err) {
                         res.sendStatus(500);
                     } else {
+                        const promises = results.map(async (result: any) => {
+                            const songResult = await req.app.locals.db.collection("songs").findOne({ _id: result.songId });
+                            const userResult = await req.app.locals.db.collection("users").findOne({ _id: result.userId });
+                            result.song = songResult;
+                            result.user = userResult;
+                        });
+                        await Promise.all(promises);
                         res.json(results);
                     }
                 });
@@ -175,10 +201,17 @@ export class Controller {
     }
 
     public getComments(req: express.Request, res: express.Response): void {
-        req.app.locals.db.collection("comments").find().toArray(function(err: any, results: any) {
+        req.app.locals.db.collection("comments").find().toArray(async function (err: any, results: any) {
             if (err) {
                 res.sendStatus(500);
             } else {
+                const promises = results.map(async (result: any) => {
+                    const songResult = await req.app.locals.db.collection("songs").findOne({ _id: result.songId });
+                    const userResult = await req.app.locals.db.collection("users").findOne({ _id: result.userId });
+                    result.song = songResult;
+                    result.user = userResult;
+                });
+                await Promise.all(promises);
                 res.json(results);
             }
         });
@@ -190,10 +223,14 @@ export class Controller {
             res.status(422).json({ errors: errors.array() });
         } else {
             req.app.locals.db.collection("comments").findOne({ _id: req.params.commentId },
-                function(err: any, result: any) {
+                async function (err: any, result: any) {
                     if (err) {
                         res.sendStatus(500);
                     } else if (result) {
+                        const songResult = await req.app.locals.db.collection("songs").findOne({ _id: result.songId });
+                        const userResult = await req.app.locals.db.collection("users").findOne({ _id: result.userId });
+                        result.song = songResult;
+                        result.user = userResult;
                         res.json(result);
                     } else {
                         res.sendStatus(404);
@@ -212,7 +249,7 @@ export class Controller {
             const { username, firstName, lastName } = req.body;
             const doc = { username, firstName, lastName };
 
-            req.app.locals.db.collection("users").insertOne(doc, function(err: any, response: any) {
+            req.app.locals.db.collection("users").insertOne(doc, function (err: any, response: any) {
                 if (err) { // Handle errors here
                     res.sendStatus(500);
                 } else {  // Success
@@ -230,7 +267,7 @@ export class Controller {
             const { title, artist, lyrics } = req.body;
             const doc = { title, artist, lyrics };
 
-            req.app.locals.db.collection("songs").insertOne(doc, function(err: any, response: any) {
+            req.app.locals.db.collection("songs").insertOne(doc, function (err: any, response: any) {
                 if (err) { // Handle errors here
                     res.sendStatus(500);
                 } else {  // Success
@@ -248,11 +285,11 @@ export class Controller {
 
             // const token = { userId: new ObjectID("5db72ec8d6e7710abea573bd") };
             const content = this.makeContent(reqs);
-            var req: IGetUserAuthInfoRequest = reqs as IGetUserAuthInfoRequest; 
-            let user: User = req.user as User; 
+            var req: IGetUserAuthInfoRequest = reqs as IGetUserAuthInfoRequest;
+            let user: User = req.user as User;
             const doc = { songId: req.params.songId, userId: user._id, content };
             // console.log(doc);
-            req.app.locals.db.collection("posts").insertOne(doc, function(err: any, response: any) {
+            req.app.locals.db.collection("posts").insertOne(doc, function (err: any, response: any) {
                 if (err) { // Handle errors here
                     res.sendStatus(500);
                 } else {  // Success
@@ -269,12 +306,12 @@ export class Controller {
         } else {
 
             // const token = { userId: new ObjectID("5db72ec8d6e7710abea573bd") };
-            var req: IGetUserAuthInfoRequest = reqs as IGetUserAuthInfoRequest; 
-            const {content} = req.body;
-            let user: User = req.user as User; 
+            var req: IGetUserAuthInfoRequest = reqs as IGetUserAuthInfoRequest;
+            const { content } = req.body;
+            let user: User = req.user as User;
             const doc = { postId: req.params.postId, userId: user._id, content };
 
-            req.app.locals.db.collection("comments").insertOne(doc, function(err: any, response: any) {
+            req.app.locals.db.collection("comments").insertOne(doc, function (err: any, response: any) {
                 if (err) { // Handle errors here
                     res.sendStatus(500);
                 } else {  // Success
@@ -286,12 +323,12 @@ export class Controller {
 
     // PUT
     public putUser(req: express.Request, res: express.Response): void {
-       // res.send("PUT USER " + req.params.userId);
+        // res.send("PUT USER " + req.params.userId);
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             res.status(422).json({ errors: errors.array() });
         } else if (Object.keys(req.body).length) {
-            const values: {[key: string]: any[]} = {
+            const values: { [key: string]: any[] } = {
                 firstName: req.body.firstName,
                 lastName: req.body.lastName,
                 username: req.body.username
@@ -306,7 +343,7 @@ export class Controller {
             const newValues = { $set: values };
 
             req.app.locals.db.collection("users").updateOne({ _id: req.params.userId }, newValues,
-                function(err: any, response: any) {
+                function (err: any, response: any) {
                     if (err) {
                         res.sendStatus(500);
                     } else {
@@ -323,7 +360,7 @@ export class Controller {
         if (!errors.isEmpty()) {
             res.status(422).json({ errors: errors.array() });
         } else if (Object.keys(req.body).length) {
-            const values: {[key: string]: any[]} = {
+            const values: { [key: string]: any[] } = {
                 artist: req.body.artist,
                 lyrics: req.body.lyrics,
                 title: req.body.title
@@ -337,7 +374,7 @@ export class Controller {
 
             const newValues = { $set: values };
             req.app.locals.db.collection("songs").updateOne({ _id: req.params.songId }, newValues,
-                function(err: any, response: any) {
+                function (err: any, response: any) {
                     if (err) {
                         res.sendStatus(500);
                     } else {
@@ -357,7 +394,7 @@ export class Controller {
             const content = this.makeContent(req);
             const newValues = { $set: { content } };
             req.app.locals.db.collection("posts").updateOne({ _id: req.params.postId }, newValues,
-                function(err: any, response: any) {
+                function (err: any, response: any) {
                     if (err) {
                         res.sendStatus(500);
                     } else {
@@ -372,10 +409,10 @@ export class Controller {
         if (!errors.isEmpty()) {
             res.status(422).json({ errors: errors.array() });
         } else {
-            const {content} = req.body;
+            const { content } = req.body;
             const newValues = { $set: { content } };
             req.app.locals.db.collection("comments").updateOne({ _id: req.params.commentId }, newValues,
-                function(err: any, response: any) {
+                function (err: any, response: any) {
                     if (err) {
                         res.sendStatus(500);
                     } else {
@@ -392,7 +429,7 @@ export class Controller {
             res.status(422).json({ errors: errors.array() });
         } else {
             req.app.locals.db.collection("users").deleteOne({ _id: req.params.userId },
-                function(err: any, response: any) {
+                function (err: any, response: any) {
                     if (err) {
                         res.sendStatus(500);
                     } else {
@@ -408,7 +445,7 @@ export class Controller {
             res.status(422).json({ errors: errors.array() });
         } else {
             req.app.locals.db.collection("songs").deleteOne({ _id: req.params.songId },
-                function(err: any, response: any) {
+                function (err: any, response: any) {
                     if (err) {
                         res.sendStatus(500);
                     } else {
@@ -424,7 +461,7 @@ export class Controller {
             res.status(422).json({ errors: errors.array() });
         } else {
             req.app.locals.db.collection("posts").deleteOne({ _id: req.params.postId },
-                function(err: any, response: any) {
+                function (err: any, response: any) {
                     if (err) {
                         res.sendStatus(500);
                     } else {
@@ -440,7 +477,7 @@ export class Controller {
             res.status(422).json({ errors: errors.array() });
         } else {
             req.app.locals.db.collection("comments").deleteOne({ _id: req.params.commentId },
-                function(err: any, response: any) {
+                function (err: any, response: any) {
                     if (err) {
                         res.sendStatus(500);
                     } else {
