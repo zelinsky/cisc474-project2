@@ -10,7 +10,7 @@ export class Controller {
             // const img = fs.readFileSync(req.file.path);
             // const encodeImg = img.toString("base64");
             const finalImg = {
-                content: req.file.path, // Buffer.from(encodeImg, "base64")
+                content: req.file.path.replace("public", ""), // Buffer.from(encodeImg, "base64")
                 contentType: req.file.mimetype
             };
             return finalImg;
@@ -120,7 +120,7 @@ export class Controller {
             res.status(422).json({ errors: errors.array() });
         } else {
             req.app.locals.db.collection("posts").find({ songId: req.params.songId }).
-                toArray(async function(err: any, results: any) {
+                toArray(async function (err: any, results: any) {
                     if (err) {
                         res.sendStatus(500);
                     } else {
@@ -138,7 +138,7 @@ export class Controller {
     }
 
     public getPosts(req: express.Request, res: express.Response): void {
-        req.app.locals.db.collection("posts").find().toArray(async function(err: any, results: any) {
+        req.app.locals.db.collection("posts").find().toArray(async function (err: any, results: any) {
             if (err) {
                 res.sendStatus(500);
             } else {
@@ -206,10 +206,13 @@ export class Controller {
                 res.sendStatus(500);
             } else {
                 const promises = results.map(async (result: any) => {
-                    const songResult = await req.app.locals.db.collection("songs").findOne({ _id: result.songId });
+                    const postResult = await req.app.locals.db.collection("posts").findOne({ _id: result.postId });
+                    const songResult = await req.app.locals.db.collection("songs").findOne({ _id: postResult.songId });
+                    postResult.song = songResult;
                     const userResult = await req.app.locals.db.collection("users").findOne({ _id: result.userId });
-                    result.song = songResult;
+                    result.post = postResult;
                     result.user = userResult;
+                    res.json(result);
                 });
                 await Promise.all(promises);
                 res.json(results);
@@ -227,9 +230,11 @@ export class Controller {
                     if (err) {
                         res.sendStatus(500);
                     } else if (result) {
-                        const songResult = await req.app.locals.db.collection("songs").findOne({ _id: result.songId });
+                        const postResult = await req.app.locals.db.collection("posts").findOne({ _id: result.postId });
+                        const songResult = await req.app.locals.db.collection("songs").findOne({ _id: postResult.songId });
+                        postResult.song = songResult;
                         const userResult = await req.app.locals.db.collection("users").findOne({ _id: result.userId });
-                        result.song = songResult;
+                        result.post = postResult;
                         result.user = userResult;
                         res.json(result);
                     } else {
@@ -279,7 +284,7 @@ export class Controller {
 
     public postPost(reqs: express.Request, res: express.Response): void {
         //const errors = validationResult(req);
-        if (false){//)!errors.isEmpty()) {
+        if (false) {//)!errors.isEmpty()) {
             //res.status(422).json({ errors: errors.array() });
         } else {
 
