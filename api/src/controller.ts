@@ -127,6 +127,7 @@ export class Controller {
                         const promises = results.map(async (result: any) => {
                             const songResult = await req.app.locals.db.collection("songs").findOne({ _id: result.songId });
                             const userResult = await req.app.locals.db.collection("users").findOne({ _id: result.userId });
+                            delete userResult.password;
                             result.song = songResult;
                             result.user = userResult;
                         });
@@ -145,6 +146,7 @@ export class Controller {
                 const promises = results.map(async (result: any) => {
                     const songResult = await req.app.locals.db.collection("songs").findOne({ _id: result.songId });
                     const userResult = await req.app.locals.db.collection("users").findOne({ _id: result.userId });
+                    delete userResult.password;
                     result.song = songResult;
                     result.user = userResult;
                 });
@@ -167,6 +169,7 @@ export class Controller {
                     } else if (result) {
                         const songResult = await req.app.locals.db.collection("songs").findOne({ _id: result.songId });
                         const userResult = await req.app.locals.db.collection("users").findOne({ _id: result.userId });
+                        delete userResult.password;
                         result.song = songResult;
                         result.user = userResult;
                         res.json(result);
@@ -190,6 +193,7 @@ export class Controller {
                         const promises = results.map(async (result: any) => {
                             const songResult = await req.app.locals.db.collection("songs").findOne({ _id: result.songId });
                             const userResult = await req.app.locals.db.collection("users").findOne({ _id: result.userId });
+                            delete userResult.password;
                             result.song = songResult;
                             result.user = userResult;
                         });
@@ -212,6 +216,7 @@ export class Controller {
                         postResult.song = songResult;
                     }
                     const userResult = await req.app.locals.db.collection("users").findOne({ _id: result.userId });
+                    delete userResult.password;
                     result.post = postResult;
                     result.user = userResult;
                     res.json(result);
@@ -238,6 +243,7 @@ export class Controller {
                             postResult.song = songResult;
                         }
                         const userResult = await req.app.locals.db.collection("users").findOne({ _id: result.userId });
+                        delete userResult.password;
                         result.post = postResult;
                         result.user = userResult;
                         res.json(result);
