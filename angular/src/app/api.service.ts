@@ -22,6 +22,12 @@ export class ApiService {
   public getSongByID(songID: string) {
     return this.httpClient.get<any>(`${this.API_URL}/api/songs/${songID}`);
   }
+  public getUsers() {
+    return this.httpClient.get(`${this.API_URL}/api/users`);
+  }
+  public getUserByID(userID : string) {
+    return this.httpClient.get(`${this.API_URL}/api/users/${userID}`);
+  }
   public postSong(song: object) {
     return this.httpClient.post(`${this.API_URL}/api/songs`, song);
   }

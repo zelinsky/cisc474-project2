@@ -241,25 +241,18 @@ export class Controller {
     }
 
     public postPost(reqs: express.Request, res: express.Response): void {
-        //const errors = validationResult(req);
-        if (false){//)!errors.isEmpty()) {
-            //res.status(422).json({ errors: errors.array() });
-        } else {
-
-            // const token = { userId: new ObjectID("5db72ec8d6e7710abea573bd") };
-            const content = this.makeContent(reqs);
-            var req: IGetUserAuthInfoRequest = reqs as IGetUserAuthInfoRequest; 
-            let user: User = req.user as User; 
-            const doc = { songId: req.params.songId, userId: user._id, content };
-            // console.log(doc);
-            req.app.locals.db.collection("posts").insertOne(doc, function(err: any, response: any) {
-                if (err) { // Handle errors here
-                    res.sendStatus(500);
-                } else {  // Success
-                    res.json(response.ops[0]); // Respond with created object
-                }
-            });
-        }
+        const content = this.makeContent(reqs);
+        var req: IGetUserAuthInfoRequest = reqs as IGetUserAuthInfoRequest; 
+        let user: User = req.user as User; 
+        const doc = { songId: req.params.songId, userId: user._id, content };
+        // console.log(doc);
+        req.app.locals.db.collection("posts").insertOne(doc, function(err: any, response: any) {
+            if (err) { // Handle errors here
+                res.sendStatus(500);
+            } else {  // Success
+                res.json(response.ops[0]); // Respond with created object
+            }
+        });
     }
 
     public postComment(reqs: express.Request, res: express.Response): void {
