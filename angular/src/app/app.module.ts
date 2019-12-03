@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -14,6 +14,12 @@ import { PostsViewComponent } from './posts-view/posts-view.component';
 import { PostComponent } from './post/post.component';
 import { HttpClientModule } from '@angular/common/http';
 import { NewSongComponent } from './new-song/new-song.component';
+
+
+import {AuthComponent} from './auth/auth.component'; 
+
+import {ModalModule} from './_modal'; 
+
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { LayoutModule } from '@angular/cdk/layout';
@@ -31,6 +37,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatNativeDateModule, MatCardModule } from '@angular/material';
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,7 +48,9 @@ import { MatNativeDateModule, MatCardModule } from '@angular/material';
     SongComponent,
     PostsViewComponent,
     PostComponent,
-    NewSongComponent
+    NewSongComponent, 
+    AuthComponent,
+    
   ],
   imports: [
     BrowserModule,
@@ -49,6 +58,9 @@ import { MatNativeDateModule, MatCardModule } from '@angular/material';
     CommonModule,
     FormsModule,
     AppRoutingModule,
+    
+    ModalModule,
+    ReactiveFormsModule
     FlexLayoutModule,
     BrowserAnimationsModule,
     LayoutModule,
@@ -66,6 +78,12 @@ import { MatNativeDateModule, MatCardModule } from '@angular/material';
 
     MatNativeDateModule
   ],
+  exports: [
+    //NgbModalBackdrop, 
+  ], 
+  entryComponents: [
+    
+  ], 
   providers: [],
   bootstrap: [AppComponent]
 })

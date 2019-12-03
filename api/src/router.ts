@@ -53,7 +53,9 @@ export class ApiRouter {
         this.router.post("/songs/:songId/posts", this.upload.single("image"),
         this.validator.validatePostPost(), this.passportService.requireAuth, this.controller.postPost.bind(this.controller));
 
+
         this.router.post("/posts/:postId/comments", this.validator.validatePostComment(),  this.passportService.requireAuth, this.controller.postComment);
+
         this.router.post("/login", (req: express.Request, res: express.Response) => {
             this.auth.login(req, res);
         });

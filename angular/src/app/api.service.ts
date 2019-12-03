@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { HttpHeaders } from '@angular/common/http'; 
 import { environment } from '../environments/environment';
 import { AbstractJsEmitterVisitor } from '@angular/compiler/src/output/abstract_js_emitter';
+
 
 @Injectable({
   providedIn: 'root'
@@ -27,5 +29,13 @@ export class ApiService {
   }
   public postPost(songId: string, post: any) {
     return this.httpClient.post(`${this.API_URL}/api/songs/${songId}/posts`, post);
+  }
+  public login(username: string, password: string){ 
+    
+    return this.httpClient.post(`${this.API_URL}/api/login`, {'username': username, 'password': password}, {observe: 'response'}); 
+  }
+  public register(username: string, firstName: string, lastName: string, password: string){ 
+    
+    return this.httpClient.post(`${this.API_URL}/api/register`, {'username':username, 'firstName': firstName, "lastName": lastName, "password": password}, {observe: 'response'}); 
   }
 }
