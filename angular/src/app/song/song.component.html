@@ -7,7 +7,7 @@
                 <h6>{{song.lyrics}}</h6>
             </mat-card-content>
             <div *ngFor="let post of posts">
-                <mat-card fxFlex="40%;" fxFlex.xs="80%" >
+                <mat-card fxFlex="40%;" fxFlex.xs="80%">
                     <mat-card-content>
                         <p>{{post.content.content}}</p>
                     </mat-card-content>
@@ -23,16 +23,24 @@
         <button (click)=toggleForm() class="btn btn-outline-success my-2 my-sm-0">{{formButtonText}}</button>
 
         <div *ngIf="showForm" class="container">
-            Post type: <button (click)=toggleFormType() class="btn btn-outline-success my-2 my-sm-0">{{formType}}</button>
+            Post type: <button (click)=toggleFormType()
+                class="btn btn-outline-success my-2 my-sm-0">{{formType}}</button>
         </div>
 
         <div *ngIf="showForm && textFormDisplay" class="container">
             TEXT
             <form #textForm="ngForm" (ngSubmit)="newTextPost(textForm)" class="was-validated">
                 <div class="form-group">
+                    <label for="postTitle">Title:</label>
+                    <input type="text" class="form-control" id="postTitle" placeholder="Enter your post's title"
+                        name="title" ngModel required>
+                    <div class="valid-feedback"></div>
+                    <div class="invalid-feedback">Please fill out this field</div>
+                </div>
+                <div class="form-group">
                     <label for="postText">Post:</label>
-                    <textarea class="form-control" rows="10" id="postText" placeholder="Enter your post" name="content" ngModel
-                        required></textarea>
+                    <textarea class="form-control" rows="10" id="postText" placeholder="Enter your post" name="content"
+                        ngModel required></textarea>
                     <div class="valid-feedback"></div>
                     <div class="invalid-feedback">Please fill out this field</div>
                 </div>
@@ -42,11 +50,22 @@
 
         <div *ngIf="showForm && !textFormDisplay" class="container">
             IMAGE
-            <label class="image-upload-container btn btn-bwm">
-                <span>Select Image</span>
-                <input #imageInput type="file" accept="image/*">
-            </label>
-            <button (click)="processFile(imageInput)" type="submit" class="btn btn-primary">Submit</button>
+            <form #imageForm="ngForm" (ngSubmit)="newImagePost(imageForm)" class="was-validated">
+                <div class="form-group">
+                    <label for="postTitle">Title:</label>
+                    <input type="text" class="form-control" id="postTitle" placeholder="Enter your post's title"
+                        name="title" ngModel required>
+                    <div class="valid-feedback"></div>
+                    <div class="invalid-feedback">Please fill out this field</div>
+                </div>
+                <div class="form-group">
+                    <label class="image-upload-container btn btn-bwm">
+                        <span>Select Image</span>
+                        <input #imageInput type="file" accept="image/*" (change)="processFile(imageInput)">
+                    </label>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
         </div>
     </mat-card>
 </div>

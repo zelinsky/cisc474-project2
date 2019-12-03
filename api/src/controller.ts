@@ -300,9 +300,10 @@ export class Controller {
 
             // const token = { userId: new ObjectID("5db72ec8d6e7710abea573bd") };
             const content = this.makeContent(reqs);
+            const title = reqs.body.title;
             var req: IGetUserAuthInfoRequest = reqs as IGetUserAuthInfoRequest;
             let user: User = req.user as User;
-            const doc = { songId: req.params.songId, userId: new ObjectID(user._id), content };
+            const doc = { songId: req.params.songId, userId: new ObjectID(user._id), title, content };
             // console.log(doc);
             req.app.locals.db.collection("posts").insertOne(doc, function (err: any, response: any) {
                 if (err) { // Handle errors here

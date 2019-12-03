@@ -55,20 +55,6 @@ export class SongComponent implements OnInit {
     reader.addEventListener('load', (event: any) => {
 
       this.selectedFile = new ImageSnippet(event.target.result, file);
-      const formData = new FormData();
-      formData.append('image', this.selectedFile.file, this.selectedFile.file.name);
-
-      this.api.postPost(this.song._id, formData).subscribe(
-        (res) => {
-          this.selectedFile.pending = false;
-          this.selectedFile.src = '';
-          this.onSuccess();
-        },
-        (err) => {
-          this.selectedFile.pending = false;
-          this.selectedFile.src = '';
-          this.onError();
-        });
     });
     if (file) {
     reader.readAsDataURL(file);
@@ -111,8 +97,29 @@ export class SongComponent implements OnInit {
     if (form.form.status === 'VALID') {
       this.api.postPost(this.song._id, form.value).subscribe(data => {
         this.onSuccess();
-        console.log(data);
       });
+    }
+  }
+
+  newImagePost(form: any) {
+    // this.apiService.postSong(form.value);
+    if (form.form.status === 'VALID' && this.selectedFile.file) {
+
+      const formData = new FormData();
+      formData.append('image', this.selectedFile.file, this.selectedFile.file.name);
+      formData.append('title', form.value.title);
+
+      this.api.postPost(this.song._id, formData).subscribe(
+        (res) => {
+          this.selectedFile.pending = false;
+          this.selectedFile.src = '';
+          this.onSuccess();
+        },
+        (err) => {
+          this.selectedFile.pending = false;
+          this.selectedFile.src = '';
+          this.onError();
+        });
     }
   }
 }
