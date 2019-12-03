@@ -287,7 +287,7 @@ export class Controller {
             const content = this.makeContent(reqs);
             var req: IGetUserAuthInfoRequest = reqs as IGetUserAuthInfoRequest;
             let user: User = req.user as User;
-            const doc = { songId: req.params.songId, userId: user._id, content };
+            const doc = { songId: req.params.songId, userId: new ObjectID(user._id), content };
             // console.log(doc);
             req.app.locals.db.collection("posts").insertOne(doc, function (err: any, response: any) {
                 if (err) { // Handle errors here
@@ -309,7 +309,7 @@ export class Controller {
             var req: IGetUserAuthInfoRequest = reqs as IGetUserAuthInfoRequest;
             const { content } = req.body;
             let user: User = req.user as User;
-            const doc = { postId: req.params.postId, userId: user._id, content };
+            const doc = { postId: req.params.postId, userId: new ObjectID(user._id), content };
 
             req.app.locals.db.collection("comments").insertOne(doc, function (err: any, response: any) {
                 if (err) { // Handle errors here
@@ -333,13 +333,13 @@ export class Controller {
                 lastName: req.body.lastName,
                 username: req.body.username
             };
-            console.log(values);
+            //console.log(values);
             for (const v in values) {
                 if (!values[v]) {
                     delete values[v];
                 }
             }
-            console.log(values);
+            //console.log(values);
             const newValues = { $set: values };
 
             req.app.locals.db.collection("users").updateOne({ _id: req.params.userId }, newValues,
