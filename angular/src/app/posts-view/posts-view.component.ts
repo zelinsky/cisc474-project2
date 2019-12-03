@@ -9,6 +9,8 @@ import { ApiService } from '../api.service';
 export class PostsViewComponent implements OnInit {
 
   posts;
+  postSongs = [];
+  postUsers = [];
 
   constructor(private apiService: ApiService) { }
 
@@ -19,4 +21,11 @@ export class PostsViewComponent implements OnInit {
     });
   }
 
+  getSongByPost(post) {
+    for (const entry of this.postSongs) {
+      if (entry.key === post) {
+        return entry.value;
+      }
+    }
+  }
 }
