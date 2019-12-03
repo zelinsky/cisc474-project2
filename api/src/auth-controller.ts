@@ -17,16 +17,16 @@ export class AuthController {
 
         // ensure the user inputted all necessary data
         if (!username) {
-            return res.status(422).json({error : "Enter your username"});
+            return res.status(200).json({error : "Enter your username", statusCode: 422});
         }
         if (!password) {
-            return res.status(422).json({error: "Enter a password"});
+            return res.status(200).json({error: "Enter a password", statusCode: 422});
         }
         if (!lastName) {
-            return res.status(422).json({error: "Enter Your Last Name"});
+            return res.status(200).json({error: "Enter Your Last Name", statusCode: 422});
         }
         if (!firstName) {
-            return res.status(422).json({error: "Enter Your first name"});
+            return res.status(200).json({error: "Enter Your first name", statusCode: 422});
         }
 
         // now check if the user already exists in the database
@@ -37,20 +37,21 @@ export class AuthController {
             password,
             username};
         req.app.locals.db.collection("users").findOne(query, (err: Error, existingUser: object) => {
+            
             if (existingUser) {
-                res.status(422).json({error: "This username is already in the database"});
+                res.status(200).json({error: "This username is already in the database", statusCode: 422});
             } else {
                 const SALT_FACTOR: number = 5;
                 bcrypt.genSalt(SALT_FACTOR, (err: Error, salt: string) => {
                     if (err) { return err; }
 
-                    bcrypt.hash(newUser.password, salt, (err: Error, hash: string) => {
+                    bcrypt.hash(newUser.password, salt, null , (err: Error, hash: string) => {
                         if (err) { return err; }
                         newUser.password = hash;
                         req.app.locals.db.collection("users").insertOne(newUser);
                         delete newUser.password;
                         const token: string = this.generateToken(newUser);
-                        res.status(200).json({status : "success", token: "Bearer " + token});
+                        res.status(200).json({status : "success", token: "Bearer " + token, statusCode: 200 });
 
                     });
                   });
@@ -67,18 +68,18 @@ export class AuthController {
         
         req.app.locals.db.collection("users").findOne({username}, (err: Error, user: any) => {
             if (!user) {
-                return res.status(400).json({error: "username not found"});
+                return res.status(200).json({error: "username not found"});
             }
             this.comparePassword(password, user.password, (err: Error, isMatch: boolean) => {
                 if (err) {
                     console.log(err);
-                    return res.status(500).json({error: "bad data"});
+                    return res.status(200).json({error: "bad data", statusCode: 500});
                 }
                 if (!isMatch) {
-                    return res.status(400).json({error: "login details could not be verified"});
+                    return res.status(200).json({error: "login details could not be verified", statusCode: 400});
                 } else {
                     delete user.password;
-                    return res.status(200).json({token: "Bearer " + this.generateToken(user)});
+                    return res.status(200).json({token: "Bearer " + this.generateToken(user), statusCode: 200});
                 }
             });
         });
