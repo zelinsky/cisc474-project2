@@ -10,6 +10,7 @@ export class PostsViewComponent implements OnInit {
 
   posts;
   postSongs = [];
+  postUsers = [];
 
   constructor(private apiService: ApiService) { }
 
@@ -18,13 +19,12 @@ export class PostsViewComponent implements OnInit {
       console.log(data);
       this.posts = data;
       // console.log(this.posts.length)
-      for (let i = 0; i < this.posts.length; i++) {
-        this.apiService.getSongByID(this.posts[i].songId).subscribe((data) => {
+      for (const post of this.posts) {
+        this.apiService.getSongByID(post.songId).subscribe((data) => {
           this.postSongs.push({
-            key: this.posts[i],
+            key: post,
             value: data
           });
-          console.log(this.postSongs[i].value);
         });
       }
     });
