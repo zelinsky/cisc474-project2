@@ -27,7 +27,7 @@ export class ApiService {
   public postSong(song: object) {
     return this.httpClient.post(`${this.API_URL}/api/songs`, song);
   }
-  public postPost(songId: string, post: object) {
+  public postPost(songId: string, post: any) {
     return this.httpClient.post(`${this.API_URL}/api/songs/${songId}/posts`, post);
   }
   public login(username: string, password: string){ 

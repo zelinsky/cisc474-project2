@@ -3,6 +3,13 @@ import { ApiService } from '../api.service';
 import { ActivatedRoute } from '@angular/router';
 
 
+class ImageSnippet {
+
+  pending = false;
+
+  constructor(public src: string, public file: File) {}
+}
+
 @Component({
   selector: 'app-song',
   templateUrl: './song.component.html',
@@ -12,6 +19,13 @@ export class SongComponent implements OnInit {
 
   song;
   posts;
+  showForm = false;
+  formButtonText = 'Make a Post';
+  textFormDisplay = true;
+  formType = 'Text';
+  status = 'init';
+
+  selectedFile: ImageSnippet;
 
   constructor(
     private route: ActivatedRoute,
@@ -19,9 +33,64 @@ export class SongComponent implements OnInit {
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
-      this.getSongByID(params.get('songID'))
-      this.getPostsBySongID(params.get('songID'))
+      this.getSongByID(params.get('songID'));
+      this.getPostsBySongID(params.get('songID'));
     });
+  }
+
+  private onSuccess() {
+    this.status = 'ok';
+    this.toggleForm();
+    this.ngOnInit();
+  }
+
+  private onError() {
+    this.status = 'fail';
+  }
+
+  processFile(imageInput: any) {
+    const file: File = imageInput.files[0];
+    const reader = new FileReader();
+
+    reader.addEventListener('load', (event: any) => {
+
+      this.selectedFile = new ImageSnippet(event.target.result, file);
+      const formData = new FormData();
+      formData.append('image', this.selectedFile.file, this.selectedFile.file.name);
+
+      this.api.postPost(this.song._id, formData).subscribe(
+        (res) => {
+          this.selectedFile.pending = false;
+          this.selectedFile.src = '';
+          this.onSuccess();
+        },
+        (err) => {
+          this.selectedFile.pending = false;
+          this.selectedFile.src = '';
+          this.onError();
+        });
+    });
+    if (file) {
+    reader.readAsDataURL(file);
+    }
+  }
+
+  toggleForm() {
+    this.showForm = !this.showForm;
+    if (this.showForm) {
+      this.formButtonText = 'X';
+    } else {
+      this.formButtonText = 'Make a Post';
+    }
+  }
+
+  toggleFormType() {
+    this.textFormDisplay = !this.textFormDisplay;
+    if (this.textFormDisplay) {
+      this.formType = 'Text';
+    } else {
+      this.formType = 'Image';
+    }
   }
 
   getSongByID(songID: string) {
@@ -37,13 +106,13 @@ export class SongComponent implements OnInit {
     });
   }
 
-  newPost(form: any) {
+  newTextPost(form: any) {
     // this.apiService.postSong(form.value);
     if (form.form.status === 'VALID') {
       this.api.postPost(this.song._id, form.value).subscribe(data => {
+        this.onSuccess();
         console.log(data);
       });
     }
-
   }
 }
