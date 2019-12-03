@@ -50,8 +50,8 @@ class Application {
     }
     // setup routes for the express server
     public buildRoutes(): void {
+        this.app.use(express.static(__dirname + "/../public"));
         this.app.use("/api", new ApiRouter().getRouter());
-        this.app.use(express.static(__dirname + "/public"));
     }
 }
 const app = new Application();

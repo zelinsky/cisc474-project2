@@ -11,7 +11,12 @@ const JwtOptions = {
 const JwtLogin = new JwtStrategy(JwtOptions, function(payload: Object, callback: any) {
     console.log(payload);
     console.log(callback);
-    callback(null, payload);
+    if (payload){
+        callback(null, payload);
+    } 
+    else{ 
+        callback(null, false); 
+    }
 
 });
 passport.use(JwtLogin);
