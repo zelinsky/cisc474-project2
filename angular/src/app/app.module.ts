@@ -36,6 +36,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 import { MatNativeDateModule, MatCardModule } from '@angular/material';
 
+import {UsernameService} from './auth/username.service'; 
 
 
 @NgModule({
@@ -60,7 +61,9 @@ import { MatNativeDateModule, MatCardModule } from '@angular/material';
     AppRoutingModule,
     
     ModalModule,
-    ReactiveFormsModule,
+
+    ReactiveFormsModule, 
+    
     FlexLayoutModule,
     BrowserAnimationsModule,
     LayoutModule,
@@ -76,7 +79,9 @@ import { MatNativeDateModule, MatCardModule } from '@angular/material';
     MatSlideToggleModule,
     MatCardModule,
 
-    MatNativeDateModule
+    MatNativeDateModule,
+
+    
   ],
   exports: [
     //NgbModalBackdrop, 
@@ -84,7 +89,9 @@ import { MatNativeDateModule, MatCardModule } from '@angular/material';
   entryComponents: [
     
   ], 
-  providers: [],
+  providers: [
+    UsernameService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
