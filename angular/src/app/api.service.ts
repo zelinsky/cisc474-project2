@@ -28,7 +28,16 @@ export class ApiService {
     return this.httpClient.post(`${this.API_URL}/api/songs`, song);
   }
   public postPost(songId: string, post: any) {
-    return this.httpClient.post(`${this.API_URL}/api/songs/${songId}/posts`, post);
+    if (localStorage.getItem('token') !== null){
+      const header = {
+       headers: new HttpHeaders()
+          .set('Authorization', localStorage.getItem('token'))
+      }
+      return this.httpClient.post(`${this.API_URL}/api/songs/${songId}/posts`, post, header);
+    } 
+    else{
+      return this.httpClient.post(`${this.API_URL}/api/songs/${songId}/posts`, post);
+    } 
   }
   public login(username: string, password: string){ 
     

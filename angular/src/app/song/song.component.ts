@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { ApiService } from '../api.service';
 import { ActivatedRoute } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 
-
+import {AuthComponent} from '../auth/auth.component'; 
 class ImageSnippet {
 
   pending = false;
@@ -109,10 +110,21 @@ export class SongComponent implements OnInit {
   newTextPost(form: any) {
     // this.apiService.postSong(form.value);
     if (form.form.status === 'VALID') {
-      this.api.postPost(this.song._id, form.value).subscribe(data => {
+      this.api.postPost(this.song._id, form.value).subscribe((data) => {
+        console.log("FUCK"); 
+        console.log(data); 
+        console.log("SHIT");
+         
         this.onSuccess();
         console.log(data);
-      });
+      }, 
+      (err: HttpErrorResponse) => {
+        if (err.status == 401){ 
+          alert('you must authenticate before making this request'); 
+          
+        }
+      }
+      );
     }
   }
 }

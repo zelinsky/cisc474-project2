@@ -1,5 +1,5 @@
 
-import { Component, OnInit, Input} from '@angular/core'; 
+import { Component, OnInit, Input, Injectable} from '@angular/core'; 
 import { ReactiveFormsModule, FormsModule, FormGroup, FormControl} from '@angular/forms'; 
 import * as jwt_decode from 'jwt-decode'; 
 import { ApiService } from '../api.service'; 
@@ -7,6 +7,9 @@ import { ApiService } from '../api.service';
 import { HttpResponse } from '@angular/common/http'; 
 import {ModalService} from '../_modal'; 
 import { logging } from 'protractor';
+
+import {UsernameService} from './username.service'; 
+
 export class Response{ 
   token: string; 
   status: string; 
@@ -27,12 +30,12 @@ export class UserInfo{
   selector: 'app-auth',
   templateUrl: './auth.component.html', 
  
-  styleUrls: ['./auth.component.css']
+  styleUrls: ['./auth.component.css'], 
 })
 export class AuthComponent implements OnInit{
   bodyText: string; 
   
-  constructor(private modalService: ModalService, private apiService: ApiService) { }
+  constructor(private modalService: ModalService, private apiService: ApiService, private usernameService: UsernameService) { }
 
     ngOnInit() {
         this.bodyText = 'This text can be updated in modal 1';
@@ -66,6 +69,7 @@ export class AuthComponent implements OnInit{
           console.log(jwt_decode(contents.token)); 
           var bet: UserInfo = jwt_decode(contents.token) as UserInfo; 
           alert(`Welcome to Savant ${bet.username}`); 
+          this.usernameService.toggle(true); 
         } 
         else{ 
           alert("unsuccessful registration!"); 
@@ -90,6 +94,8 @@ export class AuthComponent implements OnInit{
           alert(`Welcome back ${bet.username}`); 
           this.closeModal('custom-modal-1'); 
           this.closeModal('custom-modal-2'); 
+          this.usernameService.toggle(true);  
+          console.log('changed'); 
         }
         else{ 
           alert(`you dumb`); 
