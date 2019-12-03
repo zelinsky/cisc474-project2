@@ -111,7 +111,11 @@ export class SongComponent implements OnInit {
 
   newImagePost(form: any) {
     // this.apiService.postSong(form.value);
-    if (form.form.status === 'VALID' && this.selectedFile.file) {
+
+    if (form.form.status === 'VALID' && !this.selectedFile) {
+      alert('Please select an image');
+    }
+    if (form.form.status === 'VALID' && this.selectedFile) {
 
       const formData = new FormData();
       formData.append('image', this.selectedFile.file, this.selectedFile.file.name);
