@@ -61,7 +61,9 @@ import {UsernameService} from './auth/username.service';
     AppRoutingModule,
     
     ModalModule,
+
     ReactiveFormsModule, 
+    
     FlexLayoutModule,
     BrowserAnimationsModule,
     LayoutModule,
