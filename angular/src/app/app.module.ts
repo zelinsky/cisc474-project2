@@ -60,7 +60,7 @@ import { MatNativeDateModule, MatCardModule } from '@angular/material';
     AppRoutingModule,
     
     ModalModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
     FlexLayoutModule,
     BrowserAnimationsModule,
     LayoutModule,
