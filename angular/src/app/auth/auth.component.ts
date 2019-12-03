@@ -52,12 +52,13 @@ export class AuthComponent implements OnInit{
       let password: string = form.value.password; 
       let firstName: string = form.value.firstName;
       let lastName: string = form.value.lastName; 
+      console.log(`${username} ${password} ${firstName} ${lastName}`);
       this.apiService.register(username, firstName, lastName, password).subscribe((data) => { 
         
         let httpResp: HttpResponse<Object> = data as HttpResponse<Object>; 
 
         let body = httpResp.body as unknown as Response; 
-
+        console.log(body); 
         if (body.statusCode == 200) { 
           this.closeModal('custom-modal-1'); 
           var contents: Response = body; 
@@ -88,6 +89,7 @@ export class AuthComponent implements OnInit{
           var bet: UserInfo = jwt_decode(contents.token) as UserInfo;
           alert(`Welcome back ${bet.username}`); 
           this.closeModal('custom-modal-1'); 
+          this.closeModal('custom-modal-2'); 
         }
         else{ 
           alert(`you dumb`); 
