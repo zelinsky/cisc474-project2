@@ -4,7 +4,12 @@
         <div class="card" style="width: 18rem;">
             <div class="card-body">
                 <h3 class="card-title">{{post.content.content}}</h3>
-                <h5 class="card-text">On song {{getSongByPost(post).title}} by {{getSongByPost(post).artist}}</h5>
+                <div *ngIf="post.song && post.song">
+                    <h5 class="card-text">On song {{post.song.title}} by {{post.song.artist}}</h5>
+                </div>
+                <div *ngIf="post.user">
+                    <h5 class="card-text" *ngIf="post.user.username">Posted by {{post.user.username}}</h5>
+                </div> 
                 <a [routerLink]="['/song', post.songId]" class="btn btn-outline-success my-2 my-sm-0">View Song Page</a>
             </div>
         </div>

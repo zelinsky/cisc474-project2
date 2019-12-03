@@ -18,15 +18,6 @@ export class PostsViewComponent implements OnInit {
     this.apiService.getPosts().subscribe((data) => {
       console.log(data);
       this.posts = data;
-      // console.log(this.posts.length)
-      for (const post of this.posts) {
-        this.apiService.getSongByID(post.songId).subscribe((data) => {
-          this.postSongs.push({
-            key: post,
-            value: data
-          });
-        });
-      }
     });
   }
 
