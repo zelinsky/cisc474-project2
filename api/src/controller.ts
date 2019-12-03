@@ -477,6 +477,7 @@ export class Controller {
                         res.json(response.result);
                     }
                 });
+            req.app.locals.db.collection("comments").deleteMany({postId: req.params.postId});
         }
     }
 
