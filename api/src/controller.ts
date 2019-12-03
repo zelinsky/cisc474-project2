@@ -207,8 +207,10 @@ export class Controller {
             } else {
                 const promises = results.map(async (result: any) => {
                     const postResult = await req.app.locals.db.collection("posts").findOne({ _id: result.postId });
-                    const songResult = await req.app.locals.db.collection("songs").findOne({ _id: postResult.songId });
-                    postResult.song = songResult;
+                    if (postResult) {
+                        const songResult = await req.app.locals.db.collection("songs").findOne({ _id: postResult.songId });
+                        postResult.song = songResult;
+                    }
                     const userResult = await req.app.locals.db.collection("users").findOne({ _id: result.userId });
                     result.post = postResult;
                     result.user = userResult;
@@ -231,8 +233,10 @@ export class Controller {
                         res.sendStatus(500);
                     } else if (result) {
                         const postResult = await req.app.locals.db.collection("posts").findOne({ _id: result.postId });
-                        const songResult = await req.app.locals.db.collection("songs").findOne({ _id: postResult.songId });
-                        postResult.song = songResult;
+                        if (postResult) {
+                            const songResult = await req.app.locals.db.collection("songs").findOne({ _id: postResult.songId });
+                            postResult.song = songResult;
+                        }
                         const userResult = await req.app.locals.db.collection("users").findOne({ _id: result.userId });
                         result.post = postResult;
                         result.user = userResult;
