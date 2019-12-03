@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../api.service';
+import { environment } from '../../environments/environment';
+
 
 @Component({
   selector: 'app-home',
@@ -8,6 +10,7 @@ import { ApiService } from '../api.service';
 })
 export class HomeComponent implements OnInit {
 
+  API_URL = environment.apiUrl;
   posts;
   songs;
 

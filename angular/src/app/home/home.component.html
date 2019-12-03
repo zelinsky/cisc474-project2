@@ -1,29 +1,35 @@
 <!-- Splash Image -->
 <div class="container">
-  <img class="splash" src="assets/images/headphone_ideas.svg">
+    <img class="splash" src="assets/images/headphone_ideas.svg">
 </div>
 
 <h1>Most Recent Posts</h1>
 <div class="row">
     <div class="col-sm-6" *ngFor="let post of posts">
-        <div class="card" style="width: 18rem;">
+
+        <div *ngIf="post.content.contentType === 'text'; else imagePost" class="card" style="width: 18rem;">
             <div class="card-body">
                 <h4>{{post.content.content}}</h4>
                 <a [routerLink]="['/song', post.songId]" class="btn btn-outline-success my-2 my-sm-0">Checkout Song</a>
             </div>
         </div>
+
+        <ng-template #imagePost>
+            <img src="{{API_URL}}{{post.content.content}}">
+        </ng-template>
+
     </div>
 </div>
 
 <h1>Most Recently Added Songs</h1>
 <div class="row">
-        <div class="col-sm-6" *ngFor="let song of songs">
-            <div class="card" style="width: 18rem;">
-                <div class="card-body">
-                    <h5 class="card-title">{{song.title}}</h5>
-                    <p class="card-text">{{song.artist}}</p>
-                    <a [routerLink]="['/song', song._id]" class="btn btn-outline-success my-2 my-sm-0">Checkout Song</a>
-                </div>
+    <div class="col-sm-6" *ngFor="let song of songs">
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">{{song.title}}</h5>
+                <p class="card-text">{{song.artist}}</p>
+                <a [routerLink]="['/song', song._id]" class="btn btn-outline-success my-2 my-sm-0">Checkout Song</a>
             </div>
         </div>
     </div>
+</div>
