@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -14,6 +14,9 @@ import { PostsViewComponent } from './posts-view/posts-view.component';
 import { PostComponent } from './post/post.component';
 import { HttpClientModule } from '@angular/common/http';
 import { NewSongComponent } from './new-song/new-song.component';
+import {AuthComponent} from './auth/auth.component'; 
+
+import {ModalModule} from './_modal'; 
 
 @NgModule({
   declarations: [
@@ -25,15 +28,25 @@ import { NewSongComponent } from './new-song/new-song.component';
     SongComponent,
     PostsViewComponent,
     PostComponent,
-    NewSongComponent
+    NewSongComponent, 
+    AuthComponent,
+    
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     CommonModule,
     FormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ModalModule,
+    ReactiveFormsModule
   ],
+  exports: [
+    //NgbModalBackdrop, 
+  ], 
+  entryComponents: [
+    
+  ], 
   providers: [],
   bootstrap: [AppComponent]
 })

@@ -1,20 +1,37 @@
 import { Component, OnInit, Input} from '@angular/core'; 
+import { ReactiveFormsModule, FormsModule, FormGroup, FormControl} from '@angular/forms'; 
 
-import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import {  FormsModule, ReactiveFormsModule, FormControl, Validators, FormGroup } from '@angular/forms';
-import {AuthModalComponent} from '../authmodal/authmodal.component'; 
+import { ApiService } from '../api.service'; 
+
+import {ModalService} from '../_modal'; 
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html', 
+ 
   styleUrls: ['./auth.component.css']
 })
-export class AuthComponent{
-  constructor(private modalService: NgbModal) {}
+export class AuthComponent implements OnInit{
+  bodyText: string; 
+  
+  constructor(private modalService: ModalService) { }
 
-  open() {
-    console.log('here'); 
-    const modalRef = this.modalService.open(AuthModalComponent);
-    modalRef.componentInstance.name = 'World';
-  }
+    ngOnInit() {
+        this.bodyText = 'This text can be updated in modal 1';
+        
+    }
 
+    openModal(id: string) {
+        this.modalService.open(id);
+    }
+
+    closeModal(id: string) {
+        this.modalService.close(id);
+    }
+    register(form: any){ 
+      console.log(form.value); 
+      let username: string = form.value.name; 
+      let password: string = form.value.password; 
+      let email: string = form.value.email;
+      
+    }
 }

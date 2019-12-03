@@ -1,1 +1,32 @@
-<button class="btn btn-lg btn-outline-primary" (click)="open()">Launch demo modal</button>
+<button class="btn btn-outline-success my-2 my-sm-0" (click)="openModal('custom-modal-1')">Login</button>
+
+<jw-modal bodyText="cheese" id="custom-modal-1">
+    <h1>A Custom Modal!</h1>
+    <p>Home page text: <input type="text" [(ngModel)]="bodyText" /></p>
+    <div class="container">
+        <div class="logo">Create a new account!</div>
+        <div class="register-item">
+          <form #myform="ngForm" (ngSubmit)="register(myform)" class="form form-register">
+    
+            <div class="form-field">
+                  <label class="user" for="register-username"><span class="hidden">Name</span></label>
+                  <input name="name" id="register-username" type="email" class="form-input" placeholder="Name" ngModel required>
+            </div>
+            <div class="form-field">
+              <label class="user" for="register-email"><span class="hidden">Email</span></label>
+              <input name="email" id="register-email" type="email" class="form-input" placeholder="Email" ngModel required>
+            </div>
+    
+            <div class="form-field">
+              <label class="lock" for="register-password"><span class="hidden">Password</span></label>
+              <input name="password" id="register-password" type="password" class="form-input" placeholder="Password" ngModel required>
+            </div>
+    
+            <div class="form-field">
+              <input type="submit" value="Register">
+            </div>
+          </form>
+        </div>
+    </div>
+    <button (click)="closeModal('custom-modal-1');">Close</button>
+</jw-modal>
