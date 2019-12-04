@@ -58,23 +58,23 @@ export class AuthComponent implements OnInit{
         this.modalService.close(id);
     }
     register(form: any){ 
-      console.log(form.value); 
+      //console.log(form.value); 
       let username: string = form.value.name; 
       let password: string = form.value.password; 
       let firstName: string = form.value.firstName;
       let lastName: string = form.value.lastName; 
-      console.log(`${username} ${password} ${firstName} ${lastName}`);
+      //console.log(`${username} ${password} ${firstName} ${lastName}`);
       this.apiService.register(username, firstName, lastName, password).subscribe((data) => { 
         
         let httpResp: HttpResponse<Object> = data as HttpResponse<Object>; 
 
         let body = httpResp.body as unknown as Response; 
-        console.log(body); 
+        //console.log(body); 
         if (body.statusCode == 200) { 
           this.closeModal('custom-modal-1'); 
           var contents: Response = body; 
           localStorage.setItem('token', contents.token); 
-          console.log(jwt_decode(contents.token)); 
+          //console.log(jwt_decode(contents.token)); 
           var bet: UserInfo = jwt_decode(contents.token) as UserInfo; 
           alert(`Welcome to Savant, ${bet.firstName}`); 
           this.usernameService.toggle(true); 
@@ -93,9 +93,9 @@ export class AuthComponent implements OnInit{
       this.apiService.login(username, password).subscribe(data => { 
         let httpResp: HttpResponse<Object> = data as HttpResponse<Object>; 
         
-        console.log(httpResp.status); 
+        //console.log(httpResp.status); 
         let body: Response = httpResp.body as unknown as Response; 
-        console.log(body); 
+        //console.log(body); 
         if (body.statusCode == 200){ 
           var contents: Response = body; 
           localStorage.setItem('token', contents.token); 
@@ -105,7 +105,7 @@ export class AuthComponent implements OnInit{
           this.closeModal('custom-modal-1'); 
           this.closeModal('custom-modal-2'); 
           this.usernameService.toggle(true);  
-          console.log('changed'); 
+          //console.log('changed'); 
         }
         else{ 
           alert(`Invalid login`); 

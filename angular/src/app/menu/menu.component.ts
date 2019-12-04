@@ -28,7 +28,6 @@ export class MenuComponent implements OnInit {
         this.userId = '';
         this.name = '';
       } else {
-        console.log("logged in");
         this.username = (jwt_decode(localStorage.getItem('token')) as Username).username;
         this.userId = jwt_decode(localStorage.getItem('token'))._id;
         this.name = jwt_decode(localStorage.getItem('token')).firstName;

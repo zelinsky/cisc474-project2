@@ -38,20 +38,17 @@ export class ProfileComponent implements OnInit {
 
   getUserByID(userID: string) {
     this.api.getUserByID(userID).subscribe((data) => {
-      console.log(data);
       this.user = data;
     });
   }
 
   getPostsByUserID(userID: string) {
     this.api.getPostsByUserID(userID).subscribe((data) => {
-      console.log(data);
       this.userPosts = data;
     });
   }
   getCommentsByUserID(userID: string) {
     this.api.getCommentsByUserID(userID).subscribe((data) => {
-      console.log(data);
       this.userComments = data;
     });
   }

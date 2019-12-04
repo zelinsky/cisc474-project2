@@ -16,7 +16,6 @@ export class PostsViewComponent implements OnInit {
 
   ngOnInit() {
     this.apiService.getPosts().subscribe((data) => {
-      console.log(data);
       this.posts = data;
     });
   }

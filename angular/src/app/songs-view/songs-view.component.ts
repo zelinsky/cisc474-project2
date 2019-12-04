@@ -18,7 +18,6 @@ export class SongsViewComponent implements OnInit {
   }
   getSongs() {
       this.api.getSongs().subscribe((data) => {
-      console.log(data);
       this.songs = data;
     });
   }
