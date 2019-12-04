@@ -125,11 +125,13 @@ export class SongComponent implements OnInit {
         (res) => {
           this.selectedFile.pending = false;
           this.selectedFile.src = '';
+          this.selectedFile = null;
           this.onSuccess();
         },
         (err) => {
           this.selectedFile.pending = false;
           this.selectedFile.src = '';
+          this.selectedFile = null;
           this.onError();
         });
     }
