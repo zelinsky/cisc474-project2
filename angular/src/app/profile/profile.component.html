@@ -1,1 +1,18 @@
-<p>profile works!</p>
+<div fxLayout="row" fxLayout.xs="column">
+    <div *ngIf="song">
+        <mat-card fxFlex="80%;" fxFlex.xs="80%">
+            <mat-card-content>
+                <h1>{{song.title}}</h1>
+                <h3>{{song.artist}}</h3>
+                <h6>{{song.lyrics}}</h6>
+            </mat-card-content>
+            <div *ngFor="let post of posts">
+                <mat-card fxFlex="40%;" fxFlex.xs="80%">
+                    <mat-card-content>
+                        <p>{{post.content.content}}</p>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+        </mat-card>
+    </div>
+</div>
