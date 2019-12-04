@@ -20,6 +20,7 @@
             </div>
             <div *ngIf="status === 'ok'" class="alert alert-success"> Post Submitted Succesfuly!</div>
             <div *ngIf="status === 'fail'" class="alert alert-danger"> Post Submission Failed!</div>
+            <div *ngIf="status === 'notLoggedIn'" class="alert alert-danger">You must log in to make a post!</div>
 
 
             <div *ngIf="showForm" class="container">

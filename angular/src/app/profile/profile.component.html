@@ -1,14 +1,38 @@
-<div *ngIf="user">
-    <h1>Welcome to {{user.username}} Profile</h1>
-    <div fxLayout="row" fxLayout.xs="column">
-        <div *ngFor="let post of userPosts">
-            <mat-card fxFlex="40%;" fxFlex.xs="80%">
-                <mat-card-content>
-                    <h3>{{post.title}}</h3>
-                    <h5>{{post.content.content}}</h5>
-                    <p>On song {{post.song.title}} by {{post.song.artist}}</p>
-                </mat-card-content>
-            </mat-card>
+<div class="container">
+    <div *ngIf="user">
+        <h1>Welcome to {{user.username}}'s profile</h1>
+        <hr />
+
+        <h2 class='text-success'>{{user.username}}'s Posts</h2>
+        <div style="display: flex; overflow-x: auto;">
+            <div *ngFor="let post of userPosts">
+                <div class="card border-success mb-3" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{post.title}}</h5>
+                    </div>
+                    <div class="card-footer" *ngIf="post.song">
+                        <p class="card-text">{{post.song.title}} by {{post.song.artist}}</p>
+                        <a [routerLink]="['/song', post.songId]" class="btn btn-outline-success my-2 my-sm-0">View Song
+                            Page</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2 style="margin-top: 25px" class="text-success">{{user.username}}'s Comments</h2>
+        <div style="display: flex; overflow-x: auto;">
+            <div *ngFor="let comment of userComments">
+                <div class="card border-success mb-3" style="width: 18rem;">
+                    <div class="card-body">
+                        <p class="card-text">{{comment.content}}</p>
+                    </div>
+                    <div class="card-footer" *ngIf="post.song">
+                        <p class="card-text">{{comment.post.song.title}} by {{comment.post.song.artist}}</p>
+                        <a [routerLink]="['/song', post.songId]" class="btn btn-outline-success my-2 my-sm-0">View Song
+                            Page</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

@@ -106,7 +106,7 @@ export class SongComponent implements OnInit {
       }, 
       (err: HttpErrorResponse) => {
         if (err.status == 401){ 
-          alert('you must authenticate before making this request'); 
+          this.status = "notLoggedIn";
         }
       }
       );
