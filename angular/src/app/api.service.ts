@@ -18,11 +18,20 @@ export class ApiService {
   public getPostsBySongID(songID: string) {
     return this.httpClient.get(`${this.API_URL}/api/songs/${songID}/posts`);
   }
+  public getPostsByUserID(userID: string) {
+    return this.httpClient.get(`${this.API_URL}/api/users/${userID}/posts`);
+  }
+  public getCommentsByUserID(userID: string) {
+    return this.httpClient.get(`${this.API_URL}/api/users/${userID}/comments`);
+  }
   public getSongs() {
     return this.httpClient.get(`${this.API_URL}/api/songs`);
   }
   public getSongByID(songID: string) {
-    return this.httpClient.get<any>(`${this.API_URL}/api/songs/${songID}`);
+    return this.httpClient.get(`${this.API_URL}/api/songs/${songID}`);
+  }
+  public getUserByID(userID: string) {
+    return this.httpClient.get(`${this.API_URL}/api/users/${userID}`);
   }
   public postSong(song: object) {
     return this.httpClient.post(`${this.API_URL}/api/songs`, song);

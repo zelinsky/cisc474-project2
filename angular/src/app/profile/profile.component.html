@@ -1,1 +1,14 @@
-<p>profile works!</p>
+<div *ngIf="user">
+    <h1>Welcome to {{user.username}} Profile</h1>
+    <div fxLayout="row" fxLayout.xs="column">
+        <div *ngFor="let post of userPosts">
+            <mat-card fxFlex="40%;" fxFlex.xs="80%">
+                <mat-card-content>
+                    <h3>{{post.title}}</h3>
+                    <h5>{{post.content.content}}</h5>
+                    <p>On song {{post.song.title}} by {{post.song.artist}}</p>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+</div>
