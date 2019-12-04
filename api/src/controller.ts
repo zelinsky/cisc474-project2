@@ -245,7 +245,6 @@ export class Controller {
                     delete userResult.password;
                     result.post = postResult;
                     result.user = userResult;
-                    res.json(result);
                 });
                 await Promise.all(promises);
                 res.json(results);
