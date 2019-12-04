@@ -1,5 +1,5 @@
 .container {
-    background:rgba(2, 60, 117, 0.5);
+    background: #343a40;
     border-radius: 5px;
     box-shadow: 0 1.5px 0 0 rgba(0,0,0,0.1);
     width:409px;
@@ -7,12 +7,11 @@
     flex-direction: column;
   }
   
-  .logo{
-    font-family: "museo-slab";  
-    font-size:20px;
+  .logo { 
     text-align: center;
     padding: 20px 20px 0;
-    margin:0;
+    margin: 0;
+    color: #ffff
   }
   
   .register-item {
@@ -75,7 +74,7 @@
     background-color: #eeeeee;
   }
   .form-register input[type="submit"] {
-    background-color: rgb(86, 69, 238);
+    background-color: #28a745;
     color: #eee;
     font-weight: bold;
     text-transform: uppercase;

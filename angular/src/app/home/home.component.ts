@@ -17,14 +17,14 @@ export class HomeComponent implements OnInit {
   constructor(private apiService: ApiService) { }
 
   ngOnInit() {
-    this.apiService.getPosts().subscribe((data) => {
-      console.log(data);
+    /*this.apiService.getPosts().subscribe((data) => {
+      //console.log(data);
       this.posts = data;
     });
     this.apiService.getSongs().subscribe((data) => {
-      console.log(data);
+      //console.log(data);
       this.songs = data;
-    });
+    });*/
   }
 
 }

@@ -21,7 +21,7 @@ export class NewSongComponent implements OnInit {
     if (form.form.status === 'VALID') {
       this.apiService.postSong(form.value).subscribe(data => {
         this.song = data;
-        this.router.navigate(['song', this.song._id]);
+        this.router.navigate(['songs', this.song._id]);
       });
     }
 
