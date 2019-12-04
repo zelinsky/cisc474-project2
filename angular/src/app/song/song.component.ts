@@ -50,6 +50,9 @@ export class SongComponent implements OnInit {
       this.getSongByID(params.get('songID'));
       this.getPostsBySongID(params.get('songID'));
     });
+    if (localStorage.getItem('token')) {
+      this.userId = jwt_decode(localStorage.getItem('token'))._id;
+    }
     this.usernameService.change.subscribe(isLoggedIn => {
       this.isLoggedIn = isLoggedIn;
       if (!isLoggedIn) {
@@ -132,7 +135,6 @@ export class SongComponent implements OnInit {
 
   getPostByID(postId: string) {
     this.api.getPostByID(postId).subscribe((data) => {
-      console.log(data);
       this.post = data;
     });
   }
@@ -141,8 +143,7 @@ export class SongComponent implements OnInit {
  // deletePost(post) {
   deletePost(postID: string) {
       this.api.deletePost(postID).subscribe((data) => {
-        this.onSuccess();
-        console.log(data);
+        this.ngOnInit();
       },
       (err: HttpErrorResponse) => {
         if (err.status === 401) {
@@ -152,8 +153,8 @@ export class SongComponent implements OnInit {
       );
   }
 
-  ownPost(postId) {
-    return postId === this.userId;
+  ownPost(uId) {
+    return uId === this.userId;
   }
 
   newImagePost(form: any) {
