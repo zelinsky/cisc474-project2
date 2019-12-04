@@ -17,7 +17,7 @@ const routes: Routes = [
   {path: 'song/:songID', component: SongComponent},
   {path: 'posts-view', component: PostsViewComponent},
   {path: 'post', component: PostComponent},
-  {path: 'profile', component: ProfileComponent},
+  {path: 'profile/:userID', component: ProfileComponent},
   {path: 'new-song', component: NewSongComponent}
 ];
 

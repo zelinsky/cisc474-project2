@@ -6,7 +6,7 @@
             <div class="card-body">
                 <h5 class="card-title">{{post.title}}</h5>
                 <div *ngIf="post.user">
-                    <p class="card-text">by {{post.user.username}}</p>
+                    <a [routerLink]="['/profile', post.user._id]" class="btn btn-outline-success my-2 my-sm-0">Posted by {{post.user.username}}</a>
                 </div>
             </div>
             <div class="card-footer" *ngIf="post.song">
