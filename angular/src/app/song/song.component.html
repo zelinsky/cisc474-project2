@@ -1,71 +1,86 @@
-<div fxLayout="row" fxLayout.xs="column">
-    <div *ngIf="song">
-        <mat-card fxFlex="80%;" fxFlex.xs="80%">
-            <mat-card-content>
-                <h1>{{song.title}}</h1>
-                <h3>{{song.artist}}</h3>
-                <h6>{{song.lyrics}}</h6>
-            </mat-card-content>
-            <div *ngFor="let post of posts">
-                <mat-card fxFlex="40%;" fxFlex.xs="80%">
-                    <mat-card-content>
-                        <p>{{post.content.content}}</p>
-                    </mat-card-content>
-                </mat-card>
+<div *ngIf="song" class="container-fluid">
+    <div class="row">
+        <div class="col-lg">
+            <div class="card border-success mb-3" style="width: 100%;">
+                <div class="card-header">
+                    <h1 class="card-title">{{song.title}}</h1>
+                    <h4>by {{song.artist}}</h4>
+                </div>
+                <div class="card-body">
+                    <h6 style="white-space: pre-line;">{{song.lyrics}}</h6>
+                </div>
             </div>
-        </mat-card>
+            <div class="row">
+                <div class="col-lg">
+                    <h1 class="text-success">Posts</h1>
+                </div>
+                <div class="col-lg text-right"> <button (click)=toggleForm()
+                        class="btn {{buttonStyle}} my-2 my-sm-0">{{formButtonText}}</button>
+                </div>
+            </div>
+            <div *ngIf="status === 'ok'" class="alert alert-success"> Post Submitted Succesfuly!</div>
+            <div *ngIf="status === 'fail'" class="alert alert-danger"> Post Submission Failed!</div>
+
+
+            <div *ngIf="showForm" class="container">
+                Post type: <button (click)=toggleFormType()
+                    class="btn btn-outline-success my-2 my-sm-0">{{formType}}</button>
+            </div>
+
+            <div *ngIf="showForm && textFormDisplay" class="container">
+                TEXT
+                <form #textForm="ngForm" (ngSubmit)="newTextPost(textForm)" class="was-validated">
+                    <div class="form-group">
+                        <label for="postTitle">Title:</label>
+                        <input type="text" class="form-control" id="postTitle" placeholder="Enter your post's title"
+                            name="title" ngModel required>
+                        <div class="valid-feedback"></div>
+                        <div class="invalid-feedback">Please fill out this field</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="postText">Post:</label>
+                        <textarea class="form-control" rows="10" id="postText" placeholder="Enter your post"
+                            name="content" ngModel required></textarea>
+                        <div class="valid-feedback"></div>
+                        <div class="invalid-feedback">Please fill out this field</div>
+                    </div>
+                    <button type="submit" class="btn btn-success">Submit</button>
+                </form>
+            </div>
+
+            <div *ngIf="showForm && !textFormDisplay" class="container">
+                IMAGE
+                <form #imageForm="ngForm" (ngSubmit)="newImagePost(imageForm)" class="was-validated">
+                    <div class="form-group">
+                        <label for="postTitle">Title:</label>
+                        <input type="text" class="form-control" id="postTitle" placeholder="Enter your post's title"
+                            name="title" ngModel required>
+                        <div class="valid-feedback"></div>
+                        <div class="invalid-feedback">Please fill out this field</div>
+                    </div>
+                    <div class="form-group">
+                        <label class="image-upload-container btn btn-bwm">
+                            <span>Select Image</span>
+                            <input #imageInput type="file" accept="image/*" (change)="processFile(imageInput)">
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-success">Submit</button>
+                </form>
+            </div>
+            <hr />
+            <div class="card-columns">
+                <div class="card border-success mb-3" style="width: 18rem;" *ngFor="let post of posts">
+                    <div class="card-body">
+                        <h5 class="card-title">{{post.title}}</h5>
+                        <div *ngIf="post.user">
+                            <p class="card-text">by {{post.user.username}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <mat-card fx-flex="80%;" fxFlex.xs="80%">
-        <div *ngIf="status === 'ok'" class="alert alert-success"> Post Submitted Succesfuly!</div>
-        <div *ngIf="status === 'fail'" class="alert alert-danger"> Post Submission Failed!</div>
 
-        <button (click)=toggleForm() class="btn btn-outline-success my-2 my-sm-0">{{formButtonText}}</button>
 
-        <div *ngIf="showForm" class="container">
-            Post type: <button (click)=toggleFormType()
-                class="btn btn-outline-success my-2 my-sm-0">{{formType}}</button>
-        </div>
-
-        <div *ngIf="showForm && textFormDisplay" class="container">
-            TEXT
-            <form #textForm="ngForm" (ngSubmit)="newTextPost(textForm)" class="was-validated">
-                <div class="form-group">
-                    <label for="postTitle">Title:</label>
-                    <input type="text" class="form-control" id="postTitle" placeholder="Enter your post's title"
-                        name="title" ngModel required>
-                    <div class="valid-feedback"></div>
-                    <div class="invalid-feedback">Please fill out this field</div>
-                </div>
-                <div class="form-group">
-                    <label for="postText">Post:</label>
-                    <textarea class="form-control" rows="10" id="postText" placeholder="Enter your post" name="content"
-                        ngModel required></textarea>
-                    <div class="valid-feedback"></div>
-                    <div class="invalid-feedback">Please fill out this field</div>
-                </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
-        </div>
-
-        <div *ngIf="showForm && !textFormDisplay" class="container">
-            IMAGE
-            <form #imageForm="ngForm" (ngSubmit)="newImagePost(imageForm)" class="was-validated">
-                <div class="form-group">
-                    <label for="postTitle">Title:</label>
-                    <input type="text" class="form-control" id="postTitle" placeholder="Enter your post's title"
-                        name="title" ngModel required>
-                    <div class="valid-feedback"></div>
-                    <div class="invalid-feedback">Please fill out this field</div>
-                </div>
-                <div class="form-group">
-                    <label class="image-upload-container btn btn-bwm">
-                        <span>Select Image</span>
-                        <input #imageInput type="file" accept="image/*" (change)="processFile(imageInput)">
-                    </label>
-                </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
-        </div>
-    </mat-card>
 </div>

@@ -1,5 +1,5 @@
 <div class="container">
-    <h1>Add a New Song</h1>
+    <h1 class="text-success">Add a New Song</h1>
     <form #myform="ngForm" (ngSubmit)="newSong(myform)"  class="was-validated">
         <div class="form-group">
           <label for="songTitle">Song Title:</label>
@@ -19,6 +19,6 @@
             <div class="valid-feedback"></div>
             <div class="invalid-feedback">Please fill out this field</div>
           </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-success my-2 my-sm-0">Submit</button>
       </form>
 </div>
