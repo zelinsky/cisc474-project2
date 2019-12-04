@@ -60,10 +60,18 @@ export class Controller {
             res.status(422).json({ errors: errors.array() });
         } else {
             req.app.locals.db.collection("posts").find({ userId: req.params.userId }).
-                toArray(function (err: any, results: any) {
+                toArray(async function (err: any, results: any) {
                     if (err) {
                         res.sendStatus(500);
                     } else {
+                        const promises = results.map(async (result: any) => {
+                            const songResult = await req.app.locals.db.collection("songs").findOne({ _id: result.songId });
+                            const userResult = await req.app.locals.db.collection("users").findOne({ _id: result.userId });
+                            delete userResult.password;
+                            result.song = songResult;
+                            result.user = userResult;
+                        });
+                        await Promise.all(promises);
                         res.json(results);
                     }
                 });
@@ -76,10 +84,23 @@ export class Controller {
             res.status(422).json({ errors: errors.array() });
         } else {
             req.app.locals.db.collection("comments").find({ userId: req.params.userId }).
-                toArray(function (err: any, results: any) {
+                toArray(async function (err: any, results: any) {
                     if (err) {
                         res.sendStatus(500);
                     } else {
+                        const promises = results.map(async (result: any) => {
+                            const postResult = await req.app.locals.db.collection("posts").findOne({ _id: result.postId });
+                            if (postResult) {
+                                const songResult = await req.app.locals.db.collection("songs").findOne({ _id: postResult.songId });
+                                postResult.song = songResult;
+                            }
+                            const userResult = await req.app.locals.db.collection("users").findOne({ _id: result.userId });
+                            delete userResult.password;
+                            result.post = postResult;
+                            result.user = userResult;
+                            res.json(result);
+                        });
+                        await Promise.all(promises);
                         res.json(results);
                     }
                 });
@@ -191,11 +212,16 @@ export class Controller {
                         res.sendStatus(500);
                     } else {
                         const promises = results.map(async (result: any) => {
-                            const songResult = await req.app.locals.db.collection("songs").findOne({ _id: result.songId });
+                            const postResult = await req.app.locals.db.collection("posts").findOne({ _id: result.postId });
+                            if (postResult) {
+                                const songResult = await req.app.locals.db.collection("songs").findOne({ _id: postResult.songId });
+                                postResult.song = songResult;
+                            }
                             const userResult = await req.app.locals.db.collection("users").findOne({ _id: result.userId });
                             delete userResult.password;
-                            result.song = songResult;
+                            result.post = postResult;
                             result.user = userResult;
+                            res.json(result);
                         });
                         await Promise.all(promises);
                         res.json(results);
@@ -484,7 +510,7 @@ export class Controller {
                         res.json(response.result);
                     }
                 });
-            req.app.locals.db.collection("comments").deleteMany({postId: req.params.postId});
+            req.app.locals.db.collection("comments").deleteMany({ postId: req.params.postId });
         }
     }
 
