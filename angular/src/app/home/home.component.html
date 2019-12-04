@@ -1,34 +1,36 @@
-<!-- Splash Image -->
-<div class="container">
+<div class="container text-center">
+    <!--<h1 class="text-success">Savant</h1>
+    <hr/>-->
+    <!-- Splash Image -->
     <img class="splash" src="assets/images/headphone_ideas.svg">
-</div>
 
-<h1>Most Recent Posts</h1>
-<div class="row">
-    <div class="col-sm-6" *ngFor="let post of posts">
-
-        <div *ngIf="post.content.contentType === 'text'; else imagePost" class="card" style="width: 18rem;">
-            <div class="card-body">
-                <h4>{{post.content.content}}</h4>
-                <a [routerLink]="['/song', post.songId]" class="btn btn-outline-success my-2 my-sm-0">Checkout Song</a>
+    <h2 class="text-success" style="margin-top: 25px;">Recent Posts</h2>
+    <div class="card-deck">
+            <div *ngFor="let post of posts">
+            <div *ngIf="post.content.contentType === 'text'; else imagePost" class="card border-success mb-3" style="width: 18rem;">
+                <div class="card-body">
+                    <h4>{{post.content.content}}</h4>
+                    <a [routerLink]="['/song', post.songId]" class="btn btn-outline-success my-2 my-sm-0">Checkout
+                        Song</a>
+                </div>
             </div>
+
+            <ng-template #imagePost>
+                <img src="{{API_URL}}{{post.content.content}}">
+            </ng-template>
+
         </div>
-
-        <ng-template #imagePost>
-            <img src="{{API_URL}}{{post.content.content}}">
-        </ng-template>
-
     </div>
-</div>
 
-<h1>Most Recently Added Songs</h1>
-<div class="row">
-    <div class="col-sm-6" *ngFor="let song of songs">
-        <div class="card" style="width: 18rem;">
-            <div class="card-body">
-                <h5 class="card-title">{{song.title}}</h5>
-                <p class="card-text">{{song.artist}}</p>
-                <a [routerLink]="['/song', song._id]" class="btn btn-outline-success my-2 my-sm-0">Checkout Song</a>
+    <h2>Recent Songs</h2>
+    <div class="row">
+        <div class="col-sm-6" *ngFor="let song of songs">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">{{song.title}}</h5>
+                    <p class="card-text">{{song.artist}}</p>
+                    <a [routerLink]="['/song', song._id]" class="btn btn-outline-success my-2 my-sm-0">Checkout Song</a>
+                </div>
             </div>
         </div>
     </div>
