@@ -1,9 +1,9 @@
 <div class="container text-center">
 
-    <h1 class="text-success display-3">Welcome to Savant</h1>
+    <h1 class="text-success display-3">Experience <strong>Savant</strong></h1>
     <hr/>
 
-    <p class="lead">A user-centric site for posting stories, poems, and art inspired by music</p>
+    <h3><small>Stories, poems, and art inspired by music: created by you</small></h3>
     <img class="splash"style="margin-top: 10px; margin-bottom: 10px" src="assets/images/headphone_ideas.svg">
 
  
@@ -14,13 +14,13 @@
             <div class="card border-success mb-3"
                 style="width: 18rem;">
                 <div class="card-body">
-                    <h3 class="card-title"><u>{{post.title}}</u></h3>
+                    <h4 class="card-title"><u>{{post.title}}</u></h4>
                     <div *ngIf="post.user">
-                        <h6>Posted by <a [routerLink]="['/profile', post.user._id]" class="text-success">{{post.user.username}}</a></h6>
+                        <p>Posted by <a [routerLink]="['/profile', post.user._id]" class="text-success">{{post.user.username}}</a></p>
                     </div>
                 </div>
                 <div class="card-footer" *ngIf="post.song">
-                    <p class="card-text">{{post.song.title}} by {{post.song.artist}}</p>
+                    <p class="card-text">On "{{post.song.title}}" by {{post.song.artist}}</p>
                     <a [routerLink]="['/song', post.songId]" class="btn btn-outline-success my-2 my-sm-0">Checkout Song</a>
                 </div>
             </div>
