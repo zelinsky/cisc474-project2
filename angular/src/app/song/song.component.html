@@ -76,7 +76,7 @@
                         </mat-panel-title>
                         <mat-panel-description>
                             <div *ngIf="post.user">
-                                <p>by {{post.user.username}}</p>
+                                <p>Posted by <a [routerLink]="['/profile', post.user._id]" class="text-success">{{post.user.username}}</a></p>
                             </div>
                         </mat-panel-description>
                     </mat-expansion-panel-header>
