@@ -69,8 +69,7 @@
                 </form>
             </div>
             <hr />
-            <div class="card border-success mb-3" style="width: 25rem;" *ngFor="let post of posts">
-                <mat-expansion-panel>
+                <mat-expansion-panel class="card border-success mb-3" style="width: 25rem;" *ngFor="let post of posts">
                     <mat-expansion-panel-header [collapsedHeight]="auto" [expandedHeight]="auto">
                         <mat-panel-title>
                             <h3>{{post.title}}</h3>
@@ -82,12 +81,10 @@
                         </mat-panel-description>
                     </mat-expansion-panel-header>
                     <p style="white-space: pre-line;" *ngIf="post.content.contentType === 'text'">{{post.content.content}}</p>
-                    <!--<img src="{{API_URL}}{{post.content.content}}" class="card-img-top" *ngIf="post.content.contentType !== 'text'">-->
+                    <img src="{{API_URL}}{{post.content.content}}" class="card-img-top" *ngIf="post.content.contentType !== 'text'">
                     <!-- <button type="new-comment" class="btn btn-success">Make a comment</button>   -->
                     <!--<button (click)=deletePost(post) type="delete-post" class="btn btn-outline-danger">🗑️ Delete Post</button>-->
                 </mat-expansion-panel>
-            </div>
-        </div>
     </div>
 
 
