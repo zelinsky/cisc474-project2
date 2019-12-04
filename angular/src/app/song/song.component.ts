@@ -122,7 +122,6 @@ export class SongComponent implements OnInit {
 
  // deletePost(post) {
   deletePost(postID: string) {
-      console.log("AHAHA");
       this.api.deletePost(postID).subscribe((data) => {
         this.onSuccess();
         console.log(data);
@@ -133,6 +132,10 @@ export class SongComponent implements OnInit {
         }
       }
       );
+  }
+
+  postOwned(postID: string) {
+    //this.api.get
   }
 
   newImagePost(form: any) {
