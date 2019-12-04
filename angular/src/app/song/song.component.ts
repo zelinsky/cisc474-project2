@@ -134,10 +134,6 @@ export class SongComponent implements OnInit {
       );
   }
 
-  postOwned(postID: string) {
-    //this.api.get
-  }
-
   newImagePost(form: any) {
     // this.apiService.postSong(form.value);
 
