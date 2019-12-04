@@ -26,9 +26,9 @@
                     <div class="card-body">
                         <p class="card-text">{{comment.content}}</p>
                     </div>
-                    <div class="card-footer" *ngIf="post.song">
+                    <div class="card-footer" *ngIf="comment.post.song">
                         <p class="card-text">{{comment.post.song.title}} by {{comment.post.song.artist}}</p>
-                        <a [routerLink]="['/song', post.songId]" class="btn btn-outline-success my-2 my-sm-0">View Song
+                        <a [routerLink]="['/song', comment.post.songId]" class="btn btn-outline-success my-2 my-sm-0">View Song
                             Page</a>
                     </div>
                 </div>
