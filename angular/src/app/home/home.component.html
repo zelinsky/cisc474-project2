@@ -1,29 +1,51 @@
-<div class="container text-center">
+    <div class="container text-center">
 
-    <h1 class="text-success display-3">Experience <strong>Savant</strong></h1>
-    <hr/>
+        <h1 class="text-success display-1">Experience <strong>Savant</strong></h1>
+        <hr/>
 
-    <h3><small>Stories, poems, and art inspired by music: created by you</small></h3>
-    <img class="splash"style="margin-top: 10px; margin-bottom: 10px" src="assets/images/headphone_ideas.svg">
-
- 
-    <h2 class="text-success" style="margin-top: 25px; margin-bottom: 25px">Browse Posts</h2>
-
-    <div style="display: flex; overflow-x: auto;">
-        <div *ngFor="let post of posts">
-            <div class="card border-success mb-3"
-                style="width: 18rem;">
-                <div class="card-body">
-                    <h4 class="card-title"><u>{{post.title}}</u></h4>
-                    <div *ngIf="post.user">
-                        <p>Posted by <a [routerLink]="['/profile', post.user._id]" class="text-success">{{post.user.username}}</a></p>
-                    </div>
-                </div>
-                <div class="card-footer" *ngIf="post.song">
-                    <p class="card-text">On "{{post.song.title}}" by {{post.song.artist}}</p>
-                    <a [routerLink]="['/songs', post.songId]" class="btn btn-outline-success my-2 my-sm-0">Checkout Song</a>
-                </div>
+        <h3><small>Stories, poems, and art inspired by music : Created by you</small></h3>
+        <img class="splash"style="margin-top: 10px; margin-bottom: 10px" src="assets/images/headphone_ideas.svg">
+    </div>
+        <div class="explore-background">
+            <h2 class="explore-title">Explore</h2>
+            <div class="explore-list">
+                <ul>
+                    <li>
+                        <mat-icon class="icon-pad" color="28a745">library_music</mat-icon>Browse posts and songs as a guest
+                    </li>
+                    <li>
+                        <mat-icon class="icon-pad">library_music</mat-icon>Click the username on a post to view that author's profile
+                    </li>
+                    <li>
+                        <mat-icon class="icon-pad">library_music</mat-icon>Register an account to post text or images
+                    </li>
+                    <li>
+                        <mat-icon class="icon-pad">library_music</mat-icon>Checkout a specific song to view the lyrics and related posts' contents
+                    </li>
+                    <li>
+                        <mat-icon class="icon-pad">library_music</mat-icon>Don't see your favorite song? Head to the Songs page and add it!
+                    </li>
+                </ul>
             </div>
         </div>
-    </div>
-</div>
+
+    
+        <!-- <h2 class="text-success" style="margin-top: 25px; margin-bottom: 25px">Browse Posts</h2>
+
+        <div style="display: flex; overflow-x: auto;">
+            <div *ngFor="let post of posts">
+                <div class="card border-success mb-3"
+                    style="width: 18rem;">
+                    <div class="card-body">
+                        <h4 class="card-title"><u>{{post.title}}</u></h4>
+                        <div *ngIf="post.user">
+                            <p>Posted by <a [routerLink]="['/profile', post.user._id]" class="text-success">{{post.user.username}}</a></p>
+                        </div>
+                    </div>
+                    <div class="card-footer" *ngIf="post.song">
+                        <p class="card-text">On "{{post.song.title}}" by {{post.song.artist}}</p>
+                        <a [routerLink]="['/songs', post.songId]" class="btn btn-outline-success my-2 my-sm-0">Checkout Song</a>
+                    </div>
+                </div>
+            </div>
+        </div> -->

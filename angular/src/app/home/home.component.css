@@ -1,5 +1,40 @@
 .splash {
-    max-width:40%;
-    max-height:40%;
+    max-width:50%;
+    max-height:50%;
     vertical-align: middle;
 }
+  
+  .explore-background {
+    padding: 0px;
+    background-color: #343a40;
+    color: white;
+  }
+  
+  .explore-title {
+    padding-top: 16px;
+    text-align: center;
+  }
+  
+  .explore-list {
+    margin-right: 50px;
+    margin-left: 50px;
+    padding-bottom: 16px;
+  }
+  
+  ul {
+    margin-left: 0px;
+    font-size: 1.5em;
+    list-style-type: none;
+    padding-inline-start: 0px;
+  }
+  
+  li {
+    padding: 8px;
+    display: flex;
+  }
+  
+  .icon-pad {
+    margin-right: 8px;
+    margin-top: 6px;
+    color: #28a745
+  }

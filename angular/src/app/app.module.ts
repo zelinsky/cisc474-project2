@@ -33,6 +33,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatIconModule } from '@angular/material/icon';
 
 import { MatNativeDateModule, MatCardModule } from '@angular/material';
 
@@ -78,7 +79,7 @@ import {UsernameService} from './auth/username.service';
     MatSlideToggleModule,
     MatCardModule,
     MatExpansionModule,
-
+    MatIconModule,
     MatNativeDateModule,
 
     
