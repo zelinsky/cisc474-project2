@@ -49,16 +49,20 @@ export class ApiService {
     } 
   }
 
+  public getPostByID(postId: string) {
+    return this.httpClient.get(`${this.API_URL}/api/posts/${postId}`);
+  } 
+
   public deletePost(postId: string) {
     if (localStorage.getItem('token') !== null){
       const header = {
        headers: new HttpHeaders()
           .set('Authorization', localStorage.getItem('token'))
       }
-      return this.httpClient.delete(`${this.API_URL}/api/posts/${postId}/posts`, header);
+      return this.httpClient.delete(`${this.API_URL}/api/posts/${postId}`, header);
     } 
     else{
-      return this.httpClient.delete(`${this.API_URL}/api/posts/${postId}/posts`);
+      return this.httpClient.delete(`${this.API_URL}/api/posts/${postId}`);
     } 
   }
 

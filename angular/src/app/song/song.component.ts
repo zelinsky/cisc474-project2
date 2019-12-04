@@ -114,10 +114,18 @@ export class SongComponent implements OnInit {
     }
   }
 
+  getPostByID(postId: string) {
+    this.api.getPostByID(postId).subscribe((data) => {
+      console.log(data);
+      this.post = data;
+    });
+  }
+
+
  // deletePost(post) {
-  deletePost(form: any) {
-    if (form.form.status === 'VALID') {
-      this.api.deletePost(this.post._id).subscribe((data) => {
+  deletePost(postID: string) {
+      console.log("AHAHA");
+      this.api.deletePost(postID).subscribe((data) => {
         this.onSuccess();
         console.log(data);
       },
@@ -127,7 +135,6 @@ export class SongComponent implements OnInit {
         }
       }
       );
-    }
   }
 
   newImagePost(form: any) {
