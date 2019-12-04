@@ -83,7 +83,7 @@
                     <p style="white-space: pre-line;" *ngIf="post.content.contentType === 'text'">{{post.content.content}}</p>
                     <img src="{{API_URL}}{{post.content.content}}" class="card-img-top" *ngIf="post.content.contentType !== 'text'">
                     <!-- <button type="new-comment" class="btn btn-success">Make a comment</button>   -->
-                    <!--<button (click)=deletePost(post) type="delete-post" class="btn btn-outline-danger">🗑️ Delete Post</button>-->
+                    <button type="delete-post" class="btn btn-outline-danger" (click)="deletePost(post._id)" >🗑️ Delete Post</button>
                 </mat-expansion-panel>
     </div>
 

@@ -20,6 +20,7 @@ export class SongComponent implements OnInit {
 
   song;
   posts;
+  post;
   showForm = false;
   formButtonText = 'Make a Post';
   textFormDisplay = true;
@@ -111,6 +112,27 @@ export class SongComponent implements OnInit {
     }
   }
 
+  getPostByID(postId: string) {
+    this.api.getPostByID(postId).subscribe((data) => {
+      console.log(data);
+      this.post = data;
+    });
+  }
+
+
+ // deletePost(post) {
+  deletePost(postID: string) {
+      this.api.deletePost(postID).subscribe((data) => {
+        this.onSuccess();
+        console.log(data);
+      },
+      (err: HttpErrorResponse) => {
+        if (err.status === 401) {
+          this.status = 'notLoggedIn';
+        }
+      }
+      );
+  }
 
   newImagePost(form: any) {
     // this.apiService.postSong(form.value);
