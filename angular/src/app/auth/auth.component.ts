@@ -37,13 +37,21 @@ export class AuthComponent implements OnInit{
   
   constructor(private modalService: ModalService, private apiService: ApiService, private usernameService: UsernameService) { }
 
+  loginText = 'Login';
+
     ngOnInit() {
         this.bodyText = 'This text can be updated in modal 1';
         
     }
 
     openModal(id: string) {
+        if (this.loginText === 'Logout') {
+          this.loginText = 'Login';
+          this.usernameService.toggle(false);
+          localStorage.removeItem('token');
+        } else {
         this.modalService.open(id);
+        }
     }
 
     closeModal(id: string) {
@@ -68,11 +76,12 @@ export class AuthComponent implements OnInit{
           localStorage.setItem('token', contents.token); 
           console.log(jwt_decode(contents.token)); 
           var bet: UserInfo = jwt_decode(contents.token) as UserInfo; 
-          alert(`Welcome to Savant ${bet.username}`); 
+          alert(`Welcome to Savant, ${bet.firstName}`); 
           this.usernameService.toggle(true); 
+          this.loginText = 'Logout';
         } 
         else{ 
-          alert("unsuccessful registration!"); 
+          alert("Unsuccessful registration"); 
         }
       }); 
       
@@ -91,14 +100,15 @@ export class AuthComponent implements OnInit{
           var contents: Response = body; 
           localStorage.setItem('token', contents.token); 
           var bet: UserInfo = jwt_decode(contents.token) as UserInfo;
-          alert(`Welcome back ${bet.username}`); 
+          alert(`Welcome back, ${bet.username}`); 
+          this.loginText = 'Logout';
           this.closeModal('custom-modal-1'); 
           this.closeModal('custom-modal-2'); 
           this.usernameService.toggle(true);  
           console.log('changed'); 
         }
         else{ 
-          alert(`you dumb`); 
+          alert(`Invalid login`); 
         }
       }); 
     }
