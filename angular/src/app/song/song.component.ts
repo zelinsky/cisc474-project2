@@ -3,7 +3,7 @@ import { ApiService } from '../api.service';
 import { ActivatedRoute } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 
-import {AuthComponent} from '../auth/auth.component'; 
+import {AuthComponent} from '../auth/auth.component';
 class ImageSnippet {
 
   pending = false;
@@ -103,14 +103,18 @@ export class SongComponent implements OnInit {
       this.api.postPost(this.song._id, form.value).subscribe((data) => {
         this.onSuccess();
         console.log(data);
-      }, 
+      },
       (err: HttpErrorResponse) => {
-        if (err.status == 401){ 
-          this.status = "notLoggedIn";
+        if (err.status === 401) {
+          this.status = 'notLoggedIn';
         }
       }
       );
     }
+  }
+
+  deletePost(post) {
+    
   }
 
   newImagePost(form: any) {
