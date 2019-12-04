@@ -17,9 +17,9 @@
         <div *ngIf="post.content.contentType === 'text'; else imagePost" class="card border-success mb-3"
             style="width: 18rem;">
             <div class="card-body">
-                <h5 class="card-title">{{post.title}}</h5>
+                <h3 class="card-title"><u>{{post.title}}</u></h3>
                 <div *ngIf="post.user">
-                    <p class="card-text">by {{post.user.username}}</p>
+                    <h6>Posted by <a [routerLink]="['/profile', post.user._id]" class="text-success">{{post.user.username}}</a></h6>
                 </div>
             </div>
             <div class="card-footer" *ngIf="post.song">
