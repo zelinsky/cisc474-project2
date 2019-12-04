@@ -2,7 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { ApiService } from '../api.service';
 import { ActivatedRoute } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
-
+import { environment } from '../../environments/environment';
 import {AuthComponent} from '../auth/auth.component';
 class ImageSnippet {
 
@@ -26,6 +26,7 @@ export class SongComponent implements OnInit {
   formType = 'Text';
   status = 'init';
   buttonStyle = 'btn-success';
+  API_URL = environment.apiUrl;
 
   selectedFile: ImageSnippet;
 
@@ -86,13 +87,11 @@ export class SongComponent implements OnInit {
 
   getSongByID(songID: string) {
     this.api.getSongByID(songID).subscribe((data) => {
-      console.log(data);
       this.song = data;
     });
   }
   getPostsBySongID(songID: string) {
     this.api.getPostsBySongID(songID).subscribe((data) => {
-      console.log(data);
       this.posts = data;
     });
   }
@@ -102,7 +101,6 @@ export class SongComponent implements OnInit {
     if (form.form.status === 'VALID') {
       this.api.postPost(this.song._id, form.value).subscribe((data) => {
         this.onSuccess();
-        console.log(data);
       },
       (err: HttpErrorResponse) => {
         if (err.status === 401) {
@@ -113,9 +111,6 @@ export class SongComponent implements OnInit {
     }
   }
 
-  deletePost(post) {
-    
-  }
 
   newImagePost(form: any) {
     // this.apiService.postSong(form.value);
