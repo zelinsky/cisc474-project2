@@ -25,6 +25,7 @@ export class SongComponent implements OnInit {
   textFormDisplay = true;
   formType = 'Text';
   status = 'init';
+  buttonStyle = 'btn-success';
 
   selectedFile: ImageSnippet;
 
@@ -65,9 +66,12 @@ export class SongComponent implements OnInit {
   toggleForm() {
     this.showForm = !this.showForm;
     if (this.showForm) {
-      this.formButtonText = 'X';
+      this.formButtonText = 'x';
+      this.buttonStyle = 'btn-danger';
+      this.status = 'init';
     } else {
       this.formButtonText = 'Make a Post';
+      this.buttonStyle = 'btn-success';
     }
   }
 
