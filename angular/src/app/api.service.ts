@@ -48,6 +48,20 @@ export class ApiService {
       return this.httpClient.post(`${this.API_URL}/api/songs/${songId}/posts`, post);
     } 
   }
+
+  public deletePost(postId: string) {
+    if (localStorage.getItem('token') !== null){
+      const header = {
+       headers: new HttpHeaders()
+          .set('Authorization', localStorage.getItem('token'))
+      }
+      return this.httpClient.delete(`${this.API_URL}/api/posts/${postId}/posts`, header);
+    } 
+    else{
+      return this.httpClient.delete(`${this.API_URL}/api/posts/${postId}/posts`);
+    } 
+  }
+
   public login(username: string, password: string){ 
     
     return this.httpClient.post(`${this.API_URL}/api/login`, {'username': username, 'password': password}, {observe: 'response'}); 
