@@ -4,6 +4,10 @@ import { ActivatedRoute } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import {AuthComponent} from '../auth/auth.component';
+
+import {UsernameService} from '../auth/username.service';
+import * as jwt_decode from 'jwt-decode';
+
 class ImageSnippet {
 
   pending = false;
@@ -21,6 +25,8 @@ export class SongComponent implements OnInit {
   song;
   posts;
   post;
+  userId;
+  isLoggedIn;
   showForm = false;
   formButtonText = 'Make a Post';
   textFormDisplay = true;
@@ -31,14 +37,29 @@ export class SongComponent implements OnInit {
 
   selectedFile: ImageSnippet;
 
+  
+
   constructor(
     private route: ActivatedRoute,
+    private usernameService: UsernameService,
+
     private api: ApiService) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       this.getSongByID(params.get('songID'));
       this.getPostsBySongID(params.get('songID'));
+    });
+    if (localStorage.getItem('token')) {
+      this.userId = jwt_decode(localStorage.getItem('token'))._id;
+    }
+    this.usernameService.change.subscribe(isLoggedIn => {
+      this.isLoggedIn = isLoggedIn;
+      if (!isLoggedIn) {
+        this.userId = null;
+      } else {
+        this.userId = jwt_decode(localStorage.getItem('token'))._id;
+      }
     });
   }
 
@@ -114,7 +135,6 @@ export class SongComponent implements OnInit {
 
   getPostByID(postId: string) {
     this.api.getPostByID(postId).subscribe((data) => {
-      console.log(data);
       this.post = data;
     });
   }
@@ -123,8 +143,7 @@ export class SongComponent implements OnInit {
  // deletePost(post) {
   deletePost(postID: string) {
       this.api.deletePost(postID).subscribe((data) => {
-        this.onSuccess();
-        console.log(data);
+        this.ngOnInit();
       },
       (err: HttpErrorResponse) => {
         if (err.status === 401) {
@@ -132,6 +151,10 @@ export class SongComponent implements OnInit {
         }
       }
       );
+  }
+
+  ownPost(uId) {
+    return uId === this.userId;
   }
 
   newImagePost(form: any) {
