@@ -19,8 +19,8 @@ class ImageSnippet {
 export class ProfileComponent implements OnInit {
 
   user;
-  songs;
-  posts;
+  userPosts;
+  userComments;
 
   selectedFile: ImageSnippet;
 
@@ -31,6 +31,8 @@ export class ProfileComponent implements OnInit {
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       this.getUserByID(params.get('userID'));
+      this.getPostsByUserID(params.get('userID'));
+      this.getCommentsByUserID(params.get('userID'));
     });
   }
 
@@ -38,6 +40,19 @@ export class ProfileComponent implements OnInit {
     this.api.getUserByID(userID).subscribe((data) => {
       console.log(data);
       this.user = data;
+    });
+  }
+
+  getPostsByUserID(userID: string) {
+    this.api.getPostsByUserID(userID).subscribe((data) => {
+      console.log(data);
+      this.userPosts = data;
+    });
+  }
+  getCommentsByUserID(userID: string) {
+    this.api.getCommentsByUserID(userID).subscribe((data) => {
+      console.log(data);
+      this.userComments = data;
     });
   }
 
@@ -53,17 +68,4 @@ export class ProfileComponent implements OnInit {
     reader.readAsDataURL(file);
     }
   }
-
-  // getSongByID(songID: string) {
-  //   this.api.getSongByID(songID).subscribe((data) => {
-  //     console.log(data);
-  //     this.song = data;
-  //   });
-  // }
-  // getPostsBySongID(songID: string) {
-  //   this.api.getPostsBySongID(songID).subscribe((data) => {
-  //     console.log(data);
-  //     this.posts = data;
-  //   });
-  // }
 }
