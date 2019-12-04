@@ -26,12 +26,11 @@
 
 
             <div *ngIf="showForm" class="container">
-                Post type: <button (click)=toggleFormType()
-                    class="btn btn-outline-success my-2 my-sm-0">{{formType}}</button>
+                <button (click)=toggleFormType()
+                    class="btn btn-outline-success my-2 my-sm-0" title="Toggle post type">{{formType}}</button>
             </div>
 
             <div *ngIf="showForm && textFormDisplay" class="container">
-                TEXT
                 <form #textForm="ngForm" (ngSubmit)="newTextPost(textForm)" class="was-validated">
                     <div class="form-group">
                         <label for="postTitle">Title:</label>
@@ -52,7 +51,6 @@
             </div>
 
             <div *ngIf="showForm && !textFormDisplay" class="container">
-                IMAGE
                 <form #imageForm="ngForm" (ngSubmit)="newImagePost(imageForm)" class="was-validated">
                     <div class="form-group">
                         <label for="postTitle">Title:</label>
@@ -71,25 +69,22 @@
                 </form>
             </div>
             <hr />
-            <div class="card border-success mb-3" style="width: 25rem;" *ngFor="let post of posts">
-                <mat-expansion-panel>
+                <mat-expansion-panel class="card border-success mb-3" style="width: 25rem;" *ngFor="let post of posts">
                     <mat-expansion-panel-header [collapsedHeight]="auto" [expandedHeight]="auto">
                         <mat-panel-title>
                             <h3>{{post.title}}</h3>
                         </mat-panel-title>
                         <mat-panel-description>
                             <div *ngIf="post.user">
-                                <p>by {{post.user.username}}</p>
+                                <p>Posted by <a [routerLink]="['/profile', post.user._id]" class="text-success">{{post.user.username}}</a></p>
                             </div>
                         </mat-panel-description>
                     </mat-expansion-panel-header>
                     <p style="white-space: pre-line;" *ngIf="post.content.contentType === 'text'">{{post.content.content}}</p>
                     <img src="{{API_URL}}{{post.content.content}}" class="card-img-top" *ngIf="post.content.contentType !== 'text'">
                     <!-- <button type="new-comment" class="btn btn-success">Make a comment</button>   -->
-                    <button (click)=deletePost(post) type="delete-post" class="btn btn-outline-danger">🗑️ Delete Post</button>
+                    <!--<button (click)=deletePost(post) type="delete-post" class="btn btn-outline-danger">🗑️ Delete Post</button>-->
                 </mat-expansion-panel>
-            </div>
-        </div>
     </div>
 
 
