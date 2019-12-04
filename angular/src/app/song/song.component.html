@@ -69,16 +69,30 @@
                 </form>
             </div>
             <hr />
-            <div class="card-columns">
-                <div class="card border-success mb-3" style="width: 18rem;" *ngFor="let post of posts">
-                    <div class="card-body">
+            <!-- <div class="card-columns"> -->
+                <div class="card border-success mb-3" style="width: 25rem;" *ngFor="let post of posts">
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <h5>{{post.title}}</h5>
+                            </mat-panel-title>
+                            <mat-panel-description>
+                                <div *ngIf="post.user">
+                                    <p>by {{post.user.username}}</p>
+                                </div>
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <p *ngIf="post.content.contentType === 'text'">{{post.content.content}}</p>
+                        <button type="new-comment" class="btn btn-success">Make a comment</button>  
+                    <!-- <div class="card-body">
                         <h5 class="card-title">{{post.title}}</h5>
                         <div *ngIf="post.user">
                             <p class="card-text">by {{post.user.username}}</p>
                         </div>
-                    </div>
+                    </div> -->
+                    </mat-expansion-panel>
                 </div>
-            </div>
+            <!-- </div> -->
         </div>
     </div>
 
