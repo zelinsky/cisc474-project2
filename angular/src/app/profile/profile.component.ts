@@ -56,16 +56,4 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  processFile(imageInput: any) {
-    const file: File = imageInput.files[0];
-    const reader = new FileReader();
-
-    reader.addEventListener('load', (event: any) => {
-
-      this.selectedFile = new ImageSnippet(event.target.result, file);
-    });
-    if (file) {
-    reader.readAsDataURL(file);
-    }
-  }
 }
