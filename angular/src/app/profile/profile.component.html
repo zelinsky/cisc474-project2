@@ -1,6 +1,7 @@
-<div class="container">
+<div class="container text-center">
     <div *ngIf="user">
-        <h1>Welcome to {{user.username}}'s profile</h1>
+        <h1>Welcome to {{user.username}}'s Profile</h1>
+        <img class="splash" style="margin-top: 15px; margin-bottom: 15px" src="assets/images/profile_avatar.svg">
         <hr />
 
         <h2 class='text-success'>{{user.username}}'s Posts</h2>
@@ -12,7 +13,7 @@
                     </div>
                     <div class="card-footer" *ngIf="post.song">
                         <p class="card-text">{{post.song.title}} by {{post.song.artist}}</p>
-                        <a [routerLink]="['/song', post.songId]" class="btn btn-outline-success my-2 my-sm-0">View Song
+                        <a [routerLink]="['/songs', post.songId]" class="btn btn-outline-success my-2 my-sm-0">View Song
                             Page</a>
                     </div>
                 </div>
@@ -28,7 +29,7 @@
                     </div>
                     <div class="card-footer" *ngIf="comment.post.song">
                         <p class="card-text">{{comment.post.song.title}} by {{comment.post.song.artist}}</p>
-                        <a [routerLink]="['/song', comment.post.songId]" class="btn btn-outline-success my-2 my-sm-0">View Song
+                        <a [routerLink]="['/songs', comment.post.songId]" class="btn btn-outline-success my-2 my-sm-0">View Song
                             Page</a>
                     </div>
                 </div>
