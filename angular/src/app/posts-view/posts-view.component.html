@@ -11,7 +11,7 @@
             </div>
             <div class="card-footer" *ngIf="post.song">
                     <p class="card-text">{{post.song.title}} by {{post.song.artist}}</p>
-                    <a [routerLink]="['/song', post.songId]" class="btn btn-outline-success my-2 my-sm-0">View Song Page</a>
+                    <a [routerLink]="['/songs', post.songId]" class="btn btn-outline-success my-2 my-sm-0">View Song Page</a>
             </div>
         </div>
     </div>

@@ -11,7 +11,6 @@ import { ProfileComponent } from './profile/profile.component';
 import { SongsViewComponent } from './songs-view/songs-view.component';
 import { SongComponent } from './song/song.component';
 import { PostsViewComponent } from './posts-view/posts-view.component';
-import { PostComponent } from './post/post.component';
 import { HttpClientModule } from '@angular/common/http';
 import { NewSongComponent } from './new-song/new-song.component';
 
@@ -49,7 +48,6 @@ import {UsernameService} from './auth/username.service';
     SongsViewComponent,
     SongComponent,
     PostsViewComponent,
-    PostComponent,
     NewSongComponent, 
     AuthComponent,
     

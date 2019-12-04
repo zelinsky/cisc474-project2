@@ -7,7 +7,7 @@
             <div class="card-footer">
                 <h5 class="card-title">{{song.title}}</h5>
                 <p class="card-text">by {{song.artist}}</p>
-                <a [routerLink]="['/song', song._id]" class="btn btn-outline-success my-2 my-sm-0">Checkout Song</a>
+                <a [routerLink]="['/songs', song._id]" class="btn btn-outline-success my-2 my-sm-0">Checkout Song</a>
             </div>
         </div>
     </div>
@@ -24,7 +24,7 @@
             </div>
             <div class="card-footer" *ngIf="post.song">
                 <p class="card-text">{{post.song.title}} by {{post.song.artist}}</p>
-                <a [routerLink]="['/song', post.songId]" class="btn btn-outline-success my-2 my-sm-0">Checkout
+                <a [routerLink]="['/songs', post.songId]" class="btn btn-outline-success my-2 my-sm-0">Checkout
                     Song</a>
             </div>
         </div>
