@@ -75,7 +75,7 @@
                 <mat-expansion-panel>
                     <mat-expansion-panel-header>
                         <mat-panel-title>
-                            <h4>{{post.title}}</h4>
+                            <h3>{{post.title}}</h3>
                         </mat-panel-title>
                         <mat-panel-description>
                             <div *ngIf="post.user">
@@ -83,7 +83,7 @@
                             </div>
                         </mat-panel-description>
                     </mat-expansion-panel-header>
-                    <p *ngIf="post.content.contentType === 'text'">{{post.content.content}}</p>
+                    <p style="white-space: pre-line;" *ngIf="post.content.contentType === 'text'">{{post.content.content}}</p>
                     <button type="new-comment" class="btn btn-success">Make a comment</button>  
                 </mat-expansion-panel>
             </div>
