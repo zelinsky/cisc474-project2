@@ -12,8 +12,8 @@ import { NewSongComponent } from './new-song/new-song.component';
 const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
   {path: 'home', component: HomeComponent},
-  {path: 'songs', component: SongsViewComponent},
   {path: 'songs/:songID', component: SongComponent},
+  {path: 'songs', component: SongsViewComponent},
   {path: 'posts', component: PostsViewComponent},
   {path: 'profile/:userID', component: ProfileComponent},
   {path: 'new-song', component: NewSongComponent}
