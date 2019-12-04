@@ -18,7 +18,6 @@ export class NewSongComponent implements OnInit {
   }
 
   newSong(form: any) {
-    // this.apiService.postSong(form.value);
     if (form.form.status === 'VALID') {
       this.apiService.postSong(form.value).subscribe(data => {
         this.song = data;
